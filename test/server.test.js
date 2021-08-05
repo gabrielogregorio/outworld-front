@@ -1,10 +1,17 @@
-let app = require('../src/app');
+let {app, mongoose}  = require('../src/app');
 let supertest = require('supertest');
 let request = supertest(app)
 
+afterAll(() => {
+  mongoose.connection.close()
+})
 
-test("A aplicação deve responder na porta 3333", () => {
-  return request.get('/').then(res => expect(res.statusCode).toEqual(200))
+describe('Testes de aplicação', () => {
+  it("A aplicação deve responder na porta 3333", () => {
+    return request.get('/')
+      .then(res => { expect(res.statusCode).toEqual(200)})
+      .catch(error => {fail(error)})
+  })  
 })
 
 

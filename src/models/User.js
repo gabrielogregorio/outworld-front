@@ -1,8 +1,10 @@
 let mongoose = require('mongoose');
-let User = new mongoose.Schema({
+let userSchema = new mongoose.Schema({
   name: String,
   email: String,
-  password: String
+  password: String,
+  images: { type: mongoose.Schema.Types.ObjectId, ref:'Image'}
 })
 
+var User = mongoose.model('User', userSchema);
 module.exports = User;

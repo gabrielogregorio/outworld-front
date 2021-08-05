@@ -1,31 +1,32 @@
 const express = require('express');
 const app = express()
 const mongoose = require('mongoose');
-const user = require('./models/User');
+const User = require('./models/User');
+const Image = require('./models/Image');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
 require('dotenv/config');
+
+const jwtSecret = process.env.JWT_SECRET
+const port = process.env.DB_PORT;
+const dbname = process.env.BD_NAME;
 
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
 
 mongoose.set('useFindAndModify', false)
-mongoose.connect(`mongodb://localhost:${process.env.DB_PORT}/${process.env.BD_NAME}`, {useNewUrlParser: true, useUnifiedTopology: true})
-  .then(() => {
-    //console.log('conectado ao db!')
-  }).catch(error => console.log(error))
+mongoose.connect(`mongodb://localhost:${port}/${dbname}`,
+  {useNewUrlParser: true, useUnifiedTopology: true})
+    .then(() => {}).catch(error => console.log(error))
 
-let User = mongoose.model('User', user);
-  
-
-app.get('/', (req, res) => {
-  res.json({test:'ola'})
+app.get('/', async (req, res) => {
+  return res.json({ola:'oi'})
 })
 
 app.post('/user', async (req, res) => {
   var {name, email, password} = req.body;
-  if (name == '', email == '', password == ''){
+
+  if ((name == '') || (email == '') || (password == '')){
     return res.sendStatus(400);
   }
 
@@ -42,17 +43,61 @@ app.post('/user', async (req, res) => {
 
     let newUser = new User({name, email, password:hash})
     await newUser.save()  
-    res.json({email:email}); 
+    res.json({email:email, id:newUser._id}); 
   } catch(error) {
     console.log(error)
     res.sendStatus(500);
   }
 })
 
-/* Rotas de desenvolvimento */
-app.delete('/user/:email', async (req, res) => {
-  await User.deleteOne({email:req.params.email})
-  res.sendStatus(200)
+app.post('/image', async(req, res) => {
+  let {name, href, user} = req.body;
+  try {
+    let newImage = new Image({name, href, user});
+    await newImage.save();  
+    res.json({sucess: true})
+  } catch(error) {
+    res.sendStatus(500)
+  }
 })
 
-module.exports = app;
+app.post('/auth', async (req, res) => {
+  let {email, password} = req.body;
+
+  let user = await User.findOne({email});
+  if(user == undefined) {
+    res.sendStatus(403)
+    return;
+  }
+
+  let valid = await bcrypt.compare(password, user.password);
+  if(!valid) {
+    res.sendStatus(403)
+    return;
+  }
+
+  jwt.sign({email, name:user.name, id: user._id}, jwtSecret, {expiresIn: '24h'}, (error, token) => {
+    if (error) {
+      res.sendStatus(500)
+      return;
+    } else {  
+      res.json({token})
+      return;
+    }
+  })
+
+})
+
+/* Rotas de desenvolvimento */
+app.delete('/user/:email', async (req, res) => {
+  await User.deleteMany({email:req.params.email})
+  return res.sendStatus(200)
+})
+
+app.delete('/image/:id', async (req, res) => {
+  await image.deleteMany({email:req.params.email})
+  return res.sendStatus(200)
+})
+
+
+module.exports = { app, mongoose };
