@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express()
 const mongoose = require('mongoose');
-const User = require('./models/User');
 const Image = require('./models/Image');
+const User = require('./models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv/config');
@@ -19,7 +19,7 @@ mongoose.connect(`mongodb://localhost:${port}/${dbname}`,
   {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => {}).catch(error => console.log(error))
 
-app.get('/', async (req, res) => {
+app.get('/test', async (req, res) => {
   return res.json({ola:'oi'})
 })
 
@@ -51,9 +51,12 @@ app.post('/user', async (req, res) => {
 })
 
 app.post('/image', async(req, res) => {
-  let {name, href, user} = req.body;
+  let {name, href, user, test} = req.body;
+  if (test == undefined) {
+    test = false;
+  }
   try {
-    let newImage = new Image({name, href, user});
+    let newImage = new Image({name, href, user, test});
     await newImage.save();  
     res.json({sucess: true})
   } catch(error) {
@@ -85,8 +88,15 @@ app.post('/auth', async (req, res) => {
       return;
     }
   })
-
 })
+
+
+app.get('/', async (req, res) => {
+  var data = await Image.find().populate('user').exec();
+  res.statusCode = 200
+  res.json(data)
+})
+
 
 /* Rotas de desenvolvimento */
 app.delete('/user/:email', async (req, res) => {
@@ -94,10 +104,17 @@ app.delete('/user/:email', async (req, res) => {
   return res.sendStatus(200)
 })
 
-app.delete('/image/:id', async (req, res) => {
-  await image.deleteMany({email:req.params.email})
+
+app.delete('/user2/:id', async (req, res) => {
+  await User.deleteMany({id:req.params.id})
   return res.sendStatus(200)
 })
+
+app.delete('/image/:id', async (req, res) => {
+  await Image.deleteMany({test:true})
+  return res.sendStatus(200)
+})
+
 
 
 module.exports = { app, mongoose };
