@@ -9,13 +9,9 @@ var idUsuarioValido = '';
 
 beforeAll(() => {
   return request.post('/user')
-      .send({...mainUser})
-      .then(res => {})
-      .catch(error => fail(error))
-})
-
-beforeEach(() => { // afterEach...
-  //Roda uma vez antes de cadas teste
+    .send({...mainUser})
+    .then(res => {})
+    .catch(error => fail(error))
 })
 
 afterAll(() => {
@@ -31,9 +27,11 @@ afterAll(() => {
 
 describe("Login no sistema para permitir uso dos posts", () => {
   test("Deve acessar o sistema e fornecer um token válido para os outros testes", () => {
-    return request.post('/auth').send({email: 'gabriel', password: 'gabriel'}).then(res => {
-      tokenValido = { authorization:"Bearer " + res.body.token}
-    })
+    return request.post('/auth')
+      .send({email: 'gabriel', password: 'gabriel'})
+      .then(res => {
+        tokenValido = { authorization:"Bearer " + res.body.token}
+    }).catch(error => fail(error))
   })
 })
 
@@ -45,7 +43,7 @@ describe('Cadastro de usuários', () => {
       expect(res.body.email).toEqual(user.email)
       expect(res.body.id).toBeDefined()
       idUsuarioValido = res.body.id;
-    }).catch(error => console.log(error))
+    }).catch(error => fail(error))
   })
 
   test("Deve retornar um Usuário", () => {
@@ -55,7 +53,7 @@ describe('Cadastro de usuários', () => {
         expect(res.statusCode).toEqual(200)
         expect(res.body[0].name).toBeDefined()
         expect(res.body[0].email).toBeDefined()
-    })
+    }).catch(error => fail(error))
   })
 
   test("Deve retornar erro 500 para um parametro invalido", () => {
@@ -63,7 +61,7 @@ describe('Cadastro de usuários', () => {
       .set(tokenValido)
       .then(res => {
         expect(res.statusCode).toEqual(500)
-    })
+    }).catch(error => fail(error))
   })
 
   test("Deve retornar erro 404 ao não encontrar o usuario", () => {
@@ -71,14 +69,8 @@ describe('Cadastro de usuários', () => {
       .set(tokenValido)
       .then(res => {
         expect(res.statusCode).toEqual(404)
-    })
+    }).catch(error => fail(error))
   })
-
-
-
-
-
-
 
   test('Validar token de um usuário', () => {
     return request.post('/auth').send({email: user.email, password: user.password}).then(res => {
@@ -87,7 +79,7 @@ describe('Cadastro de usuários', () => {
         .set(tokenValido)
         .then(res2 => {
         expect(res2.statusCode).toEqual(200)
-      })
+      }).catch(error => fail(error))
     })
   })
   
@@ -96,7 +88,7 @@ describe('Cadastro de usuários', () => {
       { authorization:"Bearer xxxxxxxxxxxxxxxxxx"}
     ).then(res2 => {
       expect(res2.statusCode).toEqual(403)
-    })
+    }).catch(error => fail(error))
   })
 
   test("Deve impedir cadastro com dados vazios", () => {
@@ -104,34 +96,51 @@ describe('Cadastro de usuários', () => {
 
     return request.post('/user').send(user).then(res => {
       expect(res.statusCode).toEqual(400) // bad request
-    })
+    }).catch(error => fail(error))
   })
 
 
   test("Deve impedir um cadastro com e-mail repetido", () => {
-
     return request.post('/user').send(user2).then(res => {
       expect(res.statusCode).toEqual(200)
       expect(res.body.email).toEqual(user2.email)
+      user2.id = res.body.id
 
       return request.post('/user').send(user2).then(res => {
           expect(res.statusCode).toEqual(400)
           expect(res.body.error).toEqual('E-mail já cadastrado!')
-      })
-    })
+      }).catch(error2 => fail(error2))
+    }).catch(error => fail(error))
+  })
+
+ 
+  
+  test("Deve retornar erro 400 ao tentar editar um usuário passando parametros incorretos", () => {
+    return request.put(`/user/${user2.id}`, {})
+      .set(tokenValido)
+      .send({name: ''})
+      .then(res => {
+        expect(res.statusCode).toEqual(400)
+    }).catch(error => fail(error))
+  })
+  
+  test("Deve permitir a edição de um usuario!", () => {
+    return request.put(`/user/${user2.id}`)
+      .set(tokenValido)
+      .send({name: 'alterado', password: 'alterado'})
+      .then(res => {
+        expect(res.statusCode).toEqual(200)
+        expect(res.body.name).toEqual('alterado')
+    }).catch(error => fail(error))
   })
 })
-
-
-
-
 
 describe('Autenticacao de usuários', () => {
   test("Deve retornar um token ao logar", () => {
     return request.post('/auth').send({email:mainUser.email, password:mainUser.password}).then(res => {
       expect(res.statusCode).toEqual(200)
       expect(res.body.token).toBeDefined() // Não é undefined
-    }).catch(error => {fail(error)})
+    }).catch(error => fail(error))
   })
 
   test("Deve impedir o login de um usuário não cadastrado", () => {
@@ -145,19 +154,15 @@ describe('Autenticacao de usuários', () => {
       expect(res.statusCode).toEqual(403)
     }).catch(error => {fail(error)})
   })
-
 })
-
-
-
 
 describe('Visualização de usuários', () => {
   test("Deve retornar uma lista de usuários", () => {
     return request.get('/users')
-        .set(tokenValido)
-        .then(res => {
+    .set(tokenValido)
+    .then(res => {
       expect(res.statusCode).toEqual(200)
       expect(res.body.length).toBeGreaterThan(1)
-    })
+    }).catch(error => fail(error))
   })
 })

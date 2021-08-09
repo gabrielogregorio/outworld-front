@@ -7,9 +7,9 @@ afterAll(() => {
 })
 
 describe('Testes de aplicação', () => {
-  it("A aplicação deve responder na porta 3333", () => {
+  it("A aplicação deve responder", () => {
     return request.get('/test')
-      .then(res => { expect(res.statusCode).toEqual(200)})
+      .then(res => { expect(res.statusCode).toEqual(200) })
       .catch(error => {fail(error)})
   })  
 })

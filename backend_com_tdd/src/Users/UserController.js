@@ -11,7 +11,10 @@ const jwtSecret = process.env.JWT_SECRET
 router.post('/user', async (req, res) => {
   var {name, email, password} = req.body;
 
-  if ((name == '') || (email == '') || (password == '')){
+  if (
+    (name == '' || email == '' || password == '') ||
+    (name == undefined || email == undefined || password == undefined) 
+    ){
     return res.sendStatus(400);
   }
 
@@ -61,6 +64,30 @@ router.get('/user/:id', userAuth,  async (req, res) => {
     userFactories.push(DataUsers.Build(user))
   })
   return res.json(userFactories);
+})
+
+
+router.put('/user/:id', userAuth,  async (req, res) => { 
+  var {name, password} = req.body;
+  var id = req.params.id;
+  
+  if (
+    (name == '' || password == '' || id == '') ||
+    (name == undefined || password == undefined || id == undefined)
+    ){
+    return res.sendStatus(400);
+  }
+
+  try {
+    let salt = await bcrypt.genSalt(10);
+    let hash = await bcrypt.hash(password, salt)
+
+    await User.findOneAndUpdate({_id:id}, {$set:{name:name, password:hash}})
+    var userNew = await User.findOne({_id:id});
+    return res.json(userNew)
+  } catch(error)  {
+    return res.sendStatus(500)
+  }
 })
 
 

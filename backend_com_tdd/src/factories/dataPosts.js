@@ -19,4 +19,3 @@ class DataPosts {
 }
 
 module.exports = new DataPosts();
-

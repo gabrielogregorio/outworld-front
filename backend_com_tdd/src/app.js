@@ -11,7 +11,6 @@ const bcrypt = require('bcrypt')
 require('dotenv/config');
 
 
-
 const port = process.env.DB_PORT;
 const dbname = process.env.BD_NAME;
 

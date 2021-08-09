@@ -21,23 +21,26 @@ afterAll(() => {
 
 describe("Login no sistema", () => {
   test("Deve acessar o sistema e fornecer um token válido para os outros testes", () => {
-    return request.post('/auth').send({email: 'gabriel', password: 'gabriel'}).then(res => {
-      tokenValido = { authorization:"Bearer " + res.body.token}
-    })
+    return request.post('/auth')
+      .send({email: 'gabriel', password: 'gabriel'})
+      .then(res => {
+        tokenValido = { authorization:"Bearer " + res.body.token}
+      }).catch(error => fail(error))
   })
 })
 
-describe('Gerenciamento de imagens', () => {
-  test("Deve cadastrar uma imagem pela URL", () => {
+describe('Gerenciamento de posts', () => {
+  test("Deve cadastrar um post", () => {
 
-    return request.post('/user').send(userAny).then(res => {
-      post.user = res.body.id;
+    return request.post('/user')
+      .send(userAny).then(res => {
+        post.user = res.body.id;
 
-      return request.post('/post')
-        .send(post)
-        .set(tokenValido)
-        .then(res => {
-          expect(res.statusCode).toEqual(200)
+        return request.post('/post')
+          .send(post)
+          .set(tokenValido)
+          .then(res => {
+            expect(res.statusCode).toEqual(200)
       }).catch(error => {fail(error)})
     }).catch(error2 => {fail(error2)})
   })
@@ -51,7 +54,7 @@ describe('Gerenciamento de imagens', () => {
         expect(res.body[0].user.name).toBeDefined()
         expect(res.body[0].body).toBeDefined()
         idPostValido = res.body[0]._id
-    })
+    }).catch(error => fail(error))
   })
   
   test("Deve retornar um post", () => {
@@ -61,7 +64,7 @@ describe('Gerenciamento de imagens', () => {
         expect(res.statusCode).toEqual(200)
         expect(res.body[0].user.name).toBeDefined()
         expect(res.body[0].body).toBeDefined()
-    })
+    }).catch(error => fail(error))
   })
 
   test("Deve retornar erro 500 para um parametro invalido", () => {
@@ -69,7 +72,7 @@ describe('Gerenciamento de imagens', () => {
       .set(tokenValido)
       .then(res => {
         expect(res.statusCode).toEqual(500)
-    })
+    }).catch(error => fail(error))
   })
 
   test("Deve retornar erro 404 ao não encontrar o post", () => {
@@ -77,9 +80,28 @@ describe('Gerenciamento de imagens', () => {
       .set(tokenValido)
       .then(res => {
         expect(res.statusCode).toEqual(404)
-    })
+    }).catch(error => fail(error))
   })
 
 
 
+    
+  test("Deve retornar erro 400 ao tentar editar um post passando parametros incorretos", () => {
+    return request.put(`/post/${idPostValido}`, {})
+      .set(tokenValido)
+      .send({title: ''})
+      .then(res => {
+        expect(res.statusCode).toEqual(400)
+    }).catch(error => fail(error))
+  })
+  
+  test("Deve permitir a edição de um post!", () => {
+    return request.put(`/post/${idPostValido}`)
+      .set(tokenValido)
+      .send({title: 'test1z', body: 'test1z'})
+      .then(res => {
+        expect(res.statusCode).toEqual(200)
+        expect(res.body.title).toEqual('test1z')
+    }).catch(error => fail(error))
+  })
 })

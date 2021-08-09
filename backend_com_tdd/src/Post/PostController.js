@@ -63,6 +63,24 @@ router.get('/post/:id', userAuth, async (req, res) => {
   res.json(postFactories) 
 })
 
+router.put('/post/:id', userAuth,  async (req, res) => { 
+  var {title, body} = req.body;
+  var id = req.params.id;
+  
+  if (
+    (title == '' || body == '' || id == '') ||
+    (title == undefined || body == undefined || id == undefined)
+    ){
+    return res.sendStatus(400);
+  }
 
+  try {
+    await Post.findOneAndUpdate({_id:id}, {$set:{title, body}})
+    var postNew = await Post.findOne({_id:id});
+    return res.json(postNew)
+  } catch(error)  {
+    return res.sendStatus(500)
+  }
+})
 
 module.exports = router;
