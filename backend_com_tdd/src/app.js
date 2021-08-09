@@ -5,6 +5,8 @@ const Image = require('./models/Image');
 const User = require('./models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
+const userAuth = require('../src/middlewares/userAuth');
 require('dotenv/config');
 
 const jwtSecret = process.env.JWT_SECRET
@@ -13,6 +15,7 @@ const dbname = process.env.BD_NAME;
 
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
+app.use(cors())
 
 mongoose.set('useFindAndModify', false)
 mongoose.connect(`mongodb://localhost:${port}/${dbname}`,
@@ -22,6 +25,11 @@ mongoose.connect(`mongodb://localhost:${port}/${dbname}`,
 app.get('/test', async (req, res) => {
   return res.json({ola:'oi'})
 })
+
+app.post('/validate', userAuth, (req, res) => {
+  return res.sendStatus(200)
+})
+
 
 app.post('/user', async (req, res) => {
   var {name, email, password} = req.body;

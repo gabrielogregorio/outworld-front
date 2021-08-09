@@ -27,17 +27,33 @@ afterAll(() => {
   })
 })
 
-
-
 describe('Cadastro de usuários', () => {
+
   test("Deve cadastrar um usuário com sucesso!", () => {
     return request.post('/user').send(user).then(res => {
       expect(res.statusCode).toEqual(200)
       expect(res.body.email).toEqual(user.email)
       expect(res.body.id).toBeDefined()
-    })
+    }).catch(error => console.log(error))
   })
 
+  test('Validar token de um usuário', () => {
+    return request.post('/auth').send({email: user.email, password: user.password}).then(res => {
+      return request.post('/validate').send().set(
+        { authorization:"Bearer " + res.body.token}
+      ).then(res2 => {
+        expect(res2.statusCode).toEqual(200)
+      })
+    })
+  })
+  
+  test('Impedir acesso com token invalido', () => {
+    return request.post('/validate').send().set(
+      { authorization:"Bearer xxxxxxxxxxxxxxxxxx"}
+    ).then(res2 => {
+      expect(res2.statusCode).toEqual(403)
+    })
+  })
 
   test("Deve impedir cadastro com dados vazios", () => {
     let user = {name: '', email:'', password: ''};
