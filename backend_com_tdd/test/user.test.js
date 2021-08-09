@@ -30,6 +30,7 @@ describe("Login no sistema para permitir uso dos posts", () => {
     return request.post('/auth')
       .send({email: 'gabriel', password: 'gabriel'})
       .then(res => {
+        idUsuarioValido = res.body.id;
         tokenValido = { authorization:"Bearer " + res.body.token}
     }).catch(error => fail(error))
   })
@@ -42,7 +43,6 @@ describe('Cadastro de usuários', () => {
       expect(res.statusCode).toEqual(200)
       expect(res.body.email).toEqual(user.email)
       expect(res.body.id).toBeDefined()
-      idUsuarioValido = res.body.id;
     }).catch(error => fail(error))
   })
 
@@ -63,7 +63,7 @@ describe('Cadastro de usuários', () => {
         expect(res.statusCode).toEqual(500)
     }).catch(error => fail(error))
   })
-
+ 
   test("Deve retornar erro 404 ao não encontrar o usuario", () => {
     return request.get('/user/111111111111111111111111')
       .set(tokenValido)
@@ -74,7 +74,6 @@ describe('Cadastro de usuários', () => {
 
   test('Validar token de um usuário', () => {
     return request.post('/auth').send({email: user.email, password: user.password}).then(res => {
-      tokenValido = { authorization:"Bearer " + res.body.token}
       return request.post('/validate').send()
         .set(tokenValido)
         .then(res2 => {
@@ -115,9 +114,12 @@ describe('Cadastro de usuários', () => {
 
  
   
+
+
+
   test("Deve retornar erro 400 ao tentar editar um usuário passando parametros incorretos", () => {
-    return request.put(`/user/${user2.id}`, {})
-      .set(tokenValido)
+    return request.put(`/user/${idUsuarioValido}`, {})
+    .set(tokenValido)
       .send({name: ''})
       .then(res => {
         expect(res.statusCode).toEqual(400)
@@ -125,14 +127,34 @@ describe('Cadastro de usuários', () => {
   })
   
   test("Deve permitir a edição de um usuario!", () => {
-    return request.put(`/user/${user2.id}`)
+    return request.put(`/user/${idUsuarioValido}`)
       .set(tokenValido)
-      .send({name: 'alterado', password: 'alterado'})
+      .send({name: 'alterado', password: 'gabriel'})
       .then(res => {
         expect(res.statusCode).toEqual(200)
         expect(res.body.name).toEqual('alterado')
     }).catch(error => fail(error))
   })
+
+  test("Deve permitir a edição de um usuario novamente!", () => {
+    return request.put(`/user/${idUsuarioValido}`)
+      .set(tokenValido)
+      .send({name: 'gabriel', password: 'gabriel'})
+      .then(res => {
+        expect(res.statusCode).toEqual(200)
+        expect(res.body.name).toEqual('gabriel')
+    }).catch(error => fail(error))
+  })
+
+  test("Deve impedir um usuário editar outro!", () => {
+    return request.put(`/user/${user2.id}`)
+      .set(tokenValido)
+      .send({name: 'alterado', password: 'alterado'})
+      .then(res => {
+        expect(res.statusCode).toEqual(403)
+    }).catch(error => fail(error))
+  })
+
 })
 
 describe('Autenticacao de usuários', () => {
@@ -140,17 +162,18 @@ describe('Autenticacao de usuários', () => {
     return request.post('/auth').send({email:mainUser.email, password:mainUser.password}).then(res => {
       expect(res.statusCode).toEqual(200)
       expect(res.body.token).toBeDefined() // Não é undefined
+      expect(res.body.id).toBeDefined() // Não é undefined
     }).catch(error => fail(error))
   })
 
   test("Deve impedir o login de um usuário não cadastrado", () => {
-    return request.post('/auth', {email:'invalid_email_test@invalid.invalid!', password:'aaaaaaaaa'}).then(res => {
+    return request.post('/auth', {email:'invalid_email_test', password:'aaaaaaaaa'}).then(res => {
       expect(res.statusCode).toEqual(403)
     }).catch(error => {fail(error)})
   })
 
   test("Deve impedir o login com uma senha errada", () => {
-    return request.post('/auth', {email:mainUser.email, password:'senha invalida!'}).then(res => {
+    return request.post('/auth', {email:'gabriel'.email, password:'senha invalida!'}).then(res => {
       expect(res.statusCode).toEqual(403)
     }).catch(error => {fail(error)})
   })
@@ -162,7 +185,7 @@ describe('Visualização de usuários', () => {
     .set(tokenValido)
     .then(res => {
       expect(res.statusCode).toEqual(200)
-      expect(res.body.length).toBeGreaterThan(1)
+      expect(res.body.length).toBeGreaterThan(0)
     }).catch(error => fail(error))
   })
 })

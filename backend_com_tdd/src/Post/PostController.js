@@ -7,8 +7,9 @@ const jwtSecret = process.env.JWT_SECRET
 const DataPosts = require('../factories/dataPosts');
 
 router.post('/post', userAuth, async(req, res) => {
-  let {title, body, user, test} = req.body;
+  let {title, body, test} = req.body;
 
+  user = `${req.data.id}`
   if (
     (title == '' || body == '' || user == '') ||
     (title == undefined || body == undefined || user == undefined)
@@ -22,8 +23,8 @@ router.post('/post', userAuth, async(req, res) => {
   }
   try {
     let newPost = new Post({title, body, user, test});
-    await newPost.save();  
-    res.json({sucess: true})
+    var newPostSave = await newPost.save();  
+    res.json({_id: newPostSave.id, user})
   } catch(error) {
 
     res.statusCode = 500;
@@ -66,6 +67,7 @@ router.get('/post/:id', userAuth, async (req, res) => {
 router.put('/post/:id', userAuth,  async (req, res) => { 
   var {title, body} = req.body;
   var id = req.params.id;
+  var user = req.data.id
   
   if (
     (title == '' || body == '' || id == '') ||
@@ -75,9 +77,13 @@ router.put('/post/:id', userAuth,  async (req, res) => {
   }
 
   try {
-    await Post.findOneAndUpdate({_id:id}, {$set:{title, body}})
-    var postNew = await Post.findOne({_id:id});
-    return res.json(postNew)
+    await Post.findOneAndUpdate({_id:id, user}, {$set:{title, body}})
+    var postNew = await Post.findOne({_id:id, user}).populate('user');
+    if (postNew == null) {
+      res.statusCode = 403
+      return res.json({'msg': "Você não tem permissão para editar este post!"})
+    }
+    return res.json(DataPosts.Build(postNew))
   } catch(error)  {
     return res.sendStatus(500)
   }

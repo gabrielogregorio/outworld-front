@@ -15,6 +15,7 @@ module.exports = (req, res, next) => {
   } else {
     try {
       var data = jwt.verify(auth, process.env.JWT_SECRET);
+      req.data = data;
       if (data.email == undefined) {
         res.sendStatus(403)
       } else {

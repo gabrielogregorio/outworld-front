@@ -9,7 +9,8 @@ let post = {
 }
 var idPostValido = "";
 var tokenValido = {}
-
+var userIdValido = ''
+var tokenOutroUsuario = { authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4IiwibmFtZSI6ImdhYnJpZWwiLCJpZCI6IjYxMTFhZmUwZTk2YzU5NTU5MDk3NDU4MiIsImlhdCI6MTYyODU0OTEwMiwiZXhwIjoxNjI4NjM1NTAyfQ.KoZ-9kARvyhptMKAtTzdiH_mlrzo8RTiNuGS2_daJG0"}
 afterAll(() => {
   // Finalização da suite
   return request.delete(`/user/${userAny.email}`).then(res => {
@@ -25,6 +26,7 @@ describe("Login no sistema", () => {
       .send({email: 'gabriel', password: 'gabriel'})
       .then(res => {
         tokenValido = { authorization:"Bearer " + res.body.token}
+        userIdValido = res.body.id;
       }).catch(error => fail(error))
   })
 })
@@ -34,13 +36,13 @@ describe('Gerenciamento de posts', () => {
 
     return request.post('/user')
       .send(userAny).then(res => {
-        post.user = res.body.id;
-
         return request.post('/post')
           .send(post)
           .set(tokenValido)
           .then(res => {
             expect(res.statusCode).toEqual(200)
+            idPostValido = res.body._id
+
       }).catch(error => {fail(error)})
     }).catch(error2 => {fail(error2)})
   })
@@ -51,9 +53,7 @@ describe('Gerenciamento de posts', () => {
       .set(tokenValido)
       .then(res => {
         expect(res.statusCode).toEqual(200)
-        expect(res.body[0].user.name).toBeDefined()
         expect(res.body[0].body).toBeDefined()
-        idPostValido = res.body[0]._id
     }).catch(error => fail(error))
   })
   
@@ -84,8 +84,6 @@ describe('Gerenciamento de posts', () => {
   })
 
 
-
-    
   test("Deve retornar erro 400 ao tentar editar um post passando parametros incorretos", () => {
     return request.put(`/post/${idPostValido}`, {})
       .set(tokenValido)
@@ -104,4 +102,18 @@ describe('Gerenciamento de posts', () => {
         expect(res.body.title).toEqual('test1z')
     }).catch(error => fail(error))
   })
+
+
+
+  test("Não deve permitir a edição de um post por um usuário que não o postou", () => {
+    return request.put(`/post/${idPostValido}`)
+      .set(tokenOutroUsuario)
+      .send({title: 'test1z', body: 'test1z'})
+      .then(res => {
+        expect(res.statusCode).toEqual(403)
+    }).catch(error => fail(error))
+  })
 })
+
+
+

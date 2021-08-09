@@ -70,7 +70,12 @@ router.get('/user/:id', userAuth,  async (req, res) => {
 router.put('/user/:id', userAuth,  async (req, res) => { 
   var {name, password} = req.body;
   var id = req.params.id;
+  var user = req.data.id;
   
+  if (id != `${user}`) {
+    // Só pode alterar a si mesmo
+    return res.sendStatus(403)
+  }
   if (
     (name == '' || password == '' || id == '') ||
     (name == undefined || password == undefined || id == undefined)
@@ -84,6 +89,7 @@ router.put('/user/:id', userAuth,  async (req, res) => {
 
     await User.findOneAndUpdate({_id:id}, {$set:{name:name, password:hash}})
     var userNew = await User.findOne({_id:id});
+
     return res.json(userNew)
   } catch(error)  {
     return res.sendStatus(500)
@@ -103,7 +109,8 @@ router.post('/auth', async (req, res) => {
 
   let valid = await bcrypt.compare(password, user.password);
   if(!valid) {
-    res.sendStatus(403)
+    res.statusCode = 403
+    res.json({msg: "Senha incorreta"})
     return;
   } 
 
@@ -112,12 +119,10 @@ router.post('/auth', async (req, res) => {
       res.sendStatus(500)
       return;
     } else {  
-      res.json({token})
+      res.json({token, id: user._id})
       return;
     }
   })
 })
-
-
 
 module.exports = router;
