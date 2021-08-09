@@ -3,7 +3,7 @@ require('dotenv/config')
 
 module.exports = (req, res, next) => {
   const authToken = req.headers.authorization;
-  if (authToken == '') {
+  if (authToken == '' || authToken == undefined) {
     return res.sendStatus(403)
   }
 

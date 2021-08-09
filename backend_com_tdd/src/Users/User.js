@@ -3,7 +3,7 @@ let userSchema = new mongoose.Schema({
   name: String,
   email: String,
   password: String,
-  images: { type: mongoose.Schema.Types.ObjectId, ref:'Image'}
+  posts: { type: mongoose.Schema.Types.ObjectId, ref:'Post'}
 })
 
 var User = mongoose.model('User', userSchema);
