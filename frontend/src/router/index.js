@@ -22,9 +22,20 @@ function authUser(to, from, next) {
 const routes = [
   {
     path: '/',
+    name: 'Register',
+    component:  () => import('../views/RegisterUser')
+  },
+  {
+    path: '/Home',
     name: 'Home',
     component: Home,
     beforeEnter: authUser,
+  },
+  {
+    path: '/EditProfile',
+    name: 'EditProfile',
+    component: () => import('../views/EditProfile.vue'),
+    beforeEnter: authUser
   },
   {
     path: '/login',
@@ -32,15 +43,15 @@ const routes = [
     component: () => import('../views/Login.vue')
   },
   {
-    path: '/RegisterUser',
-    name: 'RegisterUser',
-    component: () => import('../views/RegisterUser.vue'),
+    path: '/Users',
+    name: 'Users',
+    component: () => import('../views/Users.vue'),
     beforeEnter: authUser,
   },
   {
-    path: '/CadastrarPost',
-    name: 'CadastrarPost',
-    component: () => import('../views/CadastrarPost.vue'),
+    path: '/MyPosts',
+    name: 'MyPosts',
+    component: () => import('../views/MyPosts.vue'),
     beforeEnter: authUser,
   }
 ]

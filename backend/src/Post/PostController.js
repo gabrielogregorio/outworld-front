@@ -33,7 +33,7 @@ router.post('/post', userAuth, async(req, res) => {
 })
 
 router.get('/posts', userAuth, async (req, res) => {
-  var posts = await Post.find().populate('user').exec();
+  var posts = await Post.find().sort({'_id': 'desc'}).populate('user').exec();
 
   var postFactories = []
   posts.forEach(post => {
@@ -88,5 +88,26 @@ router.put('/post/:id', userAuth,  async (req, res) => {
     return res.sendStatus(500)
   }
 })
+
+
+
+
+router.get('/myPosts', userAuth,  async (req, res) => { 
+  var user = req.data.id
+  
+  if ((user == '') || (user == undefined)){
+    return res.sendStatus(400);
+  }
+
+  try {
+    var posts = await Post.find({user:user}).sort({'_id': 'desc'}).populate('user');
+    return res.json(posts)
+
+  } catch(error) {
+    res.sendStatus(500)
+  }
+})
+
+
 
 module.exports = router;

@@ -15,6 +15,7 @@ router.post('/user', async (req, res) => {
     (name == '' || email == '' || password == '') ||
     (name == undefined || email == undefined || password == undefined) 
     ){
+      console.log('dados vazios')
     return res.sendStatus(400);
   }
 
@@ -65,6 +66,25 @@ router.get('/user/:id', userAuth,  async (req, res) => {
   })
   return res.json(userFactories);
 })
+ 
+
+
+router.get('/me', userAuth,  async (req, res) => { 
+  var id = req.data.id;
+  var users = await User.find({_id: id})
+
+  if (users.length == 0) {
+    res.statusCode =404
+    return res.json({msg: 'Identificador do usuário não encontrado'})
+  }
+
+  var userFactories = []
+  users.forEach(user => {
+    userFactories.push(DataUsers.Build(user))
+  })
+  return res.json(userFactories);
+})
+
 
 
 router.put('/user/:id', userAuth,  async (req, res) => { 
@@ -77,17 +97,29 @@ router.put('/user/:id', userAuth,  async (req, res) => {
     return res.sendStatus(403)
   }
   if (
-    (name == '' || password == '' || id == '') ||
-    (name == undefined || password == undefined || id == undefined)
+    (name == '' || id == '') ||
+    (name == undefined || id == undefined)
     ){
     return res.sendStatus(400);
   }
 
-  try {
-    let salt = await bcrypt.genSalt(10);
-    let hash = await bcrypt.hash(password, salt)
+  if (password == '' || password == undefined) {
+    var updatePassword = false;
+  } else {
+    var updatePassword = true;
+  }
+  
 
-    await User.findOneAndUpdate({_id:id}, {$set:{name:name, password:hash}})
+  try {
+    if (updatePassword) {
+      let salt = await bcrypt.genSalt(10);
+      let hash = await bcrypt.hash(password, salt)
+      var update = {name:name, password:hash}
+    } else {
+      var update = {name:name}
+    }
+
+    await User.findOneAndUpdate({_id:id}, {$set:update})
     var userNew = await User.findOne({_id:id});
 
     return res.json(userNew)

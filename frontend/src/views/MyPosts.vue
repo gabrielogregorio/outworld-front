@@ -4,11 +4,10 @@
 
     <NewPost @updatePostsEvent="updatePosts()" />
 
-
     <section>
       <div class="container">
 
-        <h1>usuarios e fotos</h1>
+        <h1>Meus posts</h1>
         <table>
           <tr>
             <th>Titulo</th>
@@ -42,7 +41,7 @@ import getHeader from '../getToken';
 import NewPost from '../components/NewPost.vue';
 
 export default {
-  name: 'Home',
+  name: 'MyPosts',
   components: {
     Navbar,
     NewPost
@@ -53,7 +52,7 @@ export default {
     }
   },
    created() {
-    axios.get('http://localhost:3333/posts', getHeader()).then(posts => {
+    axios.get('http://localhost:3333/myPosts', getHeader()).then(posts => {
       this.posts = posts.data
     })
   },  

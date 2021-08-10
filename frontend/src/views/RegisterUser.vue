@@ -35,8 +35,8 @@ export default {
         name: this.name,
         email: this.email,
         password: this.password
-      }).then(res => {
-        console.log('ok!', res)
+      } ).then(() => {
+        this.$router.push({name: 'Home'})
       }).catch(error => {
         console.log(`Erro ao registrar dados: ${error}`);
       })

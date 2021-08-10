@@ -1,7 +1,9 @@
 <template>
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/CadastrarPost">CadastrarPost</router-link>
+      <router-link to="/Home">Home</router-link> |
+      <router-link to="/Users">Usuários</router-link>
+      <router-link to="/MyPosts">Meus Posts</router-link>
+      <router-link to="/EditProfile">Editar Perfil</router-link>
     </div>
 </template>
 
