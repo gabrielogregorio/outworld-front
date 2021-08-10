@@ -89,7 +89,18 @@ router.put('/post/:id', userAuth,  async (req, res) => {
   }
 })
 
-
+router.delete('/post/:id', async (req, res) => {
+  try {
+    var resDelete = await Post.deleteOne({_id:req.params.id})
+    if (resDelete.deletedCount == 1) {
+      res.sendStatus(200)
+    } else {
+      res.sendStatus(404)
+    }
+  } catch(error ) {
+    res.sendStatus(500)
+  }
+})
 
 
 router.get('/myPosts', userAuth,  async (req, res) => { 
@@ -107,6 +118,7 @@ router.get('/myPosts', userAuth,  async (req, res) => {
     res.sendStatus(500)
   }
 })
+
 
 
 

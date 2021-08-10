@@ -1,17 +1,19 @@
 <template>
   <section>
-    <div class="container">
-      <h1>Criar usuário</h1>
-        <label for="name">Seu nome </label>
-        <input type="name" name="name" id="name" placeholder="Seu nome" v-model="name">
+    <div class="form">
+      <h1>Criar conta</h1>
 
-        <label for="email">E-mail: </label>
-        <input type="email" name="email" id="email" placeholder="Seu e-mail" v-model="email">
+      <label for="name">Seu nome </label>
+      <input type="name" name="name" id="name" placeholder="Seu nome" v-model="name">
 
-        <label for="password">Password: </label>
-        <input type="password" name="password" id="password" placeholder="Uma senha" v-model="password">
-        
-        <button @click="cadastrar()">Login</button><br>
+      <label for="email">E-mail: </label>
+      <input type="email" name="email" id="email" placeholder="Seu e-mail" v-model="email">
+
+      <label for="password">Password: </label>
+      <input type="password" name="password" id="password" placeholder="Uma senha" v-model="password">
+      
+      <a href="/Login">Fazer login</a>
+      <button @click="cadastrar()">Login</button><br>
     </div>
   </section>
 </template>

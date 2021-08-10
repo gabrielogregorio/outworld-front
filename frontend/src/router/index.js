@@ -21,7 +21,7 @@ function authUser(to, from, next) {
 
 const routes = [
   {
-    path: '/',
+    path: '/Cadastro',
     name: 'Register',
     component:  () => import('../views/RegisterUser')
   },
@@ -32,13 +32,19 @@ const routes = [
     beforeEnter: authUser,
   },
   {
+    path: '/',
+    name: 'Redirect',
+    component: () => import('../views/Redirect.vue'),
+    beforeEnter: authUser
+  },
+  {
     path: '/EditProfile',
     name: 'EditProfile',
     component: () => import('../views/EditProfile.vue'),
     beforeEnter: authUser
   },
   {
-    path: '/login',
+    path: '/Login',
     name: 'Login',
     component: () => import('../views/Login.vue')
   },

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="container">
+    <div class="form">
       <h1>Fazer login</h1>
       <label for="email">E-mail: </label>
       <input type="email" name="email" id="email" placeholder="your email" v-model="email">
@@ -8,7 +8,8 @@
       <label for="password">Password: </label>
       <input type="password" name="password" id="password" placeholder="your password" v-model="password">
 
-      <button @click="login()" >Login</button><br>
+      <a href="/Cadastro">Fazer cadastro</a>
+      <button @click="login()">Login</button><br>
   </div>
   </section>
 </template>

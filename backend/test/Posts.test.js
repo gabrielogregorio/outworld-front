@@ -133,4 +133,32 @@ describe('Gerenciamento de posts', () => {
 
     }).catch(error => fail(error))
   })
+
+
+  test("Deve Deletar um post!", () => {
+    return request.delete(`/post/${idPostValido}`)
+      .set(tokenValido)
+      .then(res => {
+        expect(res.statusCode).toEqual(200)
+    }).catch(error => fail(error))
+  })
+
+
+  test("Deve retornar 404 ao tentar deletar um post que não existe", () => {
+    return request.delete(`/post/111111111111111111111111`)
+      .set(tokenValido)
+      .then(res => {
+        expect(res.statusCode).toEqual(404)
+    }).catch(error => fail(error))
+  })
+
+  test("Deve retornar 500 ao passar um parametro invalido", () => {
+    return request.delete(`/post/111`)
+      .set(tokenValido)
+      .then(res => {
+        expect(res.statusCode).toEqual(500)
+    }).catch(error => fail(error))
+  })
+
+
 })

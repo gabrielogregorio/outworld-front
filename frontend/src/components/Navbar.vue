@@ -1,25 +1,42 @@
-<template>
-    <div id="nav">
-      <router-link to="/Home">Home</router-link> |
-      <router-link to="/Users">Usuários</router-link>
-      <router-link to="/MyPosts">Meus Posts</router-link>
-      <router-link to="/EditProfile">Editar Perfil</router-link>
-    </div>
+<template> 
+      <section>
+        <div class="titulo-principal">
+          <a class="principal" href="/Home">Página Inicial</a>
+          <router-link to="/Users">Usuários</router-link>
+          <router-link to="/MyPosts">Meus Posts</router-link>
+          <router-link to="/EditProfile">Editar Perfil</router-link>
+        </div>
+      </section>
 </template>
 
 <style>
 
-#nav {
-  padding: 30px;
-  text-align: center;
-}
+.titulo-principal {
+    max-width: 700px;
+    width: 100%;
+    padding: 10px 20px;
+    margin: 0 auto;
+    background-color: black;
+    border: 1px solid #555;
+    border-top: 0;
+    border-bottom: none;
+  }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+  .titulo-principal a{
+    text-decoration: none;
+    padding-left: 10px;
+    color: #ddd;
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+  }
+  .titulo-principal .principal {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ddd;
+    text-decoration: none;
+  }
+
+  .titulo-principal a.router-link-exact-active {
+    text-decoration: underline;
+    color: white;
+  }
 </style>

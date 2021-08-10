@@ -1,28 +1,10 @@
 <template>
-  <div class="home">
+  <div>
     <Navbar />
 
     <section>
-      <div class="container">
-
-        <h1>Usuários</h1>
-        <table>
-          <tr>
-            <th>Nome</th>
-            <th>E-mail</th>
-            <th>Ações</th>
-          </tr>
-
-          <tr v-for="user in users" :key="user.id">
-            <td>{{user.name}}</td>
-            <td>{{user.email}}</td>
-            <td>
-              <button class="blue">View</button>
-              <a class="green">View 2</a>
-            </td>
-          </tr>
-
-        </table>  
+      <div v-for="user in users" :key="user.id">
+        <User :user="user"/>
       </div>
     </section>
 
@@ -34,12 +16,13 @@
 import axios from 'axios';
 import Navbar from '../components/Navbar.vue';
 import getHeader from '../getToken';
-
+import User from '../components/User.vue'
 
 export default {
   name: 'Users',
   components: {
-    Navbar
+    Navbar,
+    User
   },
   data() {
     return {

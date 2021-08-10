@@ -1,58 +1,39 @@
 <template>
-  <div class="home">
+  <div >
     <Navbar />
-
+ 
     <NewPost @updatePostsEvent="updatePosts()" />
 
-
-    <section>
-      <div class="container">
-
-        <h1>usuarios e fotos</h1>
-        <table>
-          <tr>
-            <th>Titulo</th>
-            <th>Descricao</th>
-            <th>Autor</th>
-            <th>Ações</th>
-          </tr>
-
-          <tr v-for="post in posts" :key="post.id">
-            <td>{{post.title}}</td>
-            <td>{{post.body}}</td>
-            <td>{{post.user.name}}</td>
-            <td>
-              <button class="blue">View</button>
-              <a class="green">View 2</a>
-            </td>
-          </tr>
-
-        </table>  
-      </div>
-    </section>
-
-
+    <div class="container-post" v-for="post in posts" :key="post.id">
+      <Post :post="post" :myId="myId" @updatePosts="updatePosts()"/>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-import Navbar from '../components/Navbar.vue';
 import getHeader from '../getToken';
 import NewPost from '../components/NewPost.vue';
+import Navbar from '../components/Navbar.vue';
+import Post from '../components/Post.vue';
 
 export default {
   name: 'Home',
   components: {
-    Navbar,
-    NewPost
+    NewPost,
+    Post,
+    Navbar
   },
   data() {
     return {
-      posts: []
+      posts: [],
+      myId: ''
     }
   },
    created() {
+    axios.get('http://localhost:3333/me', getHeader()).then(me => {
+      this.myId = me.data[0]._id;
+    })
     axios.get('http://localhost:3333/posts', getHeader()).then(posts => {
       this.posts = posts.data
     })
@@ -62,9 +43,11 @@ export default {
       axios.get('http://localhost:3333/posts', getHeader()).then(posts => {
         this.posts = posts.data
       })
-
-    }
-  },
- 
+    },
+  }
 }
 </script>
+
+<style scoped>
+
+</style>

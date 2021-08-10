@@ -15,7 +15,6 @@ router.post('/user', async (req, res) => {
     (name == '' || email == '' || password == '') ||
     (name == undefined || email == undefined || password == undefined) 
     ){
-      console.log('dados vazios')
     return res.sendStatus(400);
   }
 

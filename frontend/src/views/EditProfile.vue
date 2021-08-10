@@ -2,7 +2,7 @@
 <div>
   <Navbar />
   <section>
-    <div class="container">
+    <div class="form">
       <label for="name">Nome: </label>
       <input type="name" name="name" id="name" placeholder="Seu nome" v-model="name">
 

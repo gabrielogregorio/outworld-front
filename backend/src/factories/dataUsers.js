@@ -4,6 +4,7 @@ class DataUsers {
     var newUser = {
       _id: user._id,
       name: user.name,
+      username: user.username,
       email: user.email
     }
 
