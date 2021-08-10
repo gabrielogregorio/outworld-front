@@ -11,8 +11,11 @@
 
 <h3 align="center">Micro Twiter, backend com TDD e frontend com vuejs</h3>
 <p align="center">
-Um projeto de estudo de TDD, um micro twiter... Ainda estou escrevendo o README....
+Um projeto de estudo de TDD, um micro Twiter... Ainda estou escrevendo o README....
   <br>
 </p>
 
 <h3>Informações gerais</h3>
+Esse projeto não teve foco no frontend, portanto, o frontend foi feito para ser o mais simplista possível, o foco foi o estudo de TDD a API no backend
+
+![Interface](images/1.png)

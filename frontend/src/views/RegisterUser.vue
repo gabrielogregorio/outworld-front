@@ -37,7 +37,9 @@ export default {
         name: this.name,
         email: this.email,
         password: this.password
-      } ).then(() => {
+      } ).then(res => {
+
+        localStorage.setItem('token', res.data.token)
         this.$router.push({name: 'Home'})
       }).catch(error => {
         console.log(`Erro ao registrar dados: ${error}`);

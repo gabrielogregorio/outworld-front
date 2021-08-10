@@ -24,6 +24,7 @@ describe('Cadastro e login de usuários', () => {
       expect(res.statusCode).toEqual(200)
       expect(res.body.email).toEqual(user.email)
       expect(res.body.id).toBeDefined()
+      expect(res.body.token).toBeDefined()
       idUsuarioValido = res.body.id;
     }).catch(error => fail(error))
   })
@@ -145,13 +146,19 @@ describe('Cadastro e login de usuários', () => {
   })
 
   test("Deve impedir o login de um usuário não cadastrado", () => {
-    return request.post('/auth', {email:'invalid_email_test', password:'aaaaaaaaa'}).then(res => {
-      expect(res.statusCode).toEqual(403)
+    return request.post('/auth')
+      .send({email:'invalid_email_test', password:'aaaaaaaaa'})
+      .set(tokenValido)
+      .then(res => {
+      expect(res.statusCode).toEqual(404)
     }).catch(error => {fail(error)})
   })
 
   test("Deve impedir o login com uma senha errada", () => {
-    return request.post('/auth', {email:user.email, password:'....'}).then(res => {
+    return request.post('/auth')
+      .send({email:user.email, password:'....'})
+      .set(tokenValido)
+      .then(res => {
       expect(res.statusCode).toEqual(403)
     }).catch(error => {fail(error)})
   })

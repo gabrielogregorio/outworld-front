@@ -31,12 +31,48 @@ router.post('/user', async (req, res) => {
 
     let newUser = new User({name, email, password:hash})
     await newUser.save()  
-    res.json({email:email, id:newUser._id}); 
+
+    jwt.sign({email: newUser.email, name:newUser.name, id: newUser._id}, jwtSecret, {expiresIn: '24h'}, (error, token) => {
+      if (error) {
+        res.sendStatus(500)
+        return;
+      } else {  
+        res.json({token, email:email, id:newUser._id}); 
+        return;
+      }
+    })
   } catch(error) {
     console.log(error)
     res.sendStatus(500);
   }
 })
+
+
+router.post('/auth', async (req, res) => {
+  let {email, password} = req.body;
+  let user = await User.findOne({email});
+  if(user == undefined) {
+    res.sendStatus(404)
+    return;
+  }
+
+  let valid = await bcrypt.compare(password, user.password);
+  if(!valid) {
+    res.sendStatus(403)
+    return;
+  } 
+
+  jwt.sign({email, name:user.name, id: user._id}, jwtSecret, {expiresIn: '24h'}, (error, token) => {
+    if (error) {
+      res.sendStatus(500)
+      return;
+    } else {  
+      res.json({token, id: user._id})
+      return;
+    }
+  })
+})
+
 
 
 router.get('/users', userAuth,  async (req, res) => { 
@@ -66,26 +102,6 @@ router.get('/user/:id', userAuth,  async (req, res) => {
   return res.json(userFactories);
 })
  
-
-
-router.get('/me', userAuth,  async (req, res) => { 
-  var id = req.data.id;
-  var users = await User.find({_id: id})
-
-  if (users.length == 0) {
-    res.statusCode =404
-    return res.json({msg: 'Identificador do usuário não encontrado'})
-  }
-
-  var userFactories = []
-  users.forEach(user => {
-    userFactories.push(DataUsers.Build(user))
-  })
-  return res.json(userFactories);
-})
-
-
-
 router.put('/user/:id', userAuth,  async (req, res) => { 
   var {name, password} = req.body;
   var id = req.params.id;
@@ -121,6 +137,9 @@ router.put('/user/:id', userAuth,  async (req, res) => {
     await User.findOneAndUpdate({_id:id}, {$set:update})
     var userNew = await User.findOne({_id:id});
 
+    if (userNew == null) {
+      return res.sendStatus(404)      
+    }
     return res.json(userNew)
   } catch(error)  {
     return res.sendStatus(500)
@@ -129,31 +148,26 @@ router.put('/user/:id', userAuth,  async (req, res) => {
 
 
 
-router.post('/auth', async (req, res) => {
-  let {email, password} = req.body;
 
-  let user = await User.findOne({email});
-  if(user == undefined) {
-    res.sendStatus(403)
-    return;
+
+router.get('/me', userAuth,  async (req, res) => { 
+  var id = req.data.id;
+  var users = await User.find({_id: id})
+
+  if (users.length == 0) {
+    res.statusCode =404
+    return res.json({msg: 'Identificador do usuário não encontrado'})
   }
 
-  let valid = await bcrypt.compare(password, user.password);
-  if(!valid) {
-    res.statusCode = 403
-    res.json({msg: "Senha incorreta"})
-    return;
-  } 
-
-  jwt.sign({email, name:user.name, id: user._id}, jwtSecret, {expiresIn: '24h'}, (error, token) => {
-    if (error) {
-      res.sendStatus(500)
-      return;
-    } else {  
-      res.json({token, id: user._id})
-      return;
-    }
+  var userFactories = []
+  users.forEach(user => {
+    userFactories.push(DataUsers.Build(user))
   })
+  return res.json(userFactories);
 })
+
+
+
+
 
 module.exports = router;
