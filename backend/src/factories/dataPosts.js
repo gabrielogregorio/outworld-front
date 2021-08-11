@@ -7,7 +7,8 @@ class DataPosts {
       title: post.title,
       body: post.body,
       img: post.img,
-      user: ""
+      user: "",
+      likes: post.likes == undefined ? 0 : post.likes.length
     }
 
     if (post.user != undefined) {

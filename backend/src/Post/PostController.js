@@ -107,6 +107,36 @@ router.put('/post/:id', userAuth,  multerImagePosts.single('image'), async (req,
   }
 })
 
+
+
+router.post('/post/like/:id', userAuth,  async (req, res) => { 
+  var id = req.params.id;
+  var user = req.data.id;
+  
+  try {
+    var post = await Post.findOne({_id:id});
+    var listLikes = post.likes;
+    var includeLike = listLikes.includes(user)
+
+    // Usuário não deixou o like
+    if (includeLike == false) {
+      listLikes.push(user) // Adicione o like e salve no banco
+    } else {
+      // Usuário provavelmente deixou o like
+      const index = listLikes.indexOf(user);
+      if (index > -1) { listLikes.splice(index, 1); }
+    }
+    // Salvar no db
+    await Post.findOneAndUpdate({_id:id}, {$set:{likes:listLikes}})
+
+    return res.json({includeLike: !includeLike})
+
+  } catch(error)  {
+    return res.sendStatus(500)
+  }
+})
+
+
 router.delete('/post/:id', async (req, res) => {
   try {
     var resDelete = await Post.deleteOne({_id:req.params.id})
@@ -130,7 +160,13 @@ router.get('/myPosts', userAuth,  async (req, res) => {
 
   try {
     var posts = await Post.find({user:user}).sort({'_id': 'desc'}).populate('user');
-    return res.json(posts)
+
+    var postFactories = []
+    posts.forEach(post => {
+      postFactories.push(DataPosts.Build(post))
+    })
+
+    return res.json(postFactories)
 
   } catch(error) {
     res.sendStatus(500)

@@ -5,7 +5,16 @@ let postSchema = new mongoose.Schema({
   body: String,
   test: Boolean,
   img: String,
-  user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  likes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  ]
 })
 
 var Post = mongoose.model('Post', postSchema);

@@ -119,6 +119,32 @@ describe('Gerenciamento de posts', () => {
     }).catch(error => fail(error))
   })
 
+  test("Deve enviar um like", () => {
+    return request.post(`/post/like/${idPostValido}`)
+      .set(tokenValido)
+      .then(res => {
+        expect(res.statusCode).toEqual(200)
+        expect(res.body.includeLike).toEqual(true)
+    }).catch(error => fail(error))
+  })
+
+  test("Deve desfazer um like", () => {
+    return request.post(`/post/like/${idPostValido}`)
+      .set(tokenValido)
+      .then(res => {
+        expect(res.statusCode).toEqual(200)
+        expect(res.body.includeLike).toEqual(false)
+    }).catch(error => fail(error))
+  })
+
+  test("Deve retornar 500 quando um post inválido for enviado", () => {
+    return request.post(`/post/like/11111111`)
+      .set(tokenValido)
+      .then(res => {
+        expect(res.statusCode).toEqual(500)
+    }).catch(error => fail(error))
+  })
+
   test("Obter os dados de si mesmo", () => {
     return request.get('/myPosts')
       .set(tokenValido)

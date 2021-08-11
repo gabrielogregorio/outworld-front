@@ -29,10 +29,10 @@
         </div>
 
         <div class="options-post">
-          <button>Comentar (23)</button>
-          <button>Retuitar (250)</button>
-          <button>Gostei (920)</button>
-          <button>Compartilhar (10)</button>
+          <button @click="sendLike(post._id)">Gostei {{post.likes}}</button>
+          <!--<button>Comentar (23)</button>-->
+          <!--<button>Retuitar (250)</button>-->
+          <!--<button>Compartilhar (10)</button>-->
         </div>
       </div>
     </div>
@@ -74,8 +74,17 @@ export default {
         name:"EditPost",
         query: {id}
       })
+    },
+    sendLike(postId) {
+      console.log(postId)
+       axios.post(`http://localhost:3333/post/like/${postId}`, {}, getHeader())
+        .then(res => {
+          console.log(res)
+          axios.get(`http://localhost:3333/post/${postId}`, getHeader()).then(res2 => {
+            this.post = res2.data[0];
+          })
+        })
     }
-    
   },
  
 }
