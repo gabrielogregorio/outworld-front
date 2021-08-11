@@ -12,11 +12,11 @@ const jwtSecret = process.env.JWT_SECRET
 
 
 router.post('/user', multerImage.single('image'), async (req, res) => {
-  var {name, email, password} = req.body;
+  var {name, email, username, password} = req.body;
 
   if (
-    (name == '' || email == '' || password == '') ||
-    (name == undefined || email == undefined || password == undefined) 
+    (name == '' || email == '' || password == '' || username == '') ||
+    (name == undefined || email == undefined || password == undefined || username == undefined) 
     ){
     return res.sendStatus(400);
   }
@@ -38,7 +38,7 @@ router.post('/user', multerImage.single('image'), async (req, res) => {
     let salt = await bcrypt.genSalt(10);
     let hash = await bcrypt.hash(password, salt)
 
-    let newUser = new User({name, email, password:hash, img})
+    let newUser = new User({name, email, username, password:hash, img})
     await newUser.save()  
 
     jwt.sign({email: newUser.email, name:newUser.name, id: newUser._id}, jwtSecret, {expiresIn: '24h'}, (error, token) => {
@@ -112,7 +112,7 @@ router.get('/user/:id', userAuth,  async (req, res) => {
 })
  
 router.put('/user/:id', userAuth, multerImage.single('image'), async (req, res) => { 
-  var {name, password} = req.body;
+  var {name, username, password} = req.body;
   var id = req.params.id;
   var user = req.data.id;
   
@@ -121,8 +121,8 @@ router.put('/user/:id', userAuth, multerImage.single('image'), async (req, res) 
     return res.sendStatus(403)
   }
   if (
-    (name == '' || id == '') ||
-    (name == undefined || id == undefined)
+    (name == '' || id == '' || username == '') ||
+    (name == undefined || id == undefined || username == undefined)
     ){
     return res.sendStatus(400);
   }
@@ -144,9 +144,9 @@ router.put('/user/:id', userAuth, multerImage.single('image'), async (req, res) 
     if (updatePassword) {
       let salt = await bcrypt.genSalt(10);
       let hash = await bcrypt.hash(password, salt)
-      var update = {name:name, password:hash}
+      var update = {name, password:hash, username}
     } else {
-      var update = {name:name}
+      var update = {name, username}
     }
 
     if (img != '') {

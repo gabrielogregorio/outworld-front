@@ -1,33 +1,47 @@
 <template> 
   <section>
-    <div class="container-new-post">
-      <div class="conteudo-novo-post">
-        <div class="novo-post-imagem-perfil">
-          <img v-if="img == ''" src="/user.webp" alt="">
-          <img v-else :src='`http://127.0.0.1:3333/images/clients/${img}`' alt="">
-        </div>
-
-        <textarea name="body" v-model="body" id="bod" cols="15" rows="2" placeholder="O que você quer polemizar?"></textarea>
+    <div class="container-post">
+      <div class="img-post-perfil">
+        <img v-if="img == ''" src="/user.webp" alt="">
+        <img v-else :src='`${hostServer}/images/clients/${img}`' alt="">
       </div>
-    <div class="botao-postar">
-      <input type="file" name="image" id="image">
-      <button @click="createPost">Tweetar</button>
-    </div>
-  </div>
-  <div class="border-post-space"></div>
+
+      <div class="info-post">
+        <div class="info-post-perfil">
+          <textarea class="body-post" name="body" v-model="body" id="bod" cols="15" rows="2" placeholder="O que você quer polemizar?"></textarea>
+
+          <div class="body-image">
+            <img v-if="imgSrc != ''" :src='`${hostServer}/images/posts/${imgSrc}`' alt="">
+          </div>
+
+          <div class="botao-postar">
+            <label class="custom-file-upload">
+              <input type="file" name="image" id="image" @change="loadImage()"/>
+              <i class="fas fa-image"></i>
+            </label>
+
+            <button @click="createPost">Tweetar</button>
+          </div>
+          </div>
+        </div>
+      </div>
+    <div class="border-post-space"></div>
   </section>
 </template>
 
 <script>
 import axios from 'axios'
 import getHeader from '../getToken';
+import { hostServer } from '../connections';
 
 export default {
   name: 'NewPost',
   data() {
     return {
       title: 'aaaa',
-      body: ''
+      body: '',
+      imgSrc: '',
+      hostServer
     }
   },
   props: {
@@ -36,28 +50,36 @@ export default {
   create() {
   },
   methods: {
-    createPost() {
-      if (this.title == '' || this.body == '' || this.title == undefined || this.body == undefined) {
-        return;
-      }
 
-      //Form data para enviar o arquivo
+    loadImage() {
+      console.log('Escolheu umagem!')
+      
+      
+
       const formData = new FormData();
       const image = document.querySelector("#image");
 
       formData.append("image", image.files[0]);
-      formData.append("title", this.title);
-      formData.append("body", this.body);
-
-      console.log(getHeader().headers)
 
       var headers  = {
         "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
         Authorization:getHeader().headers.Authorization
       }
-      axios.post("http://localhost:3333/post", formData, { headers }, ).then(() => {
+      axios.post(`${hostServer}/postLoadFile`, formData, { headers }, ).then(res => {
+        this.imgSrc = res.data.file;
+      }).catch(error => {
+        console.log(`Erro ao registrar dados: ${error}`);
+      })
+    },
+    createPost() {
+      if ( this.body == '' || this.title == undefined || this.body == undefined) {
+        return;
+      }
+      axios.post(`${hostServer}/post`, { img: this.imgSrc, title: this.title, body: this.body}, getHeader(), ).then(() => {
         this.$emit("updatePostsEvent", "");
         this.body = ''
+        this.imgSrc = ''
+
       }).catch(error => {
         console.log(`Erro ao registrar dados: ${error}`);
       })
@@ -69,46 +91,111 @@ export default {
 
 <style scoped>
 
-
-
-  .conteudo-novo-post {
+  div.container-post {
     display: flex;
+    max-width: 700px;
+    width: 100%;
+    padding: 10px;
+    margin: 0 auto;
+    background-color: var(--primary-background);
+    border: var(--border);
+    border-top: 0;
+    padding-bottom: 0;
   }
 
-  
-div.container-new-post {
-  max-width: 700px;
-  width: 100%;
-  padding: 40px 20px;
-  margin: 0 auto;
-  background-color: black;
-  border: 1px solid #555;
-}
-
-div.border-post-space {
-  max-width: 700px;
-  margin: 0 auto;
-  background-color: rgb(58, 58, 58);
-  border: 1px solid #555;
-  padding: 10px 0;
-  width: 100%;
-  border-top: 0;
-  border-bottom: 0;
-}
-
-  .novo-post-imagem-perfil {
+  .img-post-perfil {
+    margin-right: 15px;
     max-width: 50px;
     max-height: 50px;
-    margin-right: 10px;
   }
-  .novo-post-imagem-perfil img {
+
+  .img-post-perfil img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 50%;
   }
 
-  .conteudo-novo-post textarea {
+  .info-post {
+    width: 100%;
+  }
+
+  .info-post-perfil {
+    width: 100%;
+  }
+
+  .info-post-superior {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .info-post-superior h2 {
+    font-weight: 700;
+    color: white;
+    font-size: 1rem;
+  }
+
+  .info-post-superior .info-username {
+    font-weight: 700;
+    margin-left: 5px;
+    font-size: 1rem;
+  }
+
+  .delete-post {
+    flex: 1;
+    text-align: right;
+  }
+
+  .delete-post button{
+    background-color: transparent;
+    outline: none;
+    border: 0;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 2px 4px;
+  }
+  .delete-post button i{
+      color: rgb(255, 88, 88);
+  }
+
+  .body-post {
+    color: rgb(192, 192, 192);
+    font-weight: 400;
+    width: 100%;
+  }
+
+  .body-image {
+    padding: 10px;
+  }
+
+  .body-image > img{
+    width: 100%;
+    border: var(--border);
+    border-radius: 20px;
+    max-height: 900px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+  
+  .botao-postar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+  }
+
+  .botao-postar button {
+    border-radius: 20px;
+    background: var(--primary-blue-color);
+    padding: 10px 20px;
+    border: none;
+    font-weight: 700;
+    color: #ddd;
+    cursor: pointer;
+  }
+
+    textarea {
     width: 100%;
     background: transparent;
     outline: none;
@@ -117,22 +204,6 @@ div.border-post-space {
     overflow-y: hidden;
     font-size: 1.4rem;
     color: #ddd;
-  }
-
-  .botao-postar {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .botao-postar button {
-    border-radius: 20px;
-    background: rgb(27, 121, 197);
-    padding: 10px 20px;
-    border: none;
-    font-weight: 700;
-    color: #ddd;
-    cursor: pointer;
   }
 
 </style>

@@ -3,7 +3,7 @@ let supertest = require('supertest');
 let request = supertest(app)
 var tokenValido = {}
 var idUsuarioValido = '';
-let user = {name:'sherek', email:'no-valid-email', password: 'asdmkaksasdas'}
+let user = {name:'sherek', email:'no-valid-email', password: 'asdmkaksasdas', username:'sherek'}
 
 beforeAll(() => {
   return request.post('/configure').then(() => {}).catch(error => fail(error))
@@ -46,6 +46,7 @@ describe('Cadastro e login de usuários', () => {
         expect(res.statusCode).toEqual(200)
         expect(res.body[0].name).toBeDefined()
         expect(res.body[0].email).toBeDefined()
+        expect(res.body[0].username).toBeDefined()
     }).catch(error => fail(error))
   })
 
@@ -110,7 +111,7 @@ describe('Cadastro e login de usuários', () => {
   test("Deve permitir a edição de um usuario!", () => {
     return request.put(`/user/${idUsuarioValido}`)
       .set(tokenValido)
-      .send({name: 'alterado', password: 'gabriel'})
+      .send({name: 'alterado', password: 'gabriel', username:'alterado2'})
       .then(res => {
         expect(res.statusCode).toEqual(200)
         expect(res.body.name).toEqual('alterado')
@@ -120,7 +121,7 @@ describe('Cadastro e login de usuários', () => {
   test("Deve permitir a edição de um usuario novamente!", () => {
     return request.put(`/user/${idUsuarioValido}`)
       .set(tokenValido)
-      .send({name: user.name, password: user.password})
+      .send({name: user.name, password: user.password, username:user.username})
       .then(res => {
         expect(res.statusCode).toEqual(200)
         expect(res.body.name).toEqual(user.name)
@@ -130,7 +131,7 @@ describe('Cadastro e login de usuários', () => {
   test("Deve impedir um usuário editar outro!", () => {
     return request.put(`/user/9999999999999999999999999`)
       .set(tokenValido)
-      .send({name: 'alterado', password: 'alterado'})
+      .send({name: 'alterado', password: 'alterado', username:'teste2'})
       .then(res => {
         expect(res.statusCode).toEqual(403)
     }).catch(error => fail(error))
@@ -143,6 +144,7 @@ describe('Cadastro e login de usuários', () => {
         expect(res.statusCode).toEqual(200)
         expect(res.body[0].name).toEqual(user.name)
         expect(res.body[0].email).toEqual(user.email)
+        expect(res.body[0].username).toEqual(user.username)
     }).catch(error => fail(error))
   })
 

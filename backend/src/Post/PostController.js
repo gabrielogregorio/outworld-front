@@ -8,8 +8,30 @@ require('dotenv/config');
 
 const jwtSecret = process.env.JWT_SECRET
 
-router.post('/post', userAuth, multerImagePosts.single('image'), async(req, res) => {
-  let {title, body, test} = req.body;
+
+router.post('/postLoadFile', userAuth, multerImagePosts.single('image'), async(req, res) => {
+  user = `${req.data.id}`
+
+  if (
+    (user == '') ||
+    (user == undefined)
+    )
+     {
+      return res.sendStatus(400)
+  }
+
+  if (req.file) {
+    img = req.file['filename']
+  } else {
+    img = ''
+  }
+
+  return res.json({file:img})
+})
+
+
+router.post('/post', userAuth, async(req, res) => {
+  let {title, body, test, img} = req.body;
 
   user = `${req.data.id}`
   if (
@@ -20,15 +42,11 @@ router.post('/post', userAuth, multerImagePosts.single('image'), async(req, res)
       return res.sendStatus(400)
   }
 
+  if (img == undefined) {
+    img = ''
+  }
   if (test == undefined) {
     test = false;
-  }
-
-  
-  if (req.file) {
-    img = req.file['filename']
-  } else {
-    img = ''
   }
 
   try {

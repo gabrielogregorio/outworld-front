@@ -4,7 +4,7 @@ class DataUsers {
     var newUser = {
       _id: user._id,
       name: user.name,
-      username: user.username,
+      username: user.username == undefined ? '' : `${user.username}`,
       email: user.email,
       img: user.img
     }

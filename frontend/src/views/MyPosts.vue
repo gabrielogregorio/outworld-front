@@ -17,6 +17,7 @@ import Navbar from '../components/Navbar.vue';
 import getHeader from '../getToken';
 import NewPost from '../components/NewPost.vue';
 import Post from '../components/Post.vue';
+import { hostServer } from '../connections';
 
 export default {
   name: 'MyPosts',
@@ -33,11 +34,11 @@ export default {
     }
   },
    created() {
-    axios.get('http://localhost:3333/me', getHeader()).then(me => {
+    axios.get(`${hostServer}/me`, getHeader()).then(me => {
       this.myId = me.data[0]._id;
       this.img = me.data[0].img;
     })
-    axios.get('http://localhost:3333/myPosts', getHeader()).then(posts => {
+    axios.get(`${hostServer}/myPosts`, getHeader()).then(posts => {
       this.posts = posts.data
     })
   },  
@@ -46,6 +47,5 @@ export default {
       this.$router.push({name:'Home'})
     }
   }
- 
 }
 </script>

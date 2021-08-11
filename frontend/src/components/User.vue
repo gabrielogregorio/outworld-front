@@ -2,7 +2,7 @@
   <div class="container-user">
     <div class="img-user-perfil">
       <img v-if="user.img == ''" src="/user.webp" alt="">
-      <img v-else :src='`http://127.0.0.1:3333/images/clients/${user.img}`' alt="">
+      <img v-else :src='`${hostServer}/images/clients/${user.img}`' alt="">
 
     </div>
 
@@ -20,12 +20,15 @@
 </template>
 
 <script>
+import { hostServer } from '../connections';
 
 export default {
   name: 'User',
   components: {},
   data() {
-    return {}
+    return {
+      hostServer: hostServer
+    }
   },
    created() {
   },  
@@ -44,10 +47,9 @@ div.container-user {
   width: 100%;
   padding: 10px;
   margin: 0 auto;
-  background-color: black;
-  border: 1px solid #555;
+  background-color: var(--primary-background);
+  border: var(--border);
   border-top: 0;
-  padding-bottom: 0;
 }
 
 

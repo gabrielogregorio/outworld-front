@@ -1,11 +1,10 @@
 <template>
-  <div >
+  <div>
     <Navbar />
- 
     <NewPost @updatePostsEvent="updatePosts()" :img="img" />
 
     <div class="container-post" v-for="post in posts" :key="post.id">
-      <Post :post="post" :myId="myId" @updatePosts="updatePosts()"/>
+      <Post :post="post" :myId="myId" @updatePosts="updatePosts()" @updateLikesOnePost="updateLike($event)"/>
     </div>
   </div>
 </template>
@@ -16,6 +15,7 @@ import getHeader from '../getToken';
 import NewPost from '../components/NewPost.vue';
 import Navbar from '../components/Navbar.vue';
 import Post from '../components/Post.vue';
+import { hostServer } from '../connections';
 
 export default {
   name: 'Home',
@@ -26,24 +26,40 @@ export default {
   },
   data() {
     return {
-      posts: [],
+      posts: [{
+        _id: '',
+        title: '',
+        body: '',
+        img: '',
+        user: '',
+        likes: []
+      }],
       myId: '',
       img: ''
     }
   },
    created() {
-    axios.get('http://localhost:3333/me', getHeader()).then(me => {
+    axios.get(`${hostServer}/me`, getHeader()).then(me => {
       this.myId = me.data[0]._id;
       this.img = me.data[0].img;
     })
-    axios.get('http://localhost:3333/posts', getHeader()).then(posts => {
+    axios.get(`${hostServer}/posts`, getHeader()).then(posts => {
       this.posts = posts.data
     })
   },  
   methods: {
     updatePosts() {
-      axios.get('http://localhost:3333/posts', getHeader()).then(posts => {
+      console.log('uodate!!!')
+      axios.get(`${hostServer}/posts`, getHeader()).then(posts => {
         this.posts = posts.data
+      })
+    },
+
+    updateLike($event) {
+      this.posts.forEach(post => {
+        if (post._id == $event.postId) {
+          post.likes = $event.newLikes;
+        }
       })
     }
   }

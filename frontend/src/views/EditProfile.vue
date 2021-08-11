@@ -2,12 +2,15 @@
 <div>
   <Navbar />
   <section>
-    <div class="form">
+    <div class="form form-logged">
+      <label for="email">E-mail (Não alterável): </label>
+      <input type="email" name="email" id="email" placeholder="your email" v-model="email" disabled>
+
       <label for="name">Nome: </label>
       <input type="name" name="name" id="name" placeholder="Seu nome" v-model="name">
 
-      <label for="email">E-mail: </label>
-      <input type="email" name="email" id="email" placeholder="your email" v-model="email" disabled>
+      <label for="username">Nome de usuario</label>
+      <input type="text" name="username" id="username" placeholder="Seu nome de usuário" v-model="username">
 
       <label for="image">Sua foto</label>
       <input type="file" name="image" id="image">
@@ -27,6 +30,7 @@
 import axios from 'axios'
 import getHeader from '../getToken';
 import Navbar from '../components/Navbar.vue';
+import { hostServer } from '../connections';
 
 export default {
   name: "EditProfile",
@@ -35,6 +39,7 @@ export default {
       name: '',
       email: '',
       password: '',
+      username: '',
       id: ''
     }
   },
@@ -42,8 +47,9 @@ export default {
     Navbar
   },
   created() {
-    axios.get('http://localhost:3333/me', getHeader()).then(res => {
+    axios.get(`${hostServer}/me`, getHeader()).then(res => {
       this.name = res.data[0].name
+      this.username = res.data[0].username
       this.email = res.data[0].email
       this.id = res.data[0]._id
     }).catch(error => {console.log(error)})
@@ -56,12 +62,13 @@ export default {
       formData.append("image", image.files[0]);
       formData.append("name", this.name);
       formData.append("password", this.password);
+      formData.append("username", this.username);
 
       var headers  = {
         "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
         Authorization:getHeader().headers.Authorization
       }
-      axios.put(`http://localhost:3333/user/${this.id}`, formData, { headers }).then(res => {
+      axios.put(`${hostServer}/user/${this.id}`, formData, { headers }).then(res => {
       console.log(res)
       this.$router.push({name: 'Home'})
       }).catch(error => {

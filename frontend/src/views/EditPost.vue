@@ -19,6 +19,7 @@
 import axios from 'axios'
 import getHeader from '../getToken';
 import Navbar from '../components/Navbar.vue';
+import { hostServer } from '../connections';
 
 export default {
   name: "EditPost",
@@ -33,7 +34,7 @@ export default {
     Navbar
   },
   created() {
-    axios.get(`http://localhost:3333/post/${this.$route.query.id}`, getHeader()).then(res => {
+    axios.get(`${hostServer}/post/${this.$route.query.id}`, getHeader()).then(res => {
       this.body = res.data[0].body
       this.img = res.data[0].img
       this.id = res.data[0]._id
@@ -55,7 +56,7 @@ export default {
         "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
         Authorization:getHeader().headers.Authorization
       }
-      axios.put(`http://localhost:3333/post/${this.id}`, formData, { headers }).then(res => {
+      axios.put(`${hostServer}/post/${this.id}`, formData, { headers }).then(res => {
       console.log(res)
       this.$router.push({name: 'Home'})
       }).catch(error => {

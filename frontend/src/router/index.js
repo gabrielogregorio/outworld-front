@@ -3,14 +3,14 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import axios from 'axios';
 import getHeader from '../getToken';
-
+import { hostServer } from '../connections';
 Vue.use(VueRouter)
 
 function authUser(to, from, next) {
   if (localStorage.getItem('token') == undefined) {
     return next('/login');
   } else {
-    axios.post('http://localhost:3333/validate', {}, getHeader()).then(() => {
+    axios.post(`${hostServer}/validate`, {}, getHeader()).then(() => {
       next();
     }).catch(error => {
       console.log(error);

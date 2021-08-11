@@ -15,7 +15,7 @@ const dbname = process.env.BD_NAME;
 const test_user_name = process.env.TEST_USER_NAME
 const test_user_email = process.env.TEST_USER_EMAIL
 const test_user_password = process.env.TEST_USER_PASSWORD
-
+const test_user_username = process.env.TEST_USER_USERNAME
 
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
@@ -45,11 +45,12 @@ app.post('/configure', async (req, res) => {
   var name = test_user_name
   var email = test_user_email
   var password = test_user_password
+  var username = test_user_username;
 
   let salt = await bcrypt.genSalt(10);
   let hash = await bcrypt.hash(password, salt)
 
-  let newUser = new User({name, email, password:hash})
+  let newUser = new User({name, email, password:hash, username})
   await newUser.save()  
   res.json({email:email, id:newUser._id}); 
 })

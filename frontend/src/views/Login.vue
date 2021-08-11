@@ -17,6 +17,7 @@
 
 <script>
 import axios from 'axios';
+import { hostServer } from '../connections';
 
 export default {
   name: 'Login',
@@ -29,15 +30,15 @@ export default {
   },
   methods: {
     login(){ 
-      axios.post('http://localhost:3333/auth', {
+      axios.post(`${hostServer}/auth`, {
         email: this.email,
         password: this.password
       }).then(res => {
-        console.log('Token anotado no localstorage!')
         localStorage.setItem('token', res.data.token)
         this.$router.push({name: 'Home'})
       }).catch(error =>{
         console.log(error)
+        alert(error)
       })
     }
   }

@@ -12,6 +12,9 @@
       <label for="email">E-mail: </label>
       <input type="email" name="email" id="email" placeholder="Seu e-mail" v-model="email">
 
+      <label for="username">Username:</label>
+      <input type="text" name="username" id="username" placeholder="Um nome de usuario" v-model="username">
+
       <label for="password">Password: </label>
       <input type="password" name="password" id="password" placeholder="Uma senha" v-model="password">
       
@@ -23,6 +26,7 @@
 
 <script>
 import axios from 'axios';
+import { hostServer} from '../connections';
 
 export default {
   name: 'RegisterUser',
@@ -30,7 +34,8 @@ export default {
     return {
       name: '',
       email: '',
-      password: ''
+      password: '',
+      username: ''
     }
   },
 
@@ -45,9 +50,10 @@ export default {
     formData.append("name", this.name);
     formData.append("email", this.email,);
     formData.append("password", this.password);
+    formData.append("username", this.username)
 
     var headers  = {"Content-Type": `multipart/form-data; boundary=${formData._boundary}`}
-      axios.post("http://localhost:3333/user", formData, { headers }).then(res => {
+      axios.post(`${hostServer}/user`, formData, { headers }).then(res => {
         localStorage.setItem('token', res.data.token)
         this.$router.push({name: 'Home'})
       }).catch(error => {

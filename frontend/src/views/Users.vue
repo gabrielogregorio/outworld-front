@@ -1,14 +1,11 @@
 <template>
   <div>
     <Navbar />
-
     <section>
       <div v-for="user in users" :key="user.id">
         <User :user="user"/>
       </div>
     </section>
-
-
   </div>
 </template>
 
@@ -17,6 +14,7 @@ import axios from 'axios';
 import Navbar from '../components/Navbar.vue';
 import getHeader from '../getToken';
 import User from '../components/User.vue'
+import { hostServer } from '../connections';
 
 export default {
   name: 'Users',
@@ -30,7 +28,7 @@ export default {
     }
   },
    created() {
-    axios.get('http://localhost:3333/users', getHeader()).then(users => {
+    axios.get(`${hostServer}/users`, getHeader()).then(users => {
       this.users = users.data
     })
   },  
