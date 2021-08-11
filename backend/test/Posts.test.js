@@ -15,8 +15,6 @@ var user = {
   id: '' 
 }
 
-
-
 beforeAll(() => {
   return request.post('/configure')
     .then(res => { user.id = res.id })
@@ -93,7 +91,6 @@ describe('Gerenciamento de posts', () => {
     }).catch(error => fail(error))
   })
 
-
   test("Deve retornar erro 400 ao tentar editar um post passando parametros incorretos", () => {
     return request.put(`/post/${idPostValido}`, {})
       .set(tokenValido)
@@ -133,7 +130,6 @@ describe('Gerenciamento de posts', () => {
     }).catch(error => fail(error))
   })
 
-
   test("Deve Deletar um post!", () => {
     return request.delete(`/post/${idPostValido}`)
       .set(tokenValido)
@@ -141,7 +137,6 @@ describe('Gerenciamento de posts', () => {
         expect(res.statusCode).toEqual(200)
     }).catch(error => fail(error))
   })
-
 
   test("Deve retornar 404 ao tentar deletar um post que não existe", () => {
     return request.delete(`/post/111111111111111111111111`)
@@ -158,6 +153,4 @@ describe('Gerenciamento de posts', () => {
         expect(res.statusCode).toEqual(500)
     }).catch(error => fail(error))
   })
-
-
 })

@@ -74,7 +74,7 @@ router.get('/post/:id', userAuth, async (req, res) => {
   res.json(postFactories) 
 })
 
-router.put('/post/:id', userAuth,  async (req, res) => { 
+router.put('/post/:id', userAuth,  multerImagePosts.single('image'), async (req, res) => { 
   var {title, body} = req.body;
   var id = req.params.id;
   var user = req.data.id

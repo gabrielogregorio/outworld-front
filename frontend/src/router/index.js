@@ -38,6 +38,12 @@ const routes = [
     beforeEnter: authUser
   },
   {
+    path: '/EditPost',
+    name: 'EditPost',
+    component: () => import ('../views/EditPost.vue'),
+    beforeEnter: authUser
+  },
+  {
     path: '/EditProfile',
     name: 'EditProfile',
     component: () => import('../views/EditProfile.vue'),

@@ -8,6 +8,7 @@ let user = {name:'sherek', email:'no-valid-email', password: 'asdmkaksasdas'}
 beforeAll(() => {
   return request.post('/configure').then(() => {}).catch(error => fail(error))
 })
+// Upload de imagens não está incluso nos testes
 
 afterAll(() => {
   return request.delete(`/user/${user.email}`).then(res => {
@@ -28,11 +29,12 @@ describe('Cadastro e login de usuários', () => {
     }).catch(error => fail(error))
   })
 
-
-  test("Deve acessar o sistema e fornecer um token válido para os outros testes", () => {
+  test("Deve acessar o sistema e receber um token válido para os outros testes", () => {
     return request.post('/auth')
       .send({email: user.email, password: user.password})
       .then(res => {
+        expect(res.body.token).toBeDefined()
+        expect(res.statusCode).toEqual(200)
         tokenValido = { authorization:"Bearer " + res.body.token}
     }).catch(error => fail(error))
   })

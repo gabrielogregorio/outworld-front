@@ -12,8 +12,14 @@
           <p class="info-username">@user ·</p>
           <p class="info-time-post">16h</p>
           <div class="delete-post">
-            <button v-if="myId == post.user._id" @click="deletePost(post._id)" >X</button>
-            <button v-else ></button>
+            <div v-if="myId == post.user._id">
+              <button @click="editPost(post._id)" >Edit</button>
+              <button @click="deletePost(post._id)" >X</button>
+            </div>
+            <div v-else>
+              <button></button>
+              <button></button>
+            </div>
           </div>
         </div>
         <p class="body-post">{{post.body}}</p>
@@ -62,7 +68,14 @@ export default {
           this.$emit("updatePosts", "")
         })
         .catch(error => console.log(error))
+    },
+    editPost(id) {
+      this.$router.push({
+        name:"EditPost",
+        query: {id}
+      })
     }
+    
   },
  
 }

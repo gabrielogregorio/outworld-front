@@ -9,9 +9,9 @@
   <img height="30" alt="html5" src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
 </div>
 
-<h3 align="center">Micro Twiter, backend com TDD e frontend com vuejs</h3>
+<h3 align="center">Micro Twitter, backend com TDD e frontend com vuejs</h3>
 <p align="center">
-Um projeto de estudo de TDD, um micro Twiter... Ainda estou escrevendo o README....
+Um projeto de estudo de TDD, um micro Twitter... Ainda estou escrevendo o README....
   <br>
 </p>
 

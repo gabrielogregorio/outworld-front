@@ -45,7 +45,7 @@ export default {
       axios.get('http://localhost:3333/posts', getHeader()).then(posts => {
         this.posts = posts.data
       })
-    },
+    }
   }
 }
 </script>

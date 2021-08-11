@@ -13,5 +13,3 @@ describe('Testes de aplicação', () => {
       .catch(error => {fail(error)})
   })  
 })
-
-
