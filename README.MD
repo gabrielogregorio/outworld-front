@@ -18,4 +18,4 @@ Um projeto de estudo de TDD, um micro Twitter... Ainda estou escrevendo o README
 <h3>Informações gerais</h3>
 Esse projeto não teve foco no frontend, portanto, o frontend foi feito para ser o mais simplista possível, o foco foi o estudo de TDD a API no backend
 
-![Interface](images/1.png)
+![Interface](images/2.png)
