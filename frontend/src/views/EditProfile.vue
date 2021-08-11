@@ -9,6 +9,9 @@
       <label for="email">E-mail: </label>
       <input type="email" name="email" id="email" placeholder="your email" v-model="email" disabled>
 
+      <label for="image">Sua foto</label>
+      <input type="file" name="image" id="image">
+
       <label for="password">Senha: </label>
       <input type="password" name="password" id="password" placeholder="your password" v-model="password">
 
@@ -47,14 +50,24 @@ export default {
   },
   methods: {
     updateItens() {
-      axios.put(`http://localhost:3333/user/${this.id}`, {
-        name: this.name,
-        password: this.password
-      }, getHeader()).then(res => {
-        console.log(res)
-        this.$router.push({name: 'Home'})
-      }).catch(error => console.log(error))
-    }
+      const formData = new FormData();
+      const image = document.querySelector("#image");
+
+      formData.append("image", image.files[0]);
+      formData.append("name", this.name);
+      formData.append("password", this.password);
+
+      var headers  = {
+        "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+        Authorization:getHeader().headers.Authorization
+      }
+      axios.put(`http://localhost:3333/user/${this.id}`, formData, { headers }).then(res => {
+      console.log(res)
+      this.$router.push({name: 'Home'})
+      }).catch(error => {
+        console.log(`Erro ao registrar dados: ${error}`);
+      })
+    } 
   }
 }
 </script>

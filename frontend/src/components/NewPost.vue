@@ -3,16 +3,18 @@
     <div class="container-new-post">
       <div class="conteudo-novo-post">
         <div class="novo-post-imagem-perfil">
-          <img src="/user.webp" alt="">
+          <img v-if="img == ''" src="/user.webp" alt="">
+          <img v-else :src='`http://127.0.0.1:3333/images/clients/${img}`' alt="">
         </div>
+
         <textarea name="body" v-model="body" id="bod" cols="15" rows="2" placeholder="O que você quer polemizar?"></textarea>
       </div>
-      <div class="botao-postar">
-        <button @click="createPost">Tweetar</button>
-      </div>
+    <div class="botao-postar">
+      <input type="file" name="image" id="image">
+      <button @click="createPost">Tweetar</button>
     </div>
-
-    <div class="border-post-space"></div>
+  </div>
+  <div class="border-post-space"></div>
   </section>
 </template>
 
@@ -28,23 +30,39 @@ export default {
       body: ''
     }
   },
-
+  props: {
+    img: String
+  },
+  create() {
+  },
   methods: {
     createPost() {
       if (this.title == '' || this.body == '' || this.title == undefined || this.body == undefined) {
         return;
       }
-      axios.post('http://localhost:3333/post', {title: this.title, body: this.body}, getHeader()).then(() => {
+
+      //Form data para enviar o arquivo
+      const formData = new FormData();
+      const image = document.querySelector("#image");
+
+      formData.append("image", image.files[0]);
+      formData.append("title", this.title);
+      formData.append("body", this.body);
+
+      console.log(getHeader().headers)
+
+      var headers  = {
+        "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+        Authorization:getHeader().headers.Authorization
+      }
+      axios.post("http://localhost:3333/post", formData, { headers }, ).then(() => {
         this.$emit("updatePostsEvent", "");
         this.body = ''
       }).catch(error => {
-        console.log(error)
+        console.log(`Erro ao registrar dados: ${error}`);
       })
-      return;
     }
-
   }
-
 }
 </script>
 

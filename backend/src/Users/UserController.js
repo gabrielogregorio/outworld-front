@@ -5,10 +5,13 @@ const jwt = require('jsonwebtoken');
 const userAuth = require('../../src/middlewares/userAuth');
 const router = express.Router()
 const DataUsers = require('../factories/dataUsers');
+const multerImage = require('../middlewares/multerImage');
 require('dotenv/config');
 const jwtSecret = process.env.JWT_SECRET
 
-router.post('/user', async (req, res) => {
+
+
+router.post('/user', multerImage.single('image'), async (req, res) => {
   var {name, email, password} = req.body;
 
   if (
@@ -16,6 +19,12 @@ router.post('/user', async (req, res) => {
     (name == undefined || email == undefined || password == undefined) 
     ){
     return res.sendStatus(400);
+  }
+
+  if (req.file) {
+    img = req.file['filename']
+  } else {
+    img = ''
   }
 
   try {
@@ -29,7 +38,7 @@ router.post('/user', async (req, res) => {
     let salt = await bcrypt.genSalt(10);
     let hash = await bcrypt.hash(password, salt)
 
-    let newUser = new User({name, email, password:hash})
+    let newUser = new User({name, email, password:hash, img})
     await newUser.save()  
 
     jwt.sign({email: newUser.email, name:newUser.name, id: newUser._id}, jwtSecret, {expiresIn: '24h'}, (error, token) => {
@@ -102,7 +111,7 @@ router.get('/user/:id', userAuth,  async (req, res) => {
   return res.json(userFactories);
 })
  
-router.put('/user/:id', userAuth,  async (req, res) => { 
+router.put('/user/:id', userAuth, multerImage.single('image'), async (req, res) => { 
   var {name, password} = req.body;
   var id = req.params.id;
   var user = req.data.id;
@@ -124,6 +133,12 @@ router.put('/user/:id', userAuth,  async (req, res) => {
     var updatePassword = true;
   }
   
+  if (req.file) {
+    img = req.file['filename']
+  } else {
+    img = ''
+  }
+
 
   try {
     if (updatePassword) {
@@ -132,6 +147,10 @@ router.put('/user/:id', userAuth,  async (req, res) => {
       var update = {name:name, password:hash}
     } else {
       var update = {name:name}
+    }
+
+    if (img != '') {
+      update.img = img
     }
 
     await User.findOneAndUpdate({_id:id}, {$set:update})

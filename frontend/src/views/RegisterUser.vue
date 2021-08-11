@@ -6,6 +6,9 @@
       <label for="name">Seu nome </label>
       <input type="name" name="name" id="name" placeholder="Seu nome" v-model="name">
 
+      <label for="image">Sua foto</label>
+      <input type="file" name="image" id="image">
+
       <label for="email">E-mail: </label>
       <input type="email" name="email" id="email" placeholder="Seu e-mail" v-model="email">
 
@@ -33,12 +36,18 @@ export default {
 
   methods: {
     cadastrar() {
-      axios.post('http://localhost:3333/user', {
-        name: this.name,
-        email: this.email,
-        password: this.password
-      } ).then(res => {
 
+    //Form data para enviar o arquivo
+    const formData = new FormData();
+    const image = document.querySelector("#image");
+
+    formData.append("image", image.files[0]);
+    formData.append("name", this.name);
+    formData.append("email", this.email,);
+    formData.append("password", this.password);
+
+    var headers  = {"Content-Type": `multipart/form-data; boundary=${formData._boundary}`}
+      axios.post("http://localhost:3333/user", formData, { headers }).then(res => {
         localStorage.setItem('token', res.data.token)
         this.$router.push({name: 'Home'})
       }).catch(error => {

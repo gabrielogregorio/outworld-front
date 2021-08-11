@@ -1,12 +1,14 @@
 const express = require('express');
 const Post = require('./Post');
 const router = express.Router()
-require('dotenv/config');
-const userAuth = require('../middlewares/userAuth');
-const jwtSecret = process.env.JWT_SECRET
 const DataPosts = require('../factories/dataPosts');
+const multerImagePosts = require('../middlewares/multerImagePosts');
+const userAuth = require('../middlewares/userAuth');
+require('dotenv/config');
 
-router.post('/post', userAuth, async(req, res) => {
+const jwtSecret = process.env.JWT_SECRET
+
+router.post('/post', userAuth, multerImagePosts.single('image'), async(req, res) => {
   let {title, body, test} = req.body;
 
   user = `${req.data.id}`
@@ -21,8 +23,16 @@ router.post('/post', userAuth, async(req, res) => {
   if (test == undefined) {
     test = false;
   }
+
+  
+  if (req.file) {
+    img = req.file['filename']
+  } else {
+    img = ''
+  }
+
   try {
-    let newPost = new Post({title, body, user, test});
+    let newPost = new Post({title, body, user, test, img});
     var newPostSave = await newPost.save();  
     res.json({_id: newPostSave.id, user})
   } catch(error) {
@@ -76,8 +86,16 @@ router.put('/post/:id', userAuth,  async (req, res) => {
     return res.sendStatus(400);
   }
 
+  var upload = {title, body}
+
+  
+  if (req.file) {
+    upload.img = req.file['filename']
+  }
+
+
   try {
-    await Post.findOneAndUpdate({_id:id, user}, {$set:{title, body}})
+    await Post.findOneAndUpdate({_id:id, user}, {$set:upload})
     var postNew = await Post.findOne({_id:id, user}).populate('user');
     if (postNew == null) {
       res.statusCode = 403

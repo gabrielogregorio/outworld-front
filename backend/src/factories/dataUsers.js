@@ -5,7 +5,8 @@ class DataUsers {
       _id: user._id,
       name: user.name,
       username: user.username,
-      email: user.email
+      email: user.email,
+      img: user.img
     }
 
     return newUser;

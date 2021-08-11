@@ -5,7 +5,6 @@ let userAny = {name: 'userTest', email: 'user@teste.com', password: 'adminPasswo
 let post = {title: 'Estação espacial', body: 'Um body qualquer', test: true}
 var idPostValido = "";
 var tokenValido = {}
-var userIdValido = ''
 var tokenOutroUsuario = { authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4IiwibmFtZSI6ImdhYnJpZWwiLCJpZCI6IjYxMTFhZmUwZTk2YzU5NTU5MDk3NDU4MiIsImlhdCI6MTYyODU0OTEwMiwiZXhwIjoxNjI4NjM1NTAyfQ.KoZ-9kARvyhptMKAtTzdiH_mlrzo8RTiNuGS2_daJG0"}
 require('dotenv/config')
  

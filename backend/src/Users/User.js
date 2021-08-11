@@ -4,6 +4,7 @@ let userSchema = new mongoose.Schema({
   email: String,
   //username: String,
   password: String,
+  img: String,
   posts: { type: mongoose.Schema.Types.ObjectId, ref:'Post'}
 })
 

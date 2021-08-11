@@ -4,6 +4,7 @@ let postSchema = new mongoose.Schema({
   title: String,
   body: String,
   test: Boolean,
+  img: String,
   user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 })
 

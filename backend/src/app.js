@@ -19,6 +19,7 @@ const test_user_password = process.env.TEST_USER_PASSWORD
 
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
+app.use(express.static('public'))
 app.use(cors())
 app.use('/', UserController)
 app.use('/', PostController)
@@ -27,6 +28,8 @@ mongoose.set('useFindAndModify', false)
 mongoose.connect(`mongodb://localhost:${port}/${dbname}`,
   {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => {}).catch(error => console.log(error))
+
+app.use('/static', express.static('public'));
 
 app.get('/test', async (req, res) => {
   return res.json({ola:'oi'})

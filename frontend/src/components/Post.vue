@@ -1,7 +1,8 @@
 <template>
   <div class="container-post">
     <div class="img-post-perfil">
-      <img src="/user.webp" alt="">
+      <img v-if="post.user.img == ''" src="/user.webp" alt="">
+      <img v-else :src='`http://127.0.0.1:3333/images/clients/${post.user.img}`' alt="">
     </div>
 
     <div class="info-post">
@@ -16,6 +17,10 @@
           </div>
         </div>
         <p class="body-post">{{post.body}}</p>
+
+        <div class="body-image">
+          <img v-if="post.img != ''" :src='`http://127.0.0.1:3333/images/posts/${post.img}`' alt="">
+        </div>
 
         <div class="options-post">
           <button>Comentar (23)</button>
@@ -39,13 +44,16 @@ export default {
   },
   data() {
     return {
+
     }
   },
    created() {
+
   },  
   props: {
     post: Object,
-    myId: String
+    myId: String,
+    img: String
   },
   methods: {
     deletePost(id) {
@@ -132,6 +140,19 @@ div.container-post {
   color: rgb(192, 192, 192);
   font-weight: 400;
   width: 100%;
+}
+
+.body-image {
+  padding: 10px;
+}
+
+.body-image > img{
+  width: 100%;
+  border: 1px solid #444;
+  border-radius: 20px;
+  max-height: 900px;
+  object-fit: cover;
+  cursor: pointer;
 }
 
 .options-post {

@@ -5,7 +5,6 @@ var tokenValido = {}
 var idUsuarioValido = '';
 let user = {name:'sherek', email:'no-valid-email', password: 'asdmkaksasdas'}
 
-
 beforeAll(() => {
   return request.post('/configure').then(() => {}).catch(error => fail(error))
 })

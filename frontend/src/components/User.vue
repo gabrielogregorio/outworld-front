@@ -1,7 +1,9 @@
-<template>
+<template> 
   <div class="container-user">
     <div class="img-user-perfil">
-      <img src="/user.webp" alt="">
+      <img v-if="user.img == ''" src="/user.webp" alt="">
+      <img v-else :src='`http://127.0.0.1:3333/images/clients/${user.img}`' alt="">
+
     </div>
 
     <div class="info-user">
