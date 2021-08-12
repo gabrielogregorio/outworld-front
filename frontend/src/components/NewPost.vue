@@ -2,7 +2,7 @@
   <section>
     <div class="container-post">
       <div class="img-post-perfil">
-        <img v-if="img == ''" src="/user.webp" alt="">
+        <img v-if="img == '' || img == undefined" src="/user.webp" alt="">
         <img v-else :src='`${hostServer}/images/clients/${img}`' alt="">
       </div>
 
@@ -19,8 +19,7 @@
               <input type="file" name="image" id="image" @change="loadImage()"/>
               <i class="fas fa-image"></i>
             </label>
-
-            <button @click="createPost">Tweetar</button>
+            <button @click="createPost">Comentar</button>
           </div>
           </div>
         </div>
@@ -52,10 +51,6 @@ export default {
   methods: {
 
     loadImage() {
-      console.log('Escolheu umagem!')
-      
-      
-
       const formData = new FormData();
       const image = document.querySelector("#image");
 

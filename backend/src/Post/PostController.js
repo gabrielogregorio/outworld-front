@@ -5,6 +5,7 @@ const DataPosts = require('../factories/dataPosts');
 const multerImagePosts = require('../middlewares/multerImagePosts');
 const userAuth = require('../middlewares/userAuth');
 const Like = require('../Likes/Like')
+const Comment = require('../Comment/Comment');
 
 require('dotenv/config');
 
@@ -63,11 +64,13 @@ router.post('/post', userAuth, async(req, res) => {
 })
 
 router.get('/posts', userAuth, async (req, res) => {
-  var posts = await Post.find().sort({'_id': 'desc'}).populate('user').exec();
+  var user = `${req.data.id}`
+
+  var posts = await Post.find().sort({'_id': 'desc'}).populate('user comments likes').exec();
 
   var postFactories = []
   posts.forEach(post => {
-    postFactories.push(DataPosts.Build(post))
+    postFactories.push(DataPosts.Build(post, user))
   })
 
   res.statusCode = 200
@@ -95,7 +98,7 @@ router.get('/post/:id', userAuth, async (req, res) => {
 })
 
 router.put('/post/:id', userAuth,  multerImagePosts.single('image'), async (req, res) => { 
-  var {title, body} = req.body;
+  var {title, body, img} = req.body;
   var id = req.params.id;
   var user = req.data.id
   
@@ -108,11 +111,9 @@ router.put('/post/:id', userAuth,  multerImagePosts.single('image'), async (req,
 
   var upload = {title, body}
 
-  
-  if (req.file) {
-    upload.img = req.file['filename']
+  if (img != '') {
+    upload.img = img
   }
-
 
   try {
     await Post.findOneAndUpdate({_id:id, user}, {$set:upload})
@@ -127,11 +128,72 @@ router.put('/post/:id', userAuth,  multerImagePosts.single('image'), async (req,
   }
 })
 
+router.post('/post/comment/:id', userAuth,  async (req, res) => { 
+  var id = req.params.id;
+  var user = req.data.id;
+  var text = req.body.text;
+
+  if (text == '' || id == '' || user == '' || id == undefined || user == undefined || text == undefined) {
+    return res.sendStatus(400)
+  }
+
+  try {
+    var newComment = new Comment({post:id, user, text});
+    await newComment.save();  
+
+    var post = await Post.findById({_id:id})
+    post.comments.push(newComment)
+    await post.save();
+
+    return res.json({id:newComment.id})
+  } catch(error)  {
+    return res.sendStatus(500)
+  }
+})
+
+
+router.delete('/post/comment/:idComment', userAuth,  async (req, res) => { 
+  var id = req.params.idComment;
+  var user = req.data.id;
+
+  if (id == '' || user == '' || id == undefined || user == undefined ) {
+    return res.sendStatus(400)
+  }
+
+  try {
+    await Comment.deleteOne({_id:id, user});
+    return res.sendStatus(200)
+  } catch(error)  {
+    return res.sendStatus(500)
+  }
+})
+
+
+router.put('/post/comment/:idComment', userAuth,  async (req, res) => { 
+  var id = req.params.idComment;
+  var user = req.data.id;
+  var text = req.body.text;
+
+  if (text == '' || id == '' || user == '' || id == undefined || user == undefined || text == undefined) {
+    return res.sendStatus(400)
+  }
+
+  try {
+    var comment = await Comment.findOneAndUpdate({_id:id, user}, {$set:{text}})
+    if (comment == null) {
+      return res.sendStatus(404)
+    }
+
+    return res.json({oi:'ola'})
+  } catch(error)  {
+    return res.sendStatus(500)
+  }
+})
+
+
 router.post('/post/like/:id', userAuth,  async (req, res) => { 
   var id = req.params.id;
   var user = req.data.id;
-
-
   try {
     var likeExistente = await Like.findOne({post:id, user:user});
     if (likeExistente != null) {

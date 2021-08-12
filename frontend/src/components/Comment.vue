@@ -1,14 +1,15 @@
-<template>
+<template> 
   <div class="coments">
     <div class="profile">
-      <img src="/user.webp" alt="">
+      <img v-if="userData.img == '' || userData.img == undefined" src="/user.webp" alt="">
+      <img v-else :src='`${hostServer}/images/clients/${userData.img}`' alt="">
     </div><!-- profile -->
     <div class="msg-options">
       <div class="msg">
         <div class="msg-name-options">
-          <p>Gabriel</p>
-          <p>3 +</p>
-          <p>Há 10 horas</p>
+          <p><pre>{{userData.name}} </pre></p>
+          <p><pre>{{userData.username | processUsername}} </pre></p>
+          <p><pre>Há 10 horas</pre></p>
         </div><!-- msg-name-options -->
 
         <div class="msg-data">
@@ -16,7 +17,7 @@
         </div><!-- msg-data -->
 
         <div class="msg-body">
-          <p> impressionante que briga política e a defesa de um político de estimação estão acima de notícias boas. Tem gente aí que se descobrirem a cura do câncer vão reclamar pq não foi a tempo de salvar fulano ou ciclano. A que ponto chegou o país. Essas pessoas não conseguem ver absolutamente nada de bom se não v 🤣🤣🤣</p>            
+          <p>{{text}}</p>
         </div><!-- msg-body -->
       </div><!-- msg -->
 
@@ -29,13 +30,36 @@
 
 <script>
 import { hostServer } from '../connections';
+import axios from 'axios';
+import getHeader from '../getToken';
 
 export default {
   name: 'Comment',
   data(){
     return {
-      hostServer: hostServer
+      hostServer: hostServer,
+      userData: ''
     } 
+  },
+  created() {
+    axios.get(`${this.hostServer}/user/${this.user}`, getHeader()).then(userData => {
+      this.userData = userData.data[0]
+    })
+  },
+
+  props: {
+    user: String,
+    text: String
+  },
+  filters: {
+    processUsername: (value) => {
+      if (value == '') {
+        return '';
+      } else {
+        return `@${value}`;
+      }
+
+    }
   }
 }
 </script>
@@ -76,8 +100,12 @@ export default {
 }
 
 /* Nome */
-.msg-name-options p:nth-child(1){
+.msg-name-options p:nth-child(1) pre{
   font-weight: 700;
+}
+
+.msg-name-options p:nth-child(2) pre{
+  font-weight: 500;
 }
 
 /* Informações */
@@ -88,10 +116,8 @@ export default {
 
 .msg-body p {
   padding: 5px 0;
+  word-break: break-all;
 }
-
-
-
 
 .options {
   width: 100%;

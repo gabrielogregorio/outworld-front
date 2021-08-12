@@ -1,13 +1,16 @@
 let mongoose = require('mongoose');
 
 let commentSchema = new mongoose.Schema({
-  datePost: new Date(),
-  msg: {
+  text: {
     type: String,
-  },
+ },
   post: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Post'
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
   }
 })
 

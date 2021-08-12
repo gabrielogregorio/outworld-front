@@ -5,6 +5,7 @@ let userAny = {name: 'userTest', email: 'user@teste.com', password: 'adminPasswo
 let post = {title: 'Estação espacial', body: 'Um body qualquer', test: true}
 var idPostValido = "";
 var tokenValido = {}
+var idComentarioValido = "";
 var tokenOutroUsuario = { authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4IiwibmFtZSI6ImdhYnJpZWwiLCJpZCI6IjYxMTFhZmUwZTk2YzU5NTU5MDk3NDU4MiIsImlhdCI6MTYyODU0OTEwMiwiZXhwIjoxNjI4NjM1NTAyfQ.KoZ-9kARvyhptMKAtTzdiH_mlrzo8RTiNuGS2_daJG0"}
 require('dotenv/config')
  
@@ -144,6 +145,64 @@ describe('Gerenciamento de posts', () => {
         expect(res.statusCode).toEqual(500)
     }).catch(error => fail(error))
   })
+
+
+
+  test("Deve retornar 400 com um comentário sem texto", () => {
+    return request.post(`/post/comment/${idPostValido}`)
+    .send({text: ''})
+    .set(tokenValido)
+      .then(res => {
+        expect(res.statusCode).toEqual(400)
+    }).catch(error => fail(error))
+  })
+
+  test("Deve retornar 500 quando um comentário inválido for enviado", () => {
+    return request.post(`/post/comment/11111111`)
+      .set(tokenValido)
+      .send({text: 'Isso é um comentario'})
+      .then(res => {
+        expect(res.statusCode).toEqual(500)
+    }).catch(error => fail(error))
+  })
+
+  test("Deve enviar um comentario", () => {
+    return request.post(`/post/comment/${idPostValido}`)
+      .set(tokenValido)
+      .send({text: 'Isso é um comentario'})
+      .then(res => {
+        idComentarioValido = res.body.id;
+        expect(res.statusCode).toEqual(200)
+        expect(res.body.id).toBeDefined()
+    }).catch(error => fail(error))
+  })
+  test("Deve Editar um comentario", () => {
+    return request.put(`/post/comment/${idComentarioValido}`)
+      .set(tokenValido)
+      .send({text: 'Novo texto do comentário'})
+      .then(res => {
+        expect(res.statusCode).toEqual(200)
+    }).catch(error => fail(error))
+  })
+
+  test("Deve retornar 404 para um comentário não encontrado", () => {
+    return request.put(`/post/comment/61151403a98cbbc6de55a204`)
+      .set(tokenValido)
+      .send({text: 'Novo texto do comentário'})
+      .then(res => {
+        expect(res.statusCode).toEqual(404)
+    }).catch(error => fail(error))
+  })
+  test("Deve desfazer um comentário", () => {
+    return request.delete(`/post/comment/${idComentarioValido}`)
+      .set(tokenValido)
+      .then(res => {
+        expect(res.statusCode).toEqual(200)
+    }).catch(error => fail(error))
+  })
+
+
+
 
   test("Obter os dados de si mesmo", () => {
     return request.get('/myPosts')

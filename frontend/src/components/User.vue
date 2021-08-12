@@ -1,22 +1,19 @@
 <template> 
   <div class="container-user">
     <div class="img-user-perfil">
-      <img v-if="user.img == ''" src="/user.webp" alt="">
+      <img v-if="user.img == '' || user.img == undefined" src="/user.webp" alt="">
       <img v-else :src='`${hostServer}/images/clients/${user.img}`' alt="">
-
-    </div>
+    </div><!-- img-user-perfil -->
 
     <div class="info-user">
       <div class="info-user-perfil">
         <div class="info-user-superior">
           <h2>{{user.name}}</h2>
           <p class="info-username">@user</p>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
+        </div><!-- info-user-superior -->
+      </div><!-- info-user-perfil -->
+    </div><!-- info-user -->
+  </div><!-- container-user -->
 </template>
 
 <script>
@@ -25,19 +22,19 @@ import { hostServer } from '../connections';
 export default {
   name: 'User',
   components: {},
+  props: {
+    user: Object
+  },
+  methods: {},
   data() {
     return {
       hostServer: hostServer
     }
   },
-   created() {
-  },  
-  props: {
-    user: Object
-  },
-  methods: {}
+  created() {}
 }
 </script>
+
 
 <style scoped>
 
@@ -51,7 +48,6 @@ div.container-user {
   border: var(--border);
   border-top: 0;
 }
-
 
 .img-user-perfil {
   margin-right: 15px;

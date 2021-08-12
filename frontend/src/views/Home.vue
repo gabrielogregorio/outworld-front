@@ -4,7 +4,7 @@
     <NewPost @updatePostsEvent="updatePosts()" :img="img" />
 
     <div class="container-post" v-for="post in posts" :key="post.id">
-      <Post :post="post" :myId="myId" @updatePosts="updatePosts()" @updateLikesOnePost="updateLike($event)"/>
+      <Post :post="post" :myId="myId" @updatePosts="updatePosts()" :imgProfile="img" />
     </div>
   </div>
 </template>
@@ -32,6 +32,7 @@ export default {
         body: '',
         img: '',
         user: '',
+        likedByUser: false,
         likes: []
       }],
       myId: '',
@@ -49,17 +50,8 @@ export default {
   },  
   methods: {
     updatePosts() {
-      console.log('uodate!!!')
       axios.get(`${hostServer}/posts`, getHeader()).then(posts => {
         this.posts = posts.data
-      })
-    },
-
-    updateLike($event) {
-      this.posts.forEach(post => {
-        if (post._id == $event.postId) {
-          post.likes = $event.newLikes;
-        }
       })
     }
   }

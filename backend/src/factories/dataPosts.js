@@ -1,14 +1,16 @@
 DataUsers = require('./dataUsers');
 
 class DataPosts {
-  Build(post) {
+  Build(post, userId) {
     var newPost = {
       _id: post.id,
       title: post.title,
       body: post.body,
       img: post.img,
+      comments: post.comments,
       user: "",
-      likes: post.likes == undefined ? 0 : post.likes.length
+      likes: post.likes == undefined ? 0 : post.likes.length,
+      likedByUser: false
     }
 
     if (post.user != undefined) {
@@ -16,6 +18,11 @@ class DataPosts {
     } else {
       newPost.user = {}
     }
+    post.likes.forEach(postLike => {
+      if (userId == postLike.user) {
+        newPost.likedByUser = true;
+      }
+    })
     return newPost;
   }
 }

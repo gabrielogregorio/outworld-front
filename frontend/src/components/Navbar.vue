@@ -5,7 +5,7 @@
       <router-link to="/Users">Usuários</router-link>
       <router-link to="/MyPosts">Meus Posts</router-link>
       <router-link to="/EditProfile">Editar Perfil</router-link>
-    </div>
+    </div><!-- titulo-principal -->
   </section>
 </template>
 
@@ -19,7 +19,6 @@
     background-color: var(--primary-background);
     border: var(--border);
     border-top: 0;
-
   }
 
   .titulo-principal .principal {

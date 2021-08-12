@@ -1,9 +1,9 @@
 <template>
   <div class="container-post">
     <div class="img-post-perfil">
-      <img v-if="post.user.img == ''" src="/user.webp" alt="">
+      <img v-if="post.user.img == '' || post.user.img == undefined" src="/user.webp" alt="">
       <img v-else :src='`${hostServer}/images/clients/${post.user.img}`' alt="">
-    </div>
+    </div><!-- img-post-perfil -->
 
     <div class="info-post">
       <div class="info-post-perfil">
@@ -16,35 +16,31 @@
               <button @click="deletePost(post._id)" ><i class="far fa-trash-alt"></i></button>
               <button @click="editPost(post._id)" ><i class="fas fa-pencil-alt"></i></button>
             </div>
-            <div v-else>
-              <button></button>
-              <button></button>
-            </div>
-          </div>
-        </div>
+          </div><!-- delete-post -->
+        </div><!-- info-post-superior -->
         <p class="body-post">{{post.body}}</p>
 
         <div class="body-image">
           <img v-if="post.img != ''" :src='`${hostServer}/images/posts/${post.img}`' alt="">
-        </div>
+        </div><!-- body-image -->
 
         <div class="options-post">
-          <button @click="sendLike(post._id)">Gostei {{post.likes}}</button>
+
+
+          <button v-if="post.likedByUser == true" class="active-like" @click="sendLike(post._id)">Gostei {{post.likes}} </button>
+          <button v-else @click="sendLike(post._id)">Gostei {{post.likes}}</button>
+
           <button>Comentar (23)</button>
           <button>Retuitar (250)</button>
           <button>Compartilhar (10)</button>
-        </div>
+        </div><!-- options-post -->
       </div>
-
-      <MakeComment />
-      <div class="comments">
-        <Comment />
-        <Comment />
-        <Comment />
-        <Comment />
-      </div>
+      <MakeComment :postId="post._id" @newComment="newComment()" :imgProfile="imgProfile"/>
+      <div v-for="postComment in post.comments" :key="postComment.id" class="comments">
+        <Comment :user="postComment.user" :text="postComment.text" />
+      </div><!-- comments -->
     </div>
-  </div>
+  </div><!-- container-post -->
 
 </template>
 
@@ -66,8 +62,7 @@ export default {
       hostServer
     }
   },
-   created() {
-
+   created() { 
   },  
   filters: {
     processUsername: (value) => {
@@ -76,15 +71,18 @@ export default {
       } else {
         return `@${value}`;
       }
-
     }
   },
   props: {
     post: Object,
     myId: String,
-    img: String
+    img: String,
+    imgProfile: String
   },
   methods: {
+    newComment(){
+      this.$emit("updatePosts", "")
+    },
     deletePost(id) {
       axios.delete(`${hostServer}/post/${id}`, getHeader())
         .then(() => {
@@ -101,8 +99,8 @@ export default {
     sendLike(postId) {
        axios.post(`${hostServer}/post/like/${postId}`, {}, getHeader())
         .then(() => {
-          axios.get(`${hostServer}/post/${postId}`, getHeader()).then(res2 => {
-            this.$emit("updateLikesOnePost", {newLikes: res2.data[0].likes, postId })
+          axios.get(`${hostServer}/post/${postId}`, getHeader()).then(() => {
+            this.$emit("updatePosts", "")
           })
         })
     }
@@ -213,5 +211,13 @@ export default {
     cursor: pointer;
     color: rgb(133, 133, 133);
     cursor: pointer;
+  }
+
+  .options-post .active-like {
+    display: block;
+    background: var(--primary-blue-color);
+    color: white;
+    border-radius: 10px;
+    
   }
 </style>

@@ -5,7 +5,8 @@
     <NewPost @updatePostsEvent="updatePosts()" :img="img"/>
 
     <div class="container-post" v-for="post in posts" :key="post.id">
-      <Post :post="post" :myId="myId" @updatePosts="updatePosts()"/>
+      <Post :post="post" :myId="myId" @updatePosts="updatePosts()" :imgProfile="img" />
+
     </div>
 
   </div>
@@ -22,13 +23,20 @@ import { hostServer } from '../connections';
 export default {
   name: 'MyPosts',
   components: {
-    Navbar,
     NewPost,
-    Post
+    Post,
+    Navbar
   },
   data() {
     return {
-      posts: [],
+      posts: [{
+        _id: '',
+        title: '',
+        body: '',
+        img: '',
+        user: '',
+        likes: []
+      }],
       myId: '',
       img: ''
     }
@@ -38,13 +46,16 @@ export default {
       this.myId = me.data[0]._id;
       this.img = me.data[0].img;
     })
-    axios.get(`${hostServer}/myPosts`, getHeader()).then(posts => {
+    axios.get(`${hostServer}/posts`, getHeader()).then(posts => {
       this.posts = posts.data
     })
   },  
   methods: {
     updatePosts() {
-      this.$router.push({name:'Home'})
+      console.log('uodate!!!')
+      axios.get(`${hostServer}/posts`, getHeader()).then(posts => {
+        this.posts = posts.data
+      })
     }
   }
 }

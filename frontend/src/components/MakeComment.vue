@@ -1,18 +1,45 @@
 <template>
   <div class="newComment">
     <div class="profile">
-      <img src="/user.webp" alt="">
+      <img v-if="imgProfile == '' || imgProfile == undefined" src="/user.webp" alt="">
+      <img v-else :src='`${hostServer}/images/clients/${imgProfile}`' alt="">
     </div><!-- profile -->
 
     <div class="comment">
-      <textarea type="text" name="" id=""></textarea>
+      <textarea type="text" name="comment" id="" v-model="comment"></textarea>
+      <button @click="comentar()">comentar</button>
     </div><!-- comment -->
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+import { hostServer } from '../connections';
+import getHeader from '../getToken';
+
+
+
 export default {
-  name: 'MakeComment'
+  name: 'MakeComment',
+  props: {
+    imgProfile: String,
+    postId: String
+  },
+  data() {
+    return {
+      comment: '',
+      hostServer: hostServer
+    }
+  },
+  methods: {
+    comentar() {
+      axios.post(`${hostServer}/post/comment/${this.postId}`,{text:this.comment},  getHeader()).then(res => {
+        console.log(res.data)
+        this.comment = '';
+        this.$emit('newComment', res.data.id)
+      })
+    },
+  }
 }
 </script>
 
@@ -47,14 +74,25 @@ export default {
 
 .comment textarea {
   width: 100%;
-  padding:  0.2rem 10px;
-  font-size: 1.2rem;
+  padding:  0rem 10px;
+  padding-top: 10px;
+  font-size: 1rem;
   height: auto;
+  resize:none;
   background: transparent;
   outline: none;
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: 20px 0 0 20px;
   border: var(--border);
 }
 
+button {
+  border-radius: 0px 20px 20px 0;
+  background: var(--primary-blue-color);
+  padding: 10px 10px;
+  border: none;
+  font-weight: 700;
+  color: #ddd;
+  cursor: pointer;
+  }
 </style>
