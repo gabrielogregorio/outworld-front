@@ -4,7 +4,7 @@
     <NewPost @updatePostsEvent="updatePosts()" :img="img" />
 
     <div class="container-post" v-for="post in posts" :key="post.id">
-      <Post :post="post" :myId="myId" @updatePosts="updatePosts()" :imgProfile="img" />
+      <Post :post="post" :myId="myId" :imgProfile="img" @updatePosts="updatePosts()" />
     </div>
   </div>
 </template>

@@ -3,7 +3,20 @@ let supertest = require('supertest');
 let request = supertest(app)
 var tokenValido = {}
 var idUsuarioValido = '';
-let user = {name:'sherek', email:'no-valid-email', password: 'asdmkaksasdas', username:'sherek'}
+let user = {
+  name:'sherek',
+  username:'sherek',
+  email:'no-valid-email',
+  itemBio: [
+    ['school', 'Graduou em análise e desenvolvimento de Sistemas na Fatec Araçatuba'],
+    ['status', 'Solteiro'],
+    ['work', 'Desenvolvedor web'],
+    ['film', 'Interestelar']
+  ],
+  bio: 'Carol 🌻\n🏠 Araçatuba\n⏳ 23\n♍ Virginiana\n🐶 @dogduuque',
+  motivational: 'Ela é oxigênio, carbono, hidrogênio, nitrogênio, cálcio e fósforo. Os mesmos elementos que estão dentro de todos nós, mas não consigo parar de pensar que ela é mais que isso e que tem outros elementos dos quais ninguém nunca ouviu falar, que a tornam diferente de todas as outras pessoas.',
+  password: 'asdmkaksasdas'
+}
 
 beforeAll(() => {
   return request.post('/configure').then(() => {}).catch(error => fail(error))
@@ -111,10 +124,21 @@ describe('Cadastro e login de usuários', () => {
   test("Deve permitir a edição de um usuario!", () => {
     return request.put(`/user/${idUsuarioValido}`)
       .set(tokenValido)
-      .send({name: 'alterado', password: 'gabriel', username:'alterado2'})
+      .send(
+        {
+          name: 'alterado',
+          password: 'gabriel',
+          username:'alterado2',
+          itemBio: user.itemBio,
+          bio: user.bio,
+          motivational: user.motivational
+        })
       .then(res => {
         expect(res.statusCode).toEqual(200)
         expect(res.body.name).toEqual('alterado')
+        expect(res.body.bio).toEqual(user.bio)
+        expect(res.body.motivational).toEqual(user.motivational)
+        expect(res.body.itemBio[0].text).toEqual(user.itemBio[0][1])
     }).catch(error => fail(error))
   })
 

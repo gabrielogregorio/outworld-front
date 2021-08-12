@@ -202,7 +202,16 @@ describe('Gerenciamento de posts', () => {
   })
 
 
+  test("Obter os posts de algum usuário", () => {
+    return request.get(`/postsUser/${userIdValido}`)
+      .set(tokenValido)
+      .then(res => {
+        expect(res.statusCode).toEqual(200)
+        expect(res.body[0].title).toBeDefined()
+        expect(res.body[0].body).toBeDefined()
 
+    }).catch(error => fail(error))
+  })
 
   test("Obter os dados de si mesmo", () => {
     return request.get('/myPosts')

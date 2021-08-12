@@ -264,5 +264,30 @@ router.get('/myPosts', userAuth,  async (req, res) => {
 
 
 
+router.get('/postsUser/:id', userAuth,  async (req, res) => { 
+  var user = req.params.id;
+  
+  if ((user == '') || (user == undefined)){
+    return res.sendStatus(400);
+  }
+
+  try {
+    var posts = await Post.find({user:user}).sort({'_id': 'desc'}).populate('user');
+
+    var postFactories = []
+    posts.forEach(post => {
+      postFactories.push(DataPosts.Build(post))
+    })
+
+    return res.json(postFactories)
+
+  } catch(error) {
+    res.sendStatus(500)
+  }
+})
+
+
+
+
 
 module.exports = router;

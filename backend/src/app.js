@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const Post = require('./Post/Post');
 const User = require('./Users/User');
 const Like = require('./Likes/Like');
+const ItemBio = require('./ItemBio/ItemBio');
 const Comment = require('./Comment/Comment');
 const UserController = require('./Users/UserController');
 const PostController = require('./Post/PostController');

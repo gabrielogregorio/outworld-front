@@ -1,11 +1,14 @@
 :root {
   --border: 1px solid rgba(95, 95, 95, 0.486);
+  --border-color: rgba(95, 95, 95, 0.486);
   --primary-text-color: #dedede;
   --secundary-text-color: #999;
   --primary-blue-color: rgb(29, 122, 199);
   --secundary-color: rgb(27, 121, 197);
+  --primary-purple-color: rgb(137, 29, 199);
   --primary-background: #242526;
 }
+
 
 * {
   margin: 0;

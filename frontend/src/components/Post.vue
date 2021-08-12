@@ -25,20 +25,23 @@
         </div><!-- body-image -->
 
         <div class="options-post">
-
-
           <button v-if="post.likedByUser == true" class="active-like" @click="sendLike(post._id)">Gostei {{post.likes}} </button>
           <button v-else @click="sendLike(post._id)">Gostei {{post.likes}}</button>
 
-          <button>Comentar (23)</button>
+          <button v-if="showComment == true" class="showComment" @click="toogleComment()">Comentar</button>
+          <button v-else @click="toogleComment()">Comentar</button>
+
           <button>Retuitar (250)</button>
           <button>Compartilhar (10)</button>
         </div><!-- options-post -->
       </div>
-      <MakeComment :postId="post._id" @newComment="newComment()" :imgProfile="imgProfile"/>
-      <div v-for="postComment in post.comments" :key="postComment.id" class="comments">
-        <Comment :user="postComment.user" :text="postComment.text" />
-      </div><!-- comments -->
+
+      <div v-if="showComment">
+        <MakeComment :postId="post._id" @newComment="newComment()" :imgProfile="imgProfile"/>
+        <div v-for="postComment in post.comments" :key="postComment.id" class="comments">
+          <Comment :user="postComment.user" :text="postComment.text" />
+        </div><!-- comments -->
+      </div>
     </div>
   </div><!-- container-post -->
 
@@ -59,7 +62,8 @@ export default {
   },
   data() {
     return {
-      hostServer
+      hostServer,
+      showComment: false
     }
   },
    created() { 
@@ -80,6 +84,9 @@ export default {
     imgProfile: String
   },
   methods: {
+    toogleComment() {
+      this.showComment = !this.showComment
+    },
     newComment(){
       this.$emit("updatePosts", "")
     },
@@ -218,6 +225,14 @@ export default {
     background: var(--primary-blue-color);
     color: white;
     border-radius: 10px;
-    
   }
+
+  .options-post .showComment {
+    display: block;
+    background: var(--primary-purple-color);
+    color: white;
+    border-radius: 10px;
+  }
+
+
 </style>

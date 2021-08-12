@@ -8,7 +8,7 @@
     <div class="info-user">
       <div class="info-user-perfil">
         <div class="info-user-superior">
-          <h2>{{user.name}}</h2>
+          <button @click="sendProfile(user._id)" >{{user.name}}</button>
           <p class="info-username">@user</p>
         </div><!-- info-user-superior -->
       </div><!-- info-user-perfil -->
@@ -25,7 +25,14 @@ export default {
   props: {
     user: Object
   },
-  methods: {},
+  methods: {
+    sendProfile(id) {
+      this.$router.push({
+        name:"ProfileUser",
+        query: {id}
+      })    
+    }
+  },
   data() {
     return {
       hostServer: hostServer

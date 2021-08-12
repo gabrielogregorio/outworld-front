@@ -6,6 +6,7 @@ const userAuth = require('../../src/middlewares/userAuth');
 const router = express.Router()
 const DataUsers = require('../factories/dataUsers');
 const multerImage = require('../middlewares/multerImage');
+const ItemBio = require('../ItemBio/ItemBio');
 require('dotenv/config');
 const jwtSecret = process.env.JWT_SECRET
 
@@ -82,10 +83,8 @@ router.post('/auth', async (req, res) => {
   })
 })
 
-
-
 router.get('/users', userAuth,  async (req, res) => { 
-  var users = await User.find()
+  var users = await User.find().populate('itemBio')
   var userFactories = []
   users.forEach(user => {
     userFactories.push(DataUsers.Build(user))
@@ -95,7 +94,7 @@ router.get('/users', userAuth,  async (req, res) => {
 
 router.get('/user/:id', userAuth,  async (req, res) => { 
   try {
-    var users = await User.find({_id: req.params.id})
+    var users = await User.find({_id: req.params.id}).populate('itemBio')
   } catch(error) {
     return res.sendStatus(500)
   }
@@ -112,7 +111,9 @@ router.get('/user/:id', userAuth,  async (req, res) => {
 })
  
 router.put('/user/:id', userAuth, multerImage.single('image'), async (req, res) => { 
-  var {name, username, password} = req.body;
+  var {name, username, password, itemBio, bio, motivational} = req.body;
+
+  
   var id = req.params.id;
   var user = req.data.id;
   
@@ -153,8 +154,34 @@ router.put('/user/:id', userAuth, multerImage.single('image'), async (req, res) 
       update.img = img
     }
 
+    // Tem frase de motivação
+    if (motivational != '' && motivational != undefined) {
+      update.motivational = motivational
+    }
+
+    // Tem nova bio
+    if (bio != '' && bio != undefined) {
+      update.bio = bio
+    }
+
+    // Tem novos items para a bio
+    if (itemBio != '' && itemBio != undefined) {
+      update.itemBio = []
+
+      // Loop para adicionar os novos itens
+      for (i = 0; i < itemBio.length; i++) {
+        // Relaciona os itens com o usuário
+        var item = await new ItemBio({typeItem: itemBio[i][0], text: itemBio[i][1], user: id});
+        await item.save()
+        await update.itemBio.push(item._id)
+      }
+    }
+
+    // Atualiza o perfil do usuário
     await User.findOneAndUpdate({_id:id}, {$set:update})
-    var userNew = await User.findOne({_id:id});
+
+    // retorna os dados atualizados!
+    var userNew = await User.findOne({_id:id}).populate('itemBio');
 
     if (userNew == null) {
       return res.sendStatus(404)      
@@ -165,13 +192,9 @@ router.put('/user/:id', userAuth, multerImage.single('image'), async (req, res) 
   }
 })
 
-
-
-
-
 router.get('/me', userAuth,  async (req, res) => { 
   var id = req.data.id;
-  var users = await User.find({_id: id})
+  var users = await User.find({_id: id}).populate('itemBio');
 
   if (users.length == 0) {
     res.statusCode =404

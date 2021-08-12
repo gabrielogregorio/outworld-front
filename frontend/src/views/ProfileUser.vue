@@ -1,10 +1,9 @@
 <template>
-  <div class="home">
+ <section> 
     <Navbar />
-
     <div class="my-profile">
-      <img v-if="user.img == '' || user.img == undefined" src="/user.webp" alt="">
-      <img v-else :src='`${hostServer}/images/clients/${user.img}`' alt="">
+        <img v-if="user.img == '' || user.img == undefined" src="/user.webp" alt="">
+        <img v-else :src='`${hostServer}/images/clients/${user.img}`' alt="">
 
       <h2>{{user.name}}</h2>
 
@@ -15,13 +14,8 @@
       </div>
 
       <div class="citation">
-        <div class="citation-edit">
-          <i class="fas fa-pencil-alt" @click="alternateModel('Editar Citação', user.motivational)"></i>
-        </div>
-        <p>{{motivational}}</p>
+        <p>{{user.motivational}}</p>
       </div>
-
-      <Modal v-if="showModal" />
 
       <div class="bio-and-work">
         <div class="biograph">
@@ -42,7 +36,6 @@
         </div>
       </div>
 
-
       <div class="menu-items">
         <button>posts</button>
         <button>fotos</button>
@@ -50,37 +43,22 @@
       </div>
     </div>
 
-
-   <NewPost @updatePostsEvent="updatePosts()" :img="user.img"/>
-
     <div class="container-post" v-for="post in posts" :key="post.id">
-      <Post :post="post" :myId="myId" @updatePosts="updatePosts()" :imgProfile="img" />
+      <Post :post="post" :myId="myId" :imgProfile="img" @updatePosts="updatePosts()" />
     </div>
 
-
-  </div>
+  </section>  
 </template>
 
-
-
-
 <script>
-import axios from 'axios';
 import Navbar from '../components/Navbar.vue';
 import getHeader from '../getToken';
-import NewPost from '../components/NewPost.vue';
-import Post from '../components/Post.vue';
 import { hostServer } from '../connections';
-import Modal from '../components/Modal.vue';
-
+import axios from 'axios';
+import Post from '../components/Post.vue';
 export default {
-  name: 'MyPosts',
-  components: {
-    NewPost,
-    Post,
-    Navbar,
-    Modal
-  },
+
+  name: 'ProfileUser',
   data() {
     return {
       posts: [{
@@ -89,19 +67,20 @@ export default {
         body: '',
         img: '',
         user: '',
+        likedByUser: false,
         likes: []
       }],
-      hostServer:hostServer,
       myId: '',
       img: '',
       user: {},
-      motivational: '',
-      showModal: false,
-      titleModal: '',
-      textModal: ''
+      hostServer:hostServer
     }
   },
-   computed: {
+  components: {
+    Navbar,
+    Post
+  },
+  computed: {
     userBio() {
       if (this.user.bio != undefined) {
         return `${this.user.bio}`.split('\n')
@@ -109,31 +88,28 @@ export default {
       return ''
     }
   },
-   created() {
-    axios.get(`${hostServer}/me`, getHeader()).then(me => {
-      this.myId = me.data[0]._id;
-      this.img = me.data[0].img;
-      this.user = me.data[0];
-      this.motivational = this.user.motivational;
-    })
-    axios.get(`${hostServer}/posts`, getHeader()).then(posts => {
-      this.posts = posts.data
-    })
-  },  
-  methods: {
-
-    alternateModel(menu, texto) {
-      console.log(menu, texto);
-    },
+   methods: {
     updatePosts() {
-      axios.get(`${hostServer}/posts`, getHeader()).then(posts => {
+      axios.get(`${hostServer}/postsUser/${this.$route.query.id}`, getHeader()).then(posts => {
         this.posts = posts.data
       })
     }
+  },
+  created() {
+
+    axios.get(`${hostServer}/me`, getHeader()).then(me => {
+      this.myId = me.data[0]._id;
+      this.img = me.data[0].img;
+    })
+    axios.get(`${hostServer}/user/${this.$route.query.id}`, getHeader()).then(me => {
+      this.user = me.data[0]
+    })
+      axios.get(`${hostServer}/postsUser/${this.$route.query.id}`, getHeader()).then(posts => {
+        this.posts = posts.data
+      })
   }
 }
 </script>
-
 
 <style scoped>
 .my-profile {
@@ -168,11 +144,6 @@ export default {
   width: 100%;
   padding: 20px 10px;
   text-align: center;
-}
-.citation-edit {
-  width: 100%;
-  text-align: right;
-  cursor: pointer;
 }
 .bio-and-work {
   padding: 0;

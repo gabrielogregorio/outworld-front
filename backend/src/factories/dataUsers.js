@@ -6,9 +6,14 @@ class DataUsers {
       name: user.name,
       username: user.username == undefined ? '' : `${user.username}`,
       email: user.email,
-      img: user.img
+      img: user.img,
+      bio: user.bio,
+      motivational: user.motivational,
+      itemBio: user.itemBio
     }
 
+
+  
     return newUser;
   }
 }

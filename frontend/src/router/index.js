@@ -26,6 +26,11 @@ const routes = [
     component:  () => import('../views/RegisterUser')
   },
   {
+    path: '/ProfileUser',
+    name: 'ProfileUser',
+    component:  () => import('../views/ProfileUser.vue')
+  },
+  {
     path: '/Home',
     name: 'Home',
     component: Home,
