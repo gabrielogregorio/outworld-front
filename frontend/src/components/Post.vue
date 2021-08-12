@@ -35,6 +35,14 @@
           <button>Compartilhar (10)</button>
         </div>
       </div>
+
+      <MakeComment />
+      <div class="comments">
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+      </div>
     </div>
   </div>
 
@@ -44,9 +52,14 @@
 import axios from 'axios';
 import getHeader from '../getToken';
 import { hostServer } from '../connections';
+import Comment from './Comment.vue';
+import MakeComment from './MakeComment.vue';
+
 export default {
   name: 'Post',
   components: {
+    Comment,
+    MakeComment
   },
   data() {
     return {

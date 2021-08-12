@@ -6,12 +6,10 @@ let userSchema = new mongoose.Schema({
   password: String,
   img: String,
   posts: { type: mongoose.Schema.Types.ObjectId, ref:'Post'},
-  postslikes: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Post'
-    }
-  ]
+  likes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Likes'
+  }]
 })
 
 var User = mongoose.model('User', userSchema);

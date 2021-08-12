@@ -12,9 +12,10 @@ let postSchema = new mongoose.Schema({
   likes: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
+      ref: 'Like'
     }
   ]
+  
 })
 
 var Post = mongoose.model('Post', postSchema);

@@ -4,6 +4,8 @@ const router = express.Router()
 const DataPosts = require('../factories/dataPosts');
 const multerImagePosts = require('../middlewares/multerImagePosts');
 const userAuth = require('../middlewares/userAuth');
+const Like = require('../Likes/Like')
+
 require('dotenv/config');
 
 const jwtSecret = process.env.JWT_SECRET
@@ -125,31 +127,38 @@ router.put('/post/:id', userAuth,  multerImagePosts.single('image'), async (req,
   }
 })
 
-
-
 router.post('/post/like/:id', userAuth,  async (req, res) => { 
   var id = req.params.id;
   var user = req.data.id;
-  
+
+
   try {
-    var post = await Post.findOne({_id:id});
-    var listLikes = post.likes;
-    var includeLike = listLikes.includes(user)
+    var likeExistente = await Like.findOne({post:id, user:user});
+    if (likeExistente != null) {
+      await Like.deleteOne({post:id, user:user});
 
-    // Usuário não deixou o like
-    if (includeLike == false) {
-      listLikes.push(user) // Adicione o like e salve no banco
-    } else {
-      // Usuário provavelmente deixou o like
-      const index = listLikes.indexOf(user);
-      if (index > -1) { listLikes.splice(index, 1); }
+      var post = await Post.findById({_id:id})
+  
+      post.likes = post.likes.filter(value => value != `${likeExistente._id}`)
+      await post.save();
+  
+      return res.json({includeLike: false})  
     }
-    // Salvar no db
-    await Post.findOneAndUpdate({_id:id}, {$set:{likes:listLikes}})
+  } catch(error) {
+    return res.sendStatus(500)
+  }
 
-    return res.json({includeLike: !includeLike})
+  try {
+    var newLike = new Like({post:id, user:user});
+    await newLike.save();  
 
+    var post = await Post.findById({_id:id})
+    post.likes.push(newLike)
+    await post.save();
+
+    return res.json({includeLike: true})
   } catch(error)  {
+    console.log(error)
     return res.sendStatus(500)
   }
 })
