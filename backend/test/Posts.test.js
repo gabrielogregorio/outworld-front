@@ -2,24 +2,35 @@ let {app, mongoose} = require('../src/app');
 let supertest = require('supertest');
 let request = supertest(app)
 let userAny = {name: 'userTest', email: 'user@teste.com', password: 'adminPassword'}
-let post = {title: 'Estação espacial', body: 'Um body qualquer', test: true}
+let post = {body: 'Um body qualquer', test: true}
+let post2 = {body: 'post2', test: true}
 var idPostValido = "";
 var tokenValido = {}
 var idComentarioValido = "";
-var tokenOutroUsuario = { authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4IiwibmFtZSI6ImdhYnJpZWwiLCJpZCI6IjYxMTFhZmUwZTk2YzU5NTU5MDk3NDU4MiIsImlhdCI6MTYyODU0OTEwMiwiZXhwIjoxNjI4NjM1NTAyfQ.KoZ-9kARvyhptMKAtTzdiH_mlrzo8RTiNuGS2_daJG0"}
+var token2Valido = { }
 require('dotenv/config')
  
+
 var user = {
   name: process.env.TEST_USER_NAME,
-  email: process.env.TEST_USER_EMAIL,
-  password: process.env.TEST_USER_PASSWORD,
-  id: '' 
+  email: process.env.TEST_USER_NAME,
+  username: process.env.TEST_USER_NAME,
+  password: process.env.TEST_USER_NAME,
+  id: ''
+}
+
+var user2 = {
+  name: process.env.TEST_USER2_NAME,
+  email: process.env.TEST_USER2_NAME,
+  username: process.env.TEST_USER2_NAME,
+  password: process.env.TEST_USER2_NAME,
+  id: ''
 }
 
 beforeAll(() => {
   return request.post('/configure')
-    .then(res => { user.id = res.id })
-    .catch(error => fail(error))
+    .then(res => {
+    })
 })
 
 afterAll(() => {
@@ -39,12 +50,25 @@ describe("Login no sistema", () => {
       .send({email: user.email, password: user.password})
       .then(res => {
         tokenValido = { authorization:"Bearer " + res.body.token}
-        userIdValido = res.body.id;
+        user.id = res.body.id;
       }).catch(error => {
         fail(error)
       })
   })
+
+  test("Segundo usuário também deve logar e conseguir um token", () => {
+    return request.post('/auth')
+      .send({email: user2.email, password: user2.password})
+      .then(res => {
+        token2Valido = { authorization:"Bearer " + res.body.token}
+        user2.id = res.body.id;
+      }).catch(error => {
+        fail(error)
+      })
+  })
+
 })
+
 
 describe('Gerenciamento de posts', () => {
   test("Deve cadastrar um post", () => {
@@ -57,15 +81,43 @@ describe('Gerenciamento de posts', () => {
     }).catch(error => {fail(error)})
   })
 
-  test("Deve retornar uma lista com todos os usuários e suas imagens", () => {
+  test("Usuário 2 deve cadastrar um post", () => {
+    return request.post('/post')
+      .send(post2)
+      .set(token2Valido)
+      .then(res => {
+        expect(res.statusCode).toEqual(200)
+    }).catch(error => {fail(error)})
+  })
+
+  
+  test("Não deve retornar nenhum pot, pois o usuário ainda não segue ninguem", () => {
     return request.get('/posts')
       .set(tokenValido)
       .then(res => {
         expect(res.statusCode).toEqual(200)
-        expect(res.body[0].body).toBeDefined()
+        expect(res.body[0]).toBeUndefined()
     }).catch(error => fail(error))
   })
   
+  test('Para ver os posts, um usuario deve seguir o outro', () => {
+    return request.post(`/user/follow/${user2.id}`)
+      .set(tokenValido)
+      .then(res => {
+        expect(res.statusCode).toEqual(200)
+        expect(res.body.followed).toEqual(true)
+    }).catch(error => fail(error))
+  })
+
+  test("Deve retornar uma lista com todos os posts e suas imagens", () => {
+    return request.get('/posts')
+      .set(tokenValido)
+      .then(res => {
+        expect(res.statusCode).toEqual(200)
+        expect(res.body[0].body).toEqual(post2.body)
+    }).catch(error => fail(error))
+  })
+
   test("Deve retornar um post", () => {
     return request.get(`/post/${idPostValido}`)
       .set(tokenValido)
@@ -95,7 +147,7 @@ describe('Gerenciamento de posts', () => {
   test("Deve retornar erro 400 ao tentar editar um post passando parametros incorretos", () => {
     return request.put(`/post/${idPostValido}`, {})
       .set(tokenValido)
-      .send({title: ''})
+      .send({body: ''})
       .then(res => {
         expect(res.statusCode).toEqual(400)
     }).catch(error => fail(error))
@@ -104,17 +156,17 @@ describe('Gerenciamento de posts', () => {
   test("Deve permitir a edição de um post!", () => {
     return request.put(`/post/${idPostValido}`)
       .set(tokenValido)
-      .send({title: 'test1z', body: 'test1z'})
+      .send({body: 'test1z'})
       .then(res => {
         expect(res.statusCode).toEqual(200)
-        expect(res.body.title).toEqual('test1z')
+        expect(res.body.body).toEqual('test1z')
     }).catch(error => fail(error))
   })
 
   test("Não deve permitir a edição de um post por um usuário que não o postou", () => {
-    return request.put(`/post/${idPostValido}`)
-      .set(tokenOutroUsuario)
-      .send({title: 'test1z', body: 'test1z'})
+    return request.put(`/post/61157031ccc66931d08ce13b`)
+      .set(tokenValido)
+      .send({body: 'test1z'})
       .then(res => {
         expect(res.statusCode).toEqual(403)
     }).catch(error => fail(error))
@@ -203,11 +255,10 @@ describe('Gerenciamento de posts', () => {
 
 
   test("Obter os posts de algum usuário", () => {
-    return request.get(`/postsUser/${userIdValido}`)
+    return request.get(`/postsUser/${user.id}`)
       .set(tokenValido)
       .then(res => {
         expect(res.statusCode).toEqual(200)
-        expect(res.body[0].title).toBeDefined()
         expect(res.body[0].body).toBeDefined()
 
     }).catch(error => fail(error))
@@ -218,7 +269,6 @@ describe('Gerenciamento de posts', () => {
       .set(tokenValido)
       .then(res => {
         expect(res.statusCode).toEqual(200)
-        expect(res.body[0].title).toBeDefined()
         expect(res.body[0].body).toBeDefined()
 
     }).catch(error => fail(error))

@@ -5,7 +5,6 @@ const Post = require('./Post/Post');
 const User = require('./Users/User');
 const Like = require('./Likes/Like');
 const ItemBio = require('./ItemBio/ItemBio');
-const Follow = require('./Follow/Follow');
 const Comment = require('./Comment/Comment');
 const UserController = require('./Users/UserController');
 const PostController = require('./Post/PostController');
@@ -17,9 +16,8 @@ require('dotenv/config');
 const port = process.env.DB_PORT;
 const dbname = process.env.BD_NAME;
 const test_user_name = process.env.TEST_USER_NAME
-const test_user_email = process.env.TEST_USER_EMAIL
-const test_user_password = process.env.TEST_USER_PASSWORD
-const test_user_username = process.env.TEST_USER_USERNAME
+const test_user2_name = process.env.TEST_USER2_NAME
+
 
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
@@ -46,23 +44,22 @@ app.post('/validate', userAuth, (req, res) => {
 
 /* Rotas de desenvolvimento */
 app.post('/configure', async (req, res) => {
-  var name = test_user_name
-  var email = test_user_email
-  var password = test_user_password
-  var username = test_user_username;
-
   let salt = await bcrypt.genSalt(10);
-  let hash = await bcrypt.hash(password, salt)
-
-  let newUser = new User({name, email, password:hash, username})
+  let hash = await bcrypt.hash(test_user_name, salt)
+  let newUser = new User({name:test_user_name, email:test_user_name, password:hash, username:test_user_name})
   await newUser.save()  
-  res.json({email:email, id:newUser._id}); 
+
+  salt = await bcrypt.genSalt(10);
+  hash = await bcrypt.hash(test_user2_name, salt)
+  let newUser2 = new User({name:test_user2_name, email:test_user2_name, password:hash, username:test_user2_name})
+  await newUser2.save()  
+
+  res.json({email:test_user_name, id:newUser._id, email:test_user2_name, id2:newUser2._id,}); 
 })
 
 app.post('/endconfigure', async (req, res) => {
-  var email = test_user_email
-
-  await User.deleteMany({email:email})
+  await User.deleteMany({email:test_user_name})
+  await User.deleteMany({email:test_user2_name})
   res.sendStatus(200)
 })
 

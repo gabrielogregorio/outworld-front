@@ -5,6 +5,7 @@ let postSchema = new mongoose.Schema({
   body: String,
   test: Boolean,
   img: String,
+  share: this,
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

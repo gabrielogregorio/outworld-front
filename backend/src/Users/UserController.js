@@ -7,12 +7,34 @@ const router = express.Router()
 const DataUsers = require('../factories/dataUsers');
 const multerImage = require('../middlewares/multerImage');
 const ItemBio = require('../ItemBio/ItemBio');
-const Follow = require('../Follow/Follow');
 require('dotenv/config');
 const jwtSecret = process.env.JWT_SECRET
 
-router.post('/user', multerImage.single('image'), async (req, res) => {
-  var {name, email, username, password} = req.body;
+
+
+router.post('/userLoadFile', userAuth, multerImage.single('image'), async(req, res) => {
+  user = `${req.data.id}`
+
+  if (
+    (user == '') ||
+    (user == undefined)
+    )
+     {
+      return res.sendStatus(400)
+  }
+
+  if (req.file) {
+    img = req.file['filename']
+  } else {
+    img = ''
+  }
+
+  return res.json({file:img})
+})
+
+
+router.post('/user', async (req, res) => {
+  var {name, email, username, password, img} = req.body;
 
   if (
     (name == '' || email == '' || password == '' || username == '') ||
@@ -21,9 +43,7 @@ router.post('/user', multerImage.single('image'), async (req, res) => {
     return res.sendStatus(400);
   }
 
-  if (req.file) {
-    img = req.file['filename']
-  } else {
+  if (img == undefined) {
     img = ''
   }
 
@@ -109,8 +129,8 @@ router.get('/user/:id', userAuth,  async (req, res) => {
   return res.json(userFactories);
 })
  
-router.put('/user/:id', userAuth, multerImage.single('image'), async (req, res) => { 
-  var {name, username, password, itemBio, bio, motivational} = req.body;
+router.put('/user/:id', userAuth, async (req, res) => { 
+  var {name, username, password, itemBio, bio, motivational, img} = req.body;
 
   
   var id = req.params.id;
@@ -133,9 +153,7 @@ router.put('/user/:id', userAuth, multerImage.single('image'), async (req, res) 
     var updatePassword = true;
   }
   
-  if (req.file) {
-    img = req.file['filename']
-  } else {
+  if (img == undefined) {
     img = ''
   }
 

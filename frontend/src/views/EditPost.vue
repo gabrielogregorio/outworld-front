@@ -71,7 +71,6 @@ export default {
 
       axios.put(`${hostServer}/post/${this.$route.query.id}`, {
          img: this.imgSrc,
-         title: 'titulo qualquer',
          user: this.user,
          body: this.body
       }, getHeader()).then(res => {

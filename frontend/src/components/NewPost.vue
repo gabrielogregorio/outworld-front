@@ -36,7 +36,6 @@ export default {
   name: 'NewPost',
   data() {
     return {
-      title: 'aaaa',
       body: '',
       imgSrc: '',
       hostServer
@@ -65,10 +64,10 @@ export default {
       })
     },
     createPost() {
-      if ( this.body == '' || this.title == undefined || this.body == undefined) {
+      if ( this.body == '' || this.body == undefined) {
         return;
       }
-      axios.post(`${hostServer}/post`, { img: this.imgSrc, title: this.title, body: this.body}, getHeader(), ).then(() => {
+      axios.post(`${hostServer}/post`, { img: this.imgSrc, body: this.body}, getHeader(), ).then(() => {
         this.$emit("updatePostsEvent", "");
         this.body = ''
         this.imgSrc = ''

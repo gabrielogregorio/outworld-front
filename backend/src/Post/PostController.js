@@ -6,6 +6,7 @@ const multerImagePosts = require('../middlewares/multerImagePosts');
 const userAuth = require('../middlewares/userAuth');
 const Like = require('../Likes/Like')
 const Comment = require('../Comment/Comment');
+const User = require('../Users/User');
 
 require('dotenv/config');
 
@@ -34,12 +35,12 @@ router.post('/postLoadFile', userAuth, multerImagePosts.single('image'), async(r
 
 
 router.post('/post', userAuth, async(req, res) => {
-  let {title, body, test, img} = req.body;
+  let { body, test, img} = req.body;
 
   user = `${req.data.id}`
   if (
-    (title == '' || body == '' || user == '') ||
-    (title == undefined || body == undefined || user == undefined)
+    ( body == '' || user == '') ||
+    (body == undefined || user == undefined)
     )
      {
       return res.sendStatus(400)
@@ -53,9 +54,9 @@ router.post('/post', userAuth, async(req, res) => {
   }
 
   try {
-    let newPost = new Post({title, body, user, test, img});
+    let newPost = new Post({body, user, test, img});
     var newPostSave = await newPost.save();  
-    res.json({_id: newPostSave.id, user})
+    res.json({_id: newPostSave._id, user})
   } catch(error) {
 
     res.statusCode = 500;
@@ -63,10 +64,19 @@ router.post('/post', userAuth, async(req, res) => {
   }
 })
 
+
+
+
+
+ 
+ 
+
 router.get('/posts', userAuth, async (req, res) => {
   var user = `${req.data.id}`
+  var userItem = await User.findById({_id:user}).populate('following')
+  let ids = DataUsers.Build(userItem).followingIds;
 
-  var posts = await Post.find().sort({'_id': 'desc'}).populate('user comments likes').exec();
+  var posts = await Post.find({ 'user':{$in:ids} }).sort({'_id': 'desc'}).populate('user comments likes').exec();
 
   var postFactories = []
   posts.forEach(post => {
@@ -97,19 +107,19 @@ router.get('/post/:id', userAuth, async (req, res) => {
   res.json(postFactories) 
 })
 
-router.put('/post/:id', userAuth,  multerImagePosts.single('image'), async (req, res) => { 
-  var {title, body, img} = req.body;
+router.put('/post/:id', userAuth,  async (req, res) => { 
+  var {body, img} = req.body;
   var id = req.params.id;
   var user = req.data.id
   
   if (
-    (title == '' || body == '' || id == '') ||
-    (title == undefined || body == undefined || id == undefined)
+    (body == '' || id == '') ||
+    (body == undefined || id == undefined)
     ){
     return res.sendStatus(400);
   }
 
-  var upload = {title, body}
+  var upload = {body}
 
   if (img != '') {
     upload.img = img
@@ -118,9 +128,8 @@ router.put('/post/:id', userAuth,  multerImagePosts.single('image'), async (req,
   try {
     await Post.findOneAndUpdate({_id:id, user}, {$set:upload})
     var postNew = await Post.findOne({_id:id, user}).populate('user');
-    if (postNew == null) {
-      res.statusCode = 403
-      return res.json({'msg': "Você não tem permissão para editar este post!"})
+    if (postNew == null || postNew == undefined || postNew.length == 0) {
+      return res.sendStatus(403)
     }
     return res.json(DataPosts.Build(postNew))
   } catch(error)  {

@@ -61,7 +61,6 @@ export default {
     return {
       posts: [{
         _id: '',
-        title: '',
         body: '',
         img: '',
         user: '',
