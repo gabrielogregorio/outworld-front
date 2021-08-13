@@ -4,8 +4,8 @@
     <div class="my-profile">
         <img v-if="user.img == '' || user.img == undefined" src="/user.webp" alt="">
         <img v-else :src='`${hostServer}/images/clients/${user.img}`' alt="">
-
       <h2>{{user.name}}</h2>
+
 
       <div class="statistics">
         <a href="#">174 publicações </a>
@@ -127,11 +127,9 @@ export default {
 }
 
 .my-profile img {
-  width: 100%;
-  max-width: 400px;
-  max-height: 400px;
+  width: 400px;
+  height: 400px;
   object-fit: cover;
-  height: 100%;
   border-radius: 50%;
 }
 

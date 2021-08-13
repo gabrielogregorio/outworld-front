@@ -6,8 +6,11 @@
       <img v-if="user.img == '' || user.img == undefined" src="/user.webp" alt="">
       <img v-else :src='`${hostServer}/images/clients/${user.img}`' alt="">
 
-      <h2>{{user.name}}</h2>
+      <div class="name-config">
+        <h2>{{user.name}}</h2><router-link to="/EditProfile"><i class="fas fa-cog"></i></router-link>
+      </div>
 
+      
       <div class="statistics">
         <a href="#">174 publicações </a>
         <a href="#">820 seguidores </a>
@@ -15,13 +18,11 @@
       </div>
 
       <div class="citation">
-        <div class="citation-edit">
-          <i class="fas fa-pencil-alt" @click="alternateModel('Editar Citação', user.motivational)"></i>
-        </div>
         <p>{{motivational}}</p>
       </div>
 
-      <Modal v-if="showModal" />
+      <Modal v-if="showModal == true" :titleModal="this.titleModal" :textModal="this.textModal" @cancelModel="cancelModel()"/>
+      
 
       <div class="bio-and-work">
         <div class="biograph">
@@ -98,7 +99,8 @@ export default {
       motivational: '',
       showModal: false,
       titleModal: '',
-      textModal: ''
+      textModal: '',
+      newText: ''
     }
   },
    computed: {
@@ -122,8 +124,13 @@ export default {
   },  
   methods: {
 
-    alternateModel(menu, texto) {
-      console.log(menu, texto);
+    alternateModel(title, texto) {
+      this.showModal = !this.showModal;
+      this.titleModal = title;
+      this.textModal = texto;
+    },
+    cancelModel() {
+      this.showModal = !this.showModal;
     },
     updatePosts() {
       axios.get(`${hostServer}/posts`, getHeader()).then(posts => {
@@ -159,21 +166,36 @@ export default {
   border-radius: 50%;
 }
 
-.my-profile h2 {
+.my-profile .name-config {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.my-profile .name-config h2 {
   font-size: 1.4rem;
   padding: 5px 0;
 }
+
+.my-profile .name-config i {
+  font-size: 1.4rem;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.my-profile .name-config i:hover {
+  color: rgba(255, 255, 255, 1);
+} 
+
 
 .citation {
   width: 100%;
   padding: 20px 10px;
   text-align: center;
 }
-.citation-edit {
-  width: 100%;
-  text-align: right;
-  cursor: pointer;
-}
+
 .bio-and-work {
   padding: 0;
   width: 100%;

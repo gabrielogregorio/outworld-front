@@ -1,10 +1,11 @@
 <template> 
   <section>
     <div class="titulo-principal">
-      <a class="principal" href="/Home">Página Inicial</a>
-      <router-link to="/Users">Usuários</router-link>
-      <router-link to="/MyPosts">Meus Posts</router-link>
-      <router-link to="/EditProfile">Editar Perfil</router-link>
+      <nav>
+        <div class="principal"><router-link to="/Home">Página Inicial</router-link></div>
+        <div><router-link to="/Users">Usuários</router-link></div>
+        <div class="perfil"><router-link to="/MyProfile">Perfil</router-link></div>
+      </nav>
     </div><!-- titulo-principal -->
   </section>
 </template>
@@ -21,21 +22,32 @@
     border-top: 0;
   }
 
-  .titulo-principal .principal {
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: auto;
+    padding: 10px 0;
+  }
+
+  nav div.principal a{
     font-size: 1.5rem;
     font-weight: 700;
     text-decoration: none;
     color: var(--primary-text-color);
   }
 
-  .titulo-principal a{
-    text-decoration: none;
+  nav div a{
     padding: 4px 10px;
     color: var(--secundary-text-color)
-
   }
-  .titulo-principal a.router-link-exact-active {
+  nav div a.router-link-exact-active {
     text-decoration: underline;
     font-weight: 700;
+  }
+
+  nav div.perfil {
+    flex: 1;
+    text-align: right;
   }
 </style>

@@ -6,6 +6,17 @@ import getHeader from '../getToken';
 import { hostServer } from '../connections';
 Vue.use(VueRouter)
 
+
+/* Trecho para impedir os erros ao tentar acessar a mesma rota. 
+https://stackoverflow.com/questions/65878999/vue-router-push-error-avoided-redundant-navigation-to-current-location/65879787
+*/
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(() => {
+  });
+};
+
+
 function authUser(to, from, next) {
   if (localStorage.getItem('token') == undefined) {
     return next('/login');
@@ -18,6 +29,8 @@ function authUser(to, from, next) {
     })
   }
 }
+
+
 
 const routes = [
   {
@@ -66,9 +79,9 @@ const routes = [
     beforeEnter: authUser,
   },
   {
-    path: '/MyPosts',
-    name: 'MyPosts',
-    component: () => import('../views/MyPosts.vue'),
+    path: '/MyProfile',
+    name: 'MyProfile',
+    component: () => import('../views/MyProfile.vue'),
     beforeEnter: authUser,
   }
 ]

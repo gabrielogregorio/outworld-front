@@ -1,6 +1,6 @@
 <template> 
   <div class="container-user">
-    <div class="img-user-perfil">
+    <div class="img-user-perfil" @click="openProfile(user._id)">
       <img v-if="user.img == '' || user.img == undefined" src="/user.webp" alt="">
       <img v-else :src='`${hostServer}/images/clients/${user.img}`' alt="">
     </div><!-- img-user-perfil -->
@@ -8,8 +8,8 @@
     <div class="info-user">
       <div class="info-user-perfil">
         <div class="info-user-superior">
-          <button @click="sendProfile(user._id)" >{{user.name}}</button>
-          <p class="info-username">@user</p>
+          <h2 @click="openProfile(user._id)" >{{user.name}}</h2>
+          <p @click="openProfile(user._id)" class="info-username">@user</p>
         </div><!-- info-user-superior -->
       </div><!-- info-user-perfil -->
     </div><!-- info-user -->
@@ -26,7 +26,7 @@ export default {
     user: Object
   },
   methods: {
-    sendProfile(id) {
+    openProfile(id) {
       this.$router.push({
         name:"ProfileUser",
         query: {id}
@@ -66,6 +66,7 @@ div.container-user {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  cursor: pointer;
 }
 
 .info-user {
@@ -86,6 +87,7 @@ div.container-user {
   font-weight: 700;
   color: white;
   font-size: 1rem;
+  cursor: pointer;
 }
 
 .info-user-superior .info-username {
@@ -93,6 +95,7 @@ div.container-user {
   flex: 1;
   margin-left: 5px;
   font-size: 1rem;
+  cursor: pointer;
 }
 
 </style>

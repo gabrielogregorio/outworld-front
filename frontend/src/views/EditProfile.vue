@@ -12,6 +12,14 @@
       <label for="username">Nome de usuario</label>
       <input type="text" name="username" id="username" placeholder="Seu nome de usuário" v-model="username">
 
+      <label for="bio">Sua Biografia</label>
+      <textarea type="text" name="bio" id="bio" placeholder="Uma bigrafia" v-model="bio"></textarea>
+
+      <label for="motivational">Frase</label>
+      <textarea type="text" name="motivational" id="motivational" placeholder="Uma frase que te motica" v-model="motivational"></textarea>
+
+
+
       <label for="image">Sua foto</label>
       <input type="file" name="image" id="image">
 
@@ -40,7 +48,9 @@ export default {
       email: '',
       password: '',
       username: '',
-      id: ''
+      id: '',
+      bio: '',
+      motivational: ''
     }
   },
   components: {
@@ -52,6 +62,8 @@ export default {
       this.username = res.data[0].username
       this.email = res.data[0].email
       this.id = res.data[0]._id
+      this.bio = res.data[0].bio
+      this.motivational = res.data[0].motivational
     }).catch(error => {console.log(error)})
   },
   methods: {
@@ -63,6 +75,8 @@ export default {
       formData.append("name", this.name);
       formData.append("password", this.password);
       formData.append("username", this.username);
+      formData.append("bio", this.bio);
+      formData.append("motivational", this.motivational);
 
       var headers  = {
         "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
@@ -70,7 +84,7 @@ export default {
       }
       axios.put(`${hostServer}/user/${this.id}`, formData, { headers }).then(res => {
       console.log(res)
-      this.$router.push({name: 'Home'})
+      this.$router.push({name: 'MyProfile'})
       }).catch(error => {
         console.log(`Erro ao registrar dados: ${error}`);
       })

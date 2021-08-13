@@ -50,9 +50,8 @@ section {
   background: transparent;
   outline: none;
   border: var(--border);
-  resize: none;
+  resize: vertical;
   overflow-y: hidden;
-  font-size: 1.4rem;
   color: #ddd;
 }
 

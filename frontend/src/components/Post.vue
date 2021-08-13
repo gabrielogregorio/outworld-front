@@ -1,6 +1,6 @@
 <template>
   <div class="container-post">
-    <div class="img-post-perfil">
+    <div @click="openProfile(post.user._id)" class="img-post-perfil">
       <img v-if="post.user.img == '' || post.user.img == undefined" src="/user.webp" alt="">
       <img v-else :src='`${hostServer}/images/clients/${post.user.img}`' alt="">
     </div><!-- img-post-perfil -->
@@ -8,8 +8,8 @@
     <div class="info-post">
       <div class="info-post-perfil">
         <div class="info-post-superior">
-          <h2>{{post.user.name}}</h2>
-          <p class="info-username">{{post.user.username | processUsername}} ·</p>
+          <h2 @click="openProfile(post.user._id)">{{post.user.name}}</h2>
+          <p class="info-username" @click="openProfile(post.user._id)">{{post.user.username | processUsername}} ·</p>
           <p class="info-time-post">16h</p>
           <div class="delete-post">
             <div v-if="myId == post.user._id">
@@ -87,6 +87,12 @@ export default {
     toogleComment() {
       this.showComment = !this.showComment
     },
+    openProfile(id){
+      this.$router.push({
+        name:"ProfileUser",
+        query: {id}
+      })    
+    },
     newComment(){
       this.$emit("updatePosts", "")
     },
@@ -139,6 +145,7 @@ export default {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    cursor: pointer;
     border-radius: 50%;
   }
 
@@ -160,12 +167,14 @@ export default {
     font-weight: 700;
     color: white;
     font-size: 1rem;
+    cursor: pointer;
   }
 
   .info-post-superior .info-username {
     font-weight: 700;
     margin-left: 5px;
     font-size: 1rem;
+    cursor: pointer;
   }
 
   .delete-post {

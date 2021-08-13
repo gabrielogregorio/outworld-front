@@ -2,15 +2,16 @@
   <div class="modal">
     <div class="modal-item">
       <div class="modal-item-title">
-        <p>Editar</p>
+        <p>{{titleModal}}</p>
+
       </div><!-- modal-item-title -->
 
       <div class="modal-item-textarea">
-        <textarea name="" id="" cols="30" rows="10">Ela é oxigênio, carbono, hidrogênio, nitrogênio, cálcio e fósforo. Os mesmos elementos que estão dentro de todos nós, mas não consigo parar de pensar que ela é mais que isso e que tem outros elementos dos quais ninguém nunca ouviu falar, que a tornam diferente de todas as outras pessoas.</textarea>
+        <textarea name="" id="" cols="30" rows="10" v-model="text"></textarea>
       </div><!-- modal-item-textarea -->
 
       <div class="modal-item-button">
-        <button>Voltar</button>
+        <button @click="cancelModal()">Voltar</button>
         <button>Salvar</button>
       </div><!-- modal-item-button -->
     </div><!-- modal-item -->
@@ -23,7 +24,23 @@ export default {
   name: 'Modal',
   data() {
     return {
+        text: ''
     }
+  },
+  methods: {
+    cancelModal() {
+      this.$emit('cancelModel', '')
+    },
+    updateModal() {
+      this.$emit('updateModel', {})
+    }
+  },
+  created() {
+    this.text = this.textModal;
+  },
+  props: {
+    titleModal:String,
+    textModal: String
   }
 }
 </script>
