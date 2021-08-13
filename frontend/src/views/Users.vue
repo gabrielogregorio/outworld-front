@@ -31,6 +31,6 @@ export default {
     axios.get(`${hostServer}/users`, getHeader()).then(users => {
       this.users = users.data
     })
-  },  
+  }
 }
 </script>

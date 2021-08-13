@@ -4,26 +4,25 @@
       <div class="img-post-perfil">
         <img v-if="img == '' || img == undefined" src="/user.webp" alt="">
         <img v-else :src='`${hostServer}/images/clients/${img}`' alt="">
-      </div>
+      </div><!-- img-post-perfil -->
 
       <div class="info-post">
         <div class="info-post-perfil">
           <textarea class="body-post" name="body" v-model="body" id="bod" cols="15" rows="2" placeholder="O que você quer polemizar?"></textarea>
-
           <div class="body-image">
             <img v-if="imgSrc != ''" :src='`${hostServer}/images/posts/${imgSrc}`' alt="">
-          </div>
+          </div><!-- body-image -->
 
           <div class="botao-postar">
             <label class="custom-file-upload">
               <input type="file" name="image" id="image" @change="loadImage()"/>
               <i class="fas fa-image"></i>
-            </label>
+            </label><!-- custom-file-upload -->
             <button @click="createPost">Comentar</button>
-          </div>
-          </div>
-        </div>
-      </div>
+          </div><!-- botao-postar -->
+        </div><!-- info-post-perfil -->
+      </div><!-- info-post -->
+    </div><!-- container-post -->
     <div class="border-post-space"></div>
   </section>
 </template>
@@ -49,7 +48,6 @@ export default {
   create() {
   },
   methods: {
-
     loadImage() {
       const formData = new FormData();
       const image = document.querySelector("#image");
@@ -85,120 +83,119 @@ export default {
 
 
 <style scoped>
+div.container-post {
+  display: flex;
+  max-width: 700px;
+  width: 100%;
+  padding: 10px;
+  margin: 0 auto;
+  background-color: var(--primary-background);
+  border: var(--border);
+  border-top: 0;
+  padding-bottom: 0;
+}
 
-  div.container-post {
-    display: flex;
-    max-width: 700px;
-    width: 100%;
-    padding: 10px;
-    margin: 0 auto;
-    background-color: var(--primary-background);
-    border: var(--border);
-    border-top: 0;
-    padding-bottom: 0;
-  }
+.img-post-perfil {
+  margin-right: 15px;
+  max-width: 50px;
+  max-height: 50px;
+}
 
-  .img-post-perfil {
-    margin-right: 15px;
-    max-width: 50px;
-    max-height: 50px;
-  }
+.img-post-perfil img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
 
-  .img-post-perfil img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-  }
+.info-post {
+  width: 100%;
+}
 
-  .info-post {
-    width: 100%;
-  }
+.info-post-perfil {
+  width: 100%;
+}
 
-  .info-post-perfil {
-    width: 100%;
-  }
+.info-post-superior {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
 
-  .info-post-superior {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
+.info-post-superior h2 {
+  font-weight: 700;
+  color: white;
+  font-size: 1rem;
+}
 
-  .info-post-superior h2 {
-    font-weight: 700;
-    color: white;
-    font-size: 1rem;
-  }
+.info-post-superior .info-username {
+  font-weight: 700;
+  margin-left: 5px;
+  font-size: 1rem;
+}
 
-  .info-post-superior .info-username {
-    font-weight: 700;
-    margin-left: 5px;
-    font-size: 1rem;
-  }
+.delete-post {
+  flex: 1;
+  text-align: right;
+}
 
-  .delete-post {
-    flex: 1;
-    text-align: right;
-  }
+.delete-post button{
+  background-color: transparent;
+  outline: none;
+  border: 0;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+.delete-post button i{
+  color: rgb(255, 88, 88);
+}
 
-  .delete-post button{
-    background-color: transparent;
-    outline: none;
-    border: 0;
-    font-weight: 700;
-    cursor: pointer;
-    padding: 2px 4px;
-  }
-  .delete-post button i{
-      color: rgb(255, 88, 88);
-  }
+.body-post {
+  color: rgb(192, 192, 192);
+  font-weight: 400;
+  width: 100%;
+}
 
-  .body-post {
-    color: rgb(192, 192, 192);
-    font-weight: 400;
-    width: 100%;
-  }
+.body-image {
+  padding: 10px;
+}
 
-  .body-image {
-    padding: 10px;
-  }
+.body-image > img{
+  width: 100%;
+  border: var(--border);
+  border-radius: 20px;
+  max-height: 900px;
+  object-fit: cover;
+  cursor: pointer;
+}
 
-  .body-image > img{
-    width: 100%;
-    border: var(--border);
-    border-radius: 20px;
-    max-height: 900px;
-    object-fit: cover;
-    cursor: pointer;
-  }
-  
-  .botao-postar {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-  }
+.botao-postar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
 
-  .botao-postar button {
-    border-radius: 20px;
-    background: var(--primary-blue-color);
-    padding: 10px 20px;
-    border: none;
-    font-weight: 700;
-    color: #ddd;
-    cursor: pointer;
-  }
+.botao-postar button {
+  border-radius: 20px;
+  background: var(--primary-blue-color);
+  padding: 10px 20px;
+  border: none;
+  font-weight: 700;
+  color: #ddd;
+  cursor: pointer;
+}
 
-    textarea {
-    width: 100%;
-    background: transparent;
-    outline: none;
-    border: none;
-    resize: none;
-    overflow-y: hidden;
-    font-size: 1.4rem;
-    color: #ddd;
-  }
+  textarea {
+  width: 100%;
+  background: transparent;
+  outline: none;
+  border: none;
+  resize: none;
+  overflow-y: hidden;
+  font-size: 1.4rem;
+  color: #ddd;
+}
 
 </style>

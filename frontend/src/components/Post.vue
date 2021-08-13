@@ -34,7 +34,7 @@
           <button>Retuitar (250)</button>
           <button>Compartilhar (10)</button>
         </div><!-- options-post -->
-      </div>
+      </div><!-- info-post-perfil -->
 
       <div v-if="showComment">
         <MakeComment :postId="post._id" @newComment="newComment()" :imgProfile="imgProfile"/>
@@ -42,10 +42,10 @@
           <Comment :user="postComment.user" :text="postComment.text" />
         </div><!-- comments -->
       </div>
-    </div>
+    </div><!-- info-post -->
   </div><!-- container-post -->
-
 </template>
+
 
 <script>
 import axios from 'axios';
@@ -122,126 +122,124 @@ export default {
 </script>
 
 <style scoped>
+div.container-post {
+  display: flex;
+  max-width: 700px;
+  width: 100%;
+  padding: 10px;
+  margin: 0 auto;
+  background-color: var(--primary-background);
+  border: var(--border);
+  border-top: 0;
+  padding-bottom: 0;
+}
 
-  div.container-post {
-    display: flex;
-    max-width: 700px;
-    width: 100%;
-    padding: 10px;
-    margin: 0 auto;
-    background-color: var(--primary-background);
-    border: var(--border);
-    border-top: 0;
-    padding-bottom: 0;
-  }
+.img-post-perfil {
+  margin-right: 15px;
+  max-width: 50px;
+  max-height: 50px;
+}
 
-  .img-post-perfil {
-    margin-right: 15px;
-    max-width: 50px;
-    max-height: 50px;
-  }
+.img-post-perfil img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 50%;
+}
 
-  .img-post-perfil img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    cursor: pointer;
-    border-radius: 50%;
-  }
+.info-post {
+  width: 100%;
+}
 
-  .info-post {
-    width: 100%;
-  }
+.info-post-perfil {
+  width: 100%;
+}
 
-  .info-post-perfil {
-    width: 100%;
-  }
+.info-post-superior {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
 
-  .info-post-superior {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
+.info-post-superior h2 {
+  font-weight: 700;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
 
-  .info-post-superior h2 {
-    font-weight: 700;
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-  }
+.info-post-superior .info-username {
+  font-weight: 700;
+  margin-left: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
 
-  .info-post-superior .info-username {
-    font-weight: 700;
-    margin-left: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-  }
+.delete-post {
+  flex: 1;
+  text-align: right;
+}
 
-  .delete-post {
-    flex: 1;
-    text-align: right;
-  }
+.delete-post button{
+  background-color: transparent;
+  outline: none;
+  border: 0;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+.delete-post button i{
+  color: rgb(255, 88, 88);
+}
 
-  .delete-post button{
-    background-color: transparent;
-    outline: none;
-    border: 0;
-    font-weight: 700;
-    cursor: pointer;
-    padding: 2px 4px;
-  }
-  .delete-post button i{
-      color: rgb(255, 88, 88);
-  }
+.body-post {
+  color: rgb(192, 192, 192);
+  font-weight: 400;
+  width: 100%;
+}
 
-  .body-post {
-    color: rgb(192, 192, 192);
-    font-weight: 400;
-    width: 100%;
-  }
+.body-image {
+  padding: 10px;
+}
 
-  .body-image {
-    padding: 10px;
-  }
+.body-image > img{
+  width: 100%;
+  border: var(--border);
+  border-radius: 20px;
+  max-height: 900px;
+  object-fit: cover;
+  cursor: pointer;
+}
 
-  .body-image > img{
-    width: 100%;
-    border: var(--border);
-    border-radius: 20px;
-    max-height: 900px;
-    object-fit: cover;
-    cursor: pointer;
-  }
+.options-post {
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-around;
+}
 
-  .options-post {
-    margin: 10px 0;
-    display: flex;
-    justify-content: space-around;
-  }
+.options-post button {
+  background-color: transparent;
+  outline: none;
+  border: 0;
+  padding: 5px 10px;
+  cursor: pointer;
+  color: rgb(133, 133, 133);
+  cursor: pointer;
+}
 
-  .options-post button {
-    background-color: transparent;
-    outline: none;
-    border: 0;
-    padding: 5px 10px;
-    cursor: pointer;
-    color: rgb(133, 133, 133);
-    cursor: pointer;
-  }
+.options-post .active-like {
+  display: block;
+  background: var(--primary-blue-color);
+  color: white;
+  border-radius: 10px;
+}
 
-  .options-post .active-like {
-    display: block;
-    background: var(--primary-blue-color);
-    color: white;
-    border-radius: 10px;
-  }
-
-  .options-post .showComment {
-    display: block;
-    background: var(--primary-purple-color);
-    color: white;
-    border-radius: 10px;
-  }
-
+.options-post .showComment {
+  display: block;
+  background: var(--primary-purple-color);
+  color: white;
+  border-radius: 10px;
+}
 
 </style>

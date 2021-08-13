@@ -28,6 +28,7 @@
   </div><!-- coments -->
 </template>
 
+
 <script>
 import { hostServer } from '../connections';
 import axios from 'axios';
@@ -46,7 +47,6 @@ export default {
       this.userData = userData.data[0]
     })
   },
-
   props: {
     user: String,
     text: String
@@ -58,11 +58,11 @@ export default {
       } else {
         return `@${value}`;
       }
-
     }
   }
 }
 </script>
+
 
 <style scoped>
 .coments {
@@ -87,7 +87,6 @@ export default {
   width: 100%;
 }
 
-
 .msg {
   background: #3a3b3c;
   padding: 10px;
@@ -99,7 +98,6 @@ export default {
   display: flex;
 }
 
-/* Nome */
 .msg-name-options p:nth-child(1) pre{
   font-weight: 700;
 }
@@ -108,7 +106,6 @@ export default {
   font-weight: 500;
 }
 
-/* Informações */
 .msg-data p {
   font-size: 0.9rem;
   color: #c4c4c4;
@@ -135,4 +132,3 @@ export default {
   color: var(--primary-blue-color);
 } 
 </style>
-

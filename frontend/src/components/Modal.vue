@@ -112,5 +112,4 @@ export default {
   border: var(--border);
   color: white;
 }
-
 </style>

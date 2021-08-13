@@ -19,7 +19,7 @@
       <input type="password" name="password" id="password" placeholder="Uma senha" v-model="password">
       
       <a href="/Login">Fazer login</a>
-      <button @click="cadastrar()">Login</button><br>
+      <button @click="cadastrar()">Cadastrar</button><br>
     </div>
   </section>
 </template>

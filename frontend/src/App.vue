@@ -1,15 +1,143 @@
 <template>
   <div id="app">
-    <link rel="stylesheet" href="/relive.css">
     <router-view/>
   </div>
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  color: #2c3e50;
+:root {
+  --border: 1px solid rgba(95, 95, 95, 0.486);
+  --border-color: rgba(95, 95, 95, 0.486);
+  --primary-text-color: #dedede;
+  --secundary-text-color: #999;
+  --primary-blue-color: rgb(29, 122, 199);
+  --secundary-color: rgb(27, 121, 197);
+  --primary-purple-color: rgb(137, 29, 199);
+  --primary-background: #242526;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--primary-text-color);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background-color: #18191a;
+  overflow-y: scroll;
+}
+
+section {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2%;
+}
+
+.form { 
+  display: flex;
+  flex-direction: column;
+  max-width: 700px;
+  width: 100%;
+  padding: 50px;
+  margin: 40px auto;
+  background-color: var(--primary-background);
+  border: var(--border);
+  border-top:0;
+}
+.form textarea {
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 100%;
+  background: transparent;
+  outline: none;
+  border: var(--border);
+  resize: vertical;
+  overflow-y: hidden;
+  color: #ddd;
+}
+
+.novo-post-imagem img{
+  width: 100%;
+}
+
+form .novo-post-imagem img {
+  width: 100%;
+}
+
+.form h1 {
+  font-weight: 700;
+  font-size: 24px;
+  text-align: center;
+  color: #ddd;
+}
+
+.form a {
+  display: block;
+  color: #ddd;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.form label {
+  display: block;
+  color: #ddd;
+  padding-top: 20px;
+  padding-bottom: 5px;
+}
+
+.form input {
+  color: #ddd;
+  padding: 10px;
+  background-color: transparent;
+  outline: none;
+  border: 1px solid #454545;
+}
+
+.form input:focus {
+  border: 1px solid var(--secundary-color);
+} 
+
+
+.form button {
+  display: block;
+  margin: 10px 0;
+  padding: 10px 0;
+  cursor: pointer;
+  background-color: var(--secundary-color);
+  border: none;
+  color: #ddd;
+  transition: 0.2s;
+}
+
+.form button:hover {
+  background-color: rgb(46, 141, 219);
+}
+
+.form-logged {
+  margin: 0 auto;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.custom-file-upload {
+  display: block;
+  cursor: pointer;
+
+}
+
+.custom-file-upload i {
+  display: block;
+  cursor: pointer;
+  font-size: 1.3rem;
+  color: var(--secundary-color);
 }
 
 </style>

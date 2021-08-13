@@ -1,38 +1,35 @@
 <template>
-<div>
-  <Navbar />
-  <section>
-    <div class="form form-logged">
-      <label for="email">E-mail (Não alterável): </label>
-      <input type="email" name="email" id="email" placeholder="your email" v-model="email" disabled>
+  <div>
+    <Navbar />
+    <section>
+      <div class="form form-logged">
+        <label for="email">E-mail (Não alterável): </label>
+        <input type="email" name="email" id="email" placeholder="your email" v-model="email" disabled>
 
-      <label for="name">Nome: </label>
-      <input type="name" name="name" id="name" placeholder="Seu nome" v-model="name">
+        <label for="name">Nome: </label>
+        <input type="name" name="name" id="name" placeholder="Seu nome" v-model="name">
 
-      <label for="username">Nome de usuario</label>
-      <input type="text" name="username" id="username" placeholder="Seu nome de usuário" v-model="username">
+        <label for="username">Nome de usuario</label>
+        <input type="text" name="username" id="username" placeholder="Seu nome de usuário" v-model="username">
 
-      <label for="bio">Sua Biografia</label>
-      <textarea type="text" name="bio" id="bio" placeholder="Uma bigrafia" v-model="bio"></textarea>
+        <label for="bio">Sua Biografia</label>
+        <textarea type="text" name="bio" id="bio" placeholder="Uma bigrafia" v-model="bio"></textarea>
 
-      <label for="motivational">Frase</label>
-      <textarea type="text" name="motivational" id="motivational" placeholder="Uma frase que te motica" v-model="motivational"></textarea>
+        <label for="motivational">Frase</label>
+        <textarea type="text" name="motivational" id="motivational" placeholder="Uma frase que te motica" v-model="motivational"></textarea>
 
+        <label for="image">Sua foto</label>
+        <input type="file" name="image" id="image">
 
+        <label for="password">Senha: </label>
+        <input type="password" name="password" id="password" placeholder="your password" v-model="password">
 
-      <label for="image">Sua foto</label>
-      <input type="file" name="image" id="image">
-
-      <label for="password">Senha: </label>
-      <input type="password" name="password" id="password" placeholder="your password" v-model="password">
-
-      <button class="red" @click="updateItens">Salvar Alteracoes</button>
-    </div>
-    
-  </section>
-
-</div>
+        <button class="red" @click="updateItens">Salvar Alteracoes</button>
+      </div>
+    </section>
+  </div>
 </template>
+
 
 <script>
 import axios from 'axios'
@@ -82,6 +79,7 @@ export default {
         "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
         Authorization:getHeader().headers.Authorization
       }
+
       axios.put(`${hostServer}/user/${this.id}`, formData, { headers }).then(res => {
       console.log(res)
       this.$router.push({name: 'MyProfile'})

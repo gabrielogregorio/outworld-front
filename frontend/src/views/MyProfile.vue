@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <Navbar />
-
     <div class="my-profile">
       <img v-if="user.img == '' || user.img == undefined" src="/user.webp" alt="">
       <img v-else :src='`${hostServer}/images/clients/${user.img}`' alt="">
@@ -9,7 +8,6 @@
       <div class="name-config">
         <h2>{{user.name}}</h2><router-link to="/EditProfile"><i class="fas fa-cog"></i></router-link>
       </div>
-
       
       <div class="statistics">
         <a href="#">174 publicações </a>
@@ -22,7 +20,6 @@
       </div>
 
       <Modal v-if="showModal == true" :titleModal="this.titleModal" :textModal="this.textModal" @cancelModel="cancelModel()"/>
-      
 
       <div class="bio-and-work">
         <div class="biograph">
@@ -43,7 +40,6 @@
         </div>
       </div>
 
-
       <div class="menu-items">
         <button>posts</button>
         <button>fotos</button>
@@ -51,18 +47,14 @@
       </div>
     </div>
 
-
    <NewPost @updatePostsEvent="updatePosts()" :img="user.img"/>
 
     <div class="container-post" v-for="post in posts" :key="post.id">
       <Post :post="post" :myId="myId" @updatePosts="updatePosts()" :imgProfile="img" />
     </div>
 
-
   </div>
 </template>
-
-
 
 
 <script>
@@ -123,7 +115,6 @@ export default {
     })
   },  
   methods: {
-
     alternateModel(title, texto) {
       this.showModal = !this.showModal;
       this.titleModal = title;
@@ -189,7 +180,6 @@ export default {
   color: rgba(255, 255, 255, 1);
 } 
 
-
 .citation {
   width: 100%;
   padding: 20px 10px;
@@ -204,6 +194,7 @@ export default {
 }
 
 .biograph {}
+
 .work {}
 
 .menu-items {
@@ -219,7 +210,7 @@ export default {
   border: none;
   padding: 5px;
   cursor: pointer;
-    border-bottom: 2px solid transparent;
+  border-bottom: 2px solid transparent;
 }
 
 .menu-items button:hover {

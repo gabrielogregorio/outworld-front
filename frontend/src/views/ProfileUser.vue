@@ -2,15 +2,14 @@
  <section> 
     <Navbar />
     <div class="my-profile">
-        <img v-if="user.img == '' || user.img == undefined" src="/user.webp" alt="">
-        <img v-else :src='`${hostServer}/images/clients/${user.img}`' alt="">
+      <img v-if="user.img == '' || user.img == undefined" src="/user.webp" alt="">
+      <img v-else :src='`${hostServer}/images/clients/${user.img}`' alt="">
       <h2>{{user.name}}</h2>
 
-
       <div class="statistics">
-        <a href="#">174 publicações </a>
-        <a href="#">820 seguidores </a>
-        <a href="#">721 seguindo </a>
+        <a href="#">x publicações </a>
+        <a href="#">x seguidores </a>
+        <a href="#">x seguindo </a>
       </div>
 
       <div class="citation">
@@ -57,7 +56,6 @@ import { hostServer } from '../connections';
 import axios from 'axios';
 import Post from '../components/Post.vue';
 export default {
-
   name: 'ProfileUser',
   data() {
     return {
@@ -88,7 +86,7 @@ export default {
       return ''
     }
   },
-   methods: {
+  methods: {
     updatePosts() {
       axios.get(`${hostServer}/postsUser/${this.$route.query.id}`, getHeader()).then(posts => {
         this.posts = posts.data
@@ -96,20 +94,21 @@ export default {
     }
   },
   created() {
-
     axios.get(`${hostServer}/me`, getHeader()).then(me => {
       this.myId = me.data[0]._id;
       this.img = me.data[0].img;
     })
+
     axios.get(`${hostServer}/user/${this.$route.query.id}`, getHeader()).then(me => {
       this.user = me.data[0]
     })
-      axios.get(`${hostServer}/postsUser/${this.$route.query.id}`, getHeader()).then(posts => {
-        this.posts = posts.data
-      })
+    axios.get(`${hostServer}/postsUser/${this.$route.query.id}`, getHeader()).then(posts => {
+      this.posts = posts.data
+    })
   }
 }
 </script>
+
 
 <style scoped>
 .my-profile {
@@ -143,6 +142,7 @@ export default {
   padding: 20px 10px;
   text-align: center;
 }
+
 .bio-and-work {
   padding: 0;
   width: 100%;
@@ -151,6 +151,7 @@ export default {
 }
 
 .biograph {}
+
 .work {}
 
 .menu-items {
@@ -166,7 +167,7 @@ export default {
   border: none;
   padding: 5px;
   cursor: pointer;
-    border-bottom: 2px solid transparent;
+  border-bottom: 2px solid transparent;
 }
 
 .menu-items button:hover {

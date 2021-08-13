@@ -5,7 +5,7 @@
     <div class="form">
       <label for="body">Seu post</label>
       <textarea name="body" v-model="body" id="body" cols="15" rows="2" placeholder="O que você quer polemizar?"></textarea>
-      <img v-if="imgSrc != '' || imgSrc == undefined" :src='`http://127.0.0.1:3333/images/posts/${imgSrc}`' alt="">
+      <img v-if="imgSrc != '' || imgSrc == undefined" :src='`${hostServer}/images/posts/${imgSrc}`' alt="">
 
       <label class="custom-file-upload">
         <input type="file" name="image" id="image" @change="loadImage()"/>
@@ -33,7 +33,8 @@ export default {
       body: '',
       img: '',
       imgSrc: '',
-      user: ''
+      user: '',
+      hostServer: hostServer
     }
   },
   components: {

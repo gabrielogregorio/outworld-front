@@ -31,7 +31,6 @@ function authUser(to, from, next) {
 }
 
 
-
 const routes = [
   {
     path: '/Cadastro',

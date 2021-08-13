@@ -1,5 +1,5 @@
 <template>
-  <div class="newComment">
+  <div class="new-comment">
     <div class="profile">
       <img v-if="imgProfile == '' || imgProfile == undefined" src="/user.webp" alt="">
       <img v-else :src='`${hostServer}/images/clients/${imgProfile}`' alt="">
@@ -9,7 +9,7 @@
       <textarea type="text" name="comment" id="" v-model="comment"></textarea>
       <button @click="comentar()">comentar</button>
     </div><!-- comment -->
-  </div>
+  </div><!-- new-comment -->
 </template>
 
 <script>
@@ -46,7 +46,7 @@ export default {
 
 <style scoped>
 
-.newComment {
+.new-comment {
   display: flex;
   align-content: center;
   width: 100%;

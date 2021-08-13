@@ -2,6 +2,7 @@
   <section>
     <div class="form">
       <h1>Fazer login</h1>
+ 
       <label for="email">E-mail: </label>
       <input type="email" name="email" id="email" placeholder="your email" v-model="email">
 
@@ -10,7 +11,7 @@
 
       <a href="/Cadastro">Fazer cadastro</a>
       <button @click="login()">Login</button><br>
-  </div>
+    </div>
   </section>
 </template>
 

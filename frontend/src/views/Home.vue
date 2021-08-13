@@ -39,7 +39,7 @@ export default {
       img: ''
     }
   },
-   created() {
+  created() {
     axios.get(`${hostServer}/me`, getHeader()).then(me => {
       this.myId = me.data[0]._id;
       this.img = me.data[0].img;
@@ -58,6 +58,6 @@ export default {
 }
 </script>
 
-<style scoped>
 
+<style scoped>
 </style>

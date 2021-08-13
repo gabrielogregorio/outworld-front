@@ -21,7 +21,9 @@ import { hostServer } from '../connections';
 
 export default {
   name: 'User',
-  components: {},
+  components: {
+
+  },
   props: {
     user: Object
   },
@@ -38,13 +40,14 @@ export default {
       hostServer: hostServer
     }
   },
-  created() {}
+  created() {
+
+  }
 }
 </script>
 
 
 <style scoped>
-
 div.container-user {
   display: flex;
   max-width: 700px;
