@@ -43,10 +43,11 @@ export default {
     axios.get(`${hostServer}/me`, getHeader()).then(me => {
       this.myId = me.data[0]._id;
       this.img = me.data[0].img;
+      axios.get(`${hostServer}/posts`, getHeader()).then(posts => {
+        this.posts = posts.data
+      })
     })
-    axios.get(`${hostServer}/posts`, getHeader()).then(posts => {
-      this.posts = posts.data
-    })
+
   },  
   methods: {
     updatePosts() {

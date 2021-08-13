@@ -10,6 +10,8 @@
         <div class="info-user-superior">
           <h2 @click="openProfile(user._id)" >{{user.name}}</h2>
           <p @click="openProfile(user._id)" class="info-username">@user</p>
+          <button v-if="listFollow.includes(user._id) == true" @click="followPerson()" class="seguindo">Seguindo</button>
+          <button v-else @click="followPerson()">Seguir</button>
         </div><!-- info-user-superior -->
       </div><!-- info-user-perfil -->
     </div><!-- info-user -->
@@ -18,16 +20,23 @@
 
 <script>
 import { hostServer } from '../connections';
+import axios from 'axios'
+import getHeader from '../getToken';
 
 export default {
   name: 'User',
   components: {
-
   },
   props: {
-    user: Object
+    user: Object,
+    listFollow: Array
   },
   methods: {
+    followPerson(){
+      axios.post(`${hostServer}/user/follow/${this.user._id}`, {}, getHeader()).then(() => {
+        this.$emit("updateUsers", "")
+      })
+    },
     openProfile(id) {
       this.$router.push({
         name:"ProfileUser",
@@ -41,7 +50,6 @@ export default {
     }
   },
   created() {
-
   }
 }
 </script>
@@ -99,6 +107,15 @@ div.container-user {
   margin-left: 5px;
   font-size: 1rem;
   cursor: pointer;
+}
+
+.seguindo {
+  background: var(--primary-blue-color);
+}
+
+button:hover {
+  background: var(--primary-blue-color);
+  transition: 0.5s;
 }
 
 </style>

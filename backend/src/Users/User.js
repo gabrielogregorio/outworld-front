@@ -9,6 +9,8 @@ let userSchema = new mongoose.Schema({
   motivational: String, // Frase motivacional
   itemBio: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ItemBio' }], // Item bio
   posts: { type: mongoose.Schema.Types.ObjectId, ref:'Post'},
+  following: [this],
+  followers: [this],
   likes: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Likes'

@@ -5,6 +5,7 @@ const Post = require('./Post/Post');
 const User = require('./Users/User');
 const Like = require('./Likes/Like');
 const ItemBio = require('./ItemBio/ItemBio');
+const Follow = require('./Follow/Follow');
 const Comment = require('./Comment/Comment');
 const UserController = require('./Users/UserController');
 const PostController = require('./Post/PostController');

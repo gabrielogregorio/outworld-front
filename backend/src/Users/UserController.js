@@ -7,10 +7,9 @@ const router = express.Router()
 const DataUsers = require('../factories/dataUsers');
 const multerImage = require('../middlewares/multerImage');
 const ItemBio = require('../ItemBio/ItemBio');
+const Follow = require('../Follow/Follow');
 require('dotenv/config');
 const jwtSecret = process.env.JWT_SECRET
-
-
 
 router.post('/user', multerImage.single('image'), async (req, res) => {
   var {name, email, username, password} = req.body;
@@ -84,7 +83,7 @@ router.post('/auth', async (req, res) => {
 })
 
 router.get('/users', userAuth,  async (req, res) => { 
-  var users = await User.find().populate('itemBio')
+  var users = await User.find().populate('itemBio following followers')
   var userFactories = []
   users.forEach(user => {
     userFactories.push(DataUsers.Build(user))
@@ -94,7 +93,7 @@ router.get('/users', userAuth,  async (req, res) => {
 
 router.get('/user/:id', userAuth,  async (req, res) => { 
   try {
-    var users = await User.find({_id: req.params.id}).populate('itemBio')
+    var users = await User.find({_id: req.params.id}).populate('itemBio following followers')
   } catch(error) {
     return res.sendStatus(500)
   }
@@ -181,7 +180,7 @@ router.put('/user/:id', userAuth, multerImage.single('image'), async (req, res) 
     await User.findOneAndUpdate({_id:id}, {$set:update})
 
     // retorna os dados atualizados!
-    var userNew = await User.findOne({_id:id}).populate('itemBio');
+    var userNew = await User.findOne({_id:id}).populate('itemBio following followers');
 
     if (userNew == null) {
       return res.sendStatus(404)      
@@ -189,12 +188,65 @@ router.put('/user/:id', userAuth, multerImage.single('image'), async (req, res) 
     return res.json(userNew)
   } catch(error)  {
     return res.sendStatus(500)
-  }
+  } 
 })
+
+router.post('/user/follow/:id', userAuth, async (req, res) => {
+  var idUserToken = req.data.id;
+  var idUserFollow = req.params.id;
+
+  if (idUserToken == idUserFollow) {
+    res.statusCode = 400
+    return res.json({msg: 'Usuário não pode seguir a si mesmo!'})
+  }
+ 
+  try {
+    // Encontra o usuário que quer seguir e o usuário que será seguido
+    var userFollow = await User.findById({_id:idUserFollow});
+    var user = await User.findById({_id:idUserToken});
+
+    // Algum usuário não encontrado
+    if (userFollow == '' || user == '' || userFollow == null || user == null){
+      return res.sendStatus(404)
+    }
+
+    // Verifica se o usuário que quer seguir já está seguindo o outro usuário
+    var filterFollonUser = user.following.filter(item => item._id != idUserFollow)
+
+    // Usuário NÃO estava seguindo
+    if (filterFollonUser.length == user.following.length) {
+      // Atualizar ambos os lados
+      user.following.push(userFollow._id)
+      userFollow.followers.push(user._id)
+
+      await user.save()
+      await userFollow.save()  
+
+      return res.json({followed:true})
+
+    // unfolow
+    } else {
+
+      // Atualizar ambos os lados
+      user.following = filterFollonUser
+      var filterRemoveFollon = user.followers.filter(item => item._id != idUserToken)
+      userFollow.followers = filterRemoveFollon
+
+      await user.save()
+      await userFollow.save()  
+      return res.json({followed:false})
+
+    }
+  } catch(error) {
+    console.log(error)
+    return res.sendStatus(500)
+  }
+});
+
 
 router.get('/me', userAuth,  async (req, res) => { 
   var id = req.data.id;
-  var users = await User.find({_id: id}).populate('itemBio');
+  var users = await User.find({_id: id}).populate('itemBio following followers');
 
   if (users.length == 0) {
     res.statusCode =404

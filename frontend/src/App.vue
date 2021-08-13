@@ -33,6 +33,15 @@ body {
   overflow-y: scroll;
 }
 
+button {
+  border: var(--border);
+  padding: 10px 20px;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
 section {
   max-width: 1280px;
   margin: 0 auto;

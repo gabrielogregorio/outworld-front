@@ -100,8 +100,7 @@ export default {
       axios.delete(`${hostServer}/post/${id}`, getHeader())
         .then(() => {
           this.$emit("updatePosts", "")
-        })
-        .catch(error => console.log(error))
+        }).catch(error => console.log(error))
     },
     editPost(id) {
       this.$router.push({

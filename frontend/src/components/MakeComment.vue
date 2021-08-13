@@ -34,7 +34,6 @@ export default {
   methods: {
     comentar() {
       axios.post(`${hostServer}/post/comment/${this.postId}`,{text:this.comment},  getHeader()).then(res => {
-        console.log(res.data)
         this.comment = '';
         this.$emit('newComment', res.data.id)
       })

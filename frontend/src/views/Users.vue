@@ -3,7 +3,7 @@
     <Navbar />
     <section>
       <div v-for="user in users" :key="user.id">
-        <User :user="user"/>
+        <User v-if="user._id != userMe._id" :user="user" :listFollow="userMe.followingIds" @updateUsers="updateUsers()"/>
       </div>
     </section>
   </div>
@@ -16,6 +16,7 @@ import getHeader from '../getToken';
 import User from '../components/User.vue'
 import { hostServer } from '../connections';
 
+
 export default {
   name: 'Users',
   components: {
@@ -24,13 +25,26 @@ export default {
   },
   data() {
     return {
-      users: []
+      users: [],
+      userMe: [],
+      myid: '',
+      listaUsersFollow:[],
+      usersTemp: []
+    }
+  },
+
+  methods: {
+    updateUsers() {
+      axios.get(`${hostServer}/me`, getHeader()).then(userMe => {
+        this.userMe = userMe.data[0];
+        axios.get(`${hostServer}/users`, getHeader()).then(users => {
+          this.users = users.data;
+        })
+      })
     }
   },
    created() {
-    axios.get(`${hostServer}/users`, getHeader()).then(users => {
-      this.users = users.data
-    })
+     this.updateUsers()
   }
 }
 </script>

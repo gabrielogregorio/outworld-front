@@ -1,5 +1,30 @@
 # Api Crud com TDD
-Projeto para estudar TDD com Nodejs
+backend do projeto
+
+Para executar os testes automatizados é preciso ter o jest instalado de forma global. Após isso, execute o comando abaixo:
+
+```shell
+npm run test
+```
+
+Para executar o backend é preciso configurar o arquivo .env.example, renomeando para .env, e então você poderá alterar os valores para a sua preferência.
+
+Também será preciso iniciar o mongodb, no meu caso, estou usando na minha máquina e portanto preciso abrir o Prompt de comando como administrador e rodar o seguinte comando
+
+```shell
+net start mongodb
+```
+
+A saida deverá ser algo como
+
+> O serviço de MongoDB Server (MongoDB) está sendo iniciado..
+> O serviço de MongoDB Server (MongoDB) foi iniciado com êxito.
+
+Com o mongodb iniciado, para iniciar o servidor você precisa executar o seguinte comando
+```shell
+node src/server.js
+```
+
 
 ## Endpoints   
 ### <img src="images/post.png" height="18"> - /user

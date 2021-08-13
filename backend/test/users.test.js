@@ -3,6 +3,9 @@ let supertest = require('supertest');
 let request = supertest(app)
 var tokenValido = {}
 var idUsuarioValido = '';
+
+var token2Valido = {}
+var idUsuario2Valido = '';
 let user = {
   name:'sherek',
   username:'sherek',
@@ -18,6 +21,21 @@ let user = {
   password: 'asdmkaksasdas'
 }
 
+let user2 = {
+  name:'9d591724044b57d9b3607bbef285cbb9086b53edaf1cd1cedb47e6ad6855721c',
+  username:'9d591724044b57d9b3607bbef285cbb9086b53edaf1cd1cedb47e6ad6855721c',
+  email:'9d591724044b57d9b3607bbef285cbb9086b53edaf1cd1cedb47e6ad6855721c',
+  itemBio: [
+    ['school', '9d591724044b57d9b3607bbef285cbb9086b53edaf1cd1cedb47e6ad6855721c'],
+    ['status', '9d591724044b57d9b3607bbef285cbb9086b53edaf1cd1cedb47e6ad6855721c'],
+    ['work', '9d591724044b57d9b3607bbef285cbb9086b53edaf1cd1cedb47e6ad6855721c'],
+    ['film', '9d591724044b57d9b3607bbef285cbb9086b53edaf1cd1cedb47e6ad6855721c']
+  ],
+  bio: '🌻🏠\n\n@9d591724044b57d9b3607bbef285cbb9086b53edaf1cd1cedb47e6ad6855721c',
+  motivational: '9d591724044b57d9b3607bbef285cbb9086b53edaf1cd1cedb47e6ad6855721c',
+  password: '9d591724044b57d9b3607bbef285cbb9086b53edaf1cd1cedb47e6ad6855721c'
+}
+
 beforeAll(() => {
   return request.post('/configure').then(() => {}).catch(error => fail(error))
 })
@@ -25,8 +43,10 @@ beforeAll(() => {
 
 afterAll(() => {
   return request.delete(`/user/${user.email}`).then(res => {
-    return request.post('/endconfigure').then(() => {
-      return mongoose.connection.close();
+    return request.delete(`/user/${user2.email}`).then(res => {
+      return request.post('/endconfigure').then(() => {
+        return mongoose.connection.close();
+      })
     })
   })
 })
@@ -39,6 +59,17 @@ describe('Cadastro e login de usuários', () => {
       expect(res.body.id).toBeDefined()
       expect(res.body.token).toBeDefined()
       idUsuarioValido = res.body.id;
+    }).catch(error => fail(error))
+  })
+
+  test("Deve cadastrar um segundo usuário com sucesso!", () => {
+    return request.post('/user').send(user2).then(res => {
+      expect(res.statusCode).toEqual(200)
+      expect(res.body.email).toEqual(user2.email)
+      expect(res.body.id).toBeDefined()
+      expect(res.body.token).toBeDefined()
+      idUsuario2Valido = res.body.id;
+      token2Valido = { authorization:"Bearer " + res.body.token}
     }).catch(error => fail(error))
   })
 
@@ -88,7 +119,87 @@ describe('Cadastro e login de usuários', () => {
       }).catch(error => fail(error))
     })
   })
-  
+
+  test('Usuário 1 deve seguir o usuário 2', () => {
+    return request.post(`/user/follow/${idUsuario2Valido}`)
+      .set(tokenValido)
+      .then(res => {
+        expect(res.statusCode).toEqual(200)
+        expect(res.body.followed).toEqual(true)
+    }).catch(error => fail(error))
+  })
+
+  test("Obter os dados de si mesmo e verificar que está seguindo o usuario 2", () => {
+    return request.get('/me')
+      .set(tokenValido)
+      .then(res => {
+        expect(res.statusCode).toEqual(200)
+        expect(res.body[0].name).toEqual(user.name)
+        expect(res.body[0].email).toEqual(user.email)
+        expect(res.body[0].username).toEqual(user.username)
+        expect(res.body[0].following[0]._id).toEqual(idUsuario2Valido)
+    }).catch(error => fail(error))
+  })
+
+  test("Obter os dados de si mesmo e verificar que está sendo seguido pelo usuario 1", () => {
+    return request.get('/me')
+      .set(token2Valido)
+      .then(res => {
+        expect(res.statusCode).toEqual(200)
+        expect(res.body[0].name).toEqual(user2.name)
+        expect(res.body[0].email).toEqual(user2.email)
+        expect(res.body[0].username).toEqual(user2.username)
+        expect(res.body[0].followers[0]._id).toEqual(idUsuarioValido)
+    }).catch(error => fail(error))
+  })
+
+  test('Usuário 1 deve remover o seguir do usuário 2', () => {
+    return request.post(`/user/follow/${idUsuario2Valido}`)
+      .set(tokenValido)
+      .then(res => {
+        expect(res.statusCode).toEqual(200)
+        expect(res.body.followed).toEqual(false)
+    }).catch(error => fail(error))
+  })
+
+
+
+  test("Obter os dados de si mesmo e verificar que DEIXOU de seguir o usuario 2", () => {
+    return request.get('/me')
+      .set(tokenValido)
+      .then(res => {
+        expect(res.statusCode).toEqual(200)
+        expect(res.body[0].name).toEqual(user.name)
+        expect(res.body[0].email).toEqual(user.email)
+        expect(res.body[0].username).toEqual(user.username)
+        expect(res.body[0].following).toEqual([])
+    }).catch(error => fail(error))
+  })
+
+  test("Obter os dados de si mesmo e verificar que DEIXOU de ser seguido pelo usuario 1", () => {
+    return request.get('/me')
+      .set(token2Valido)
+      .then(res => {
+        expect(res.statusCode).toEqual(200)
+        expect(res.body[0].name).toEqual(user2.name)
+        expect(res.body[0].email).toEqual(user2.email)
+        expect(res.body[0].username).toEqual(user2.username)
+        expect(res.body[0].followers).toEqual([])
+    }).catch(error => fail(error))
+  })
+
+
+
+
+  test('Usuário não pode seguir a si mesmo', () => {
+    return request.post(`/user/follow/${idUsuarioValido}`)
+      .set(tokenValido)
+      .then(res => {
+        expect(res.statusCode).toEqual(400)
+        expect(res.body.msg).toEqual('Usuário não pode seguir a si mesmo!')
+    }).catch(error => fail(error))
+  })
+
   test('Impedir acesso com token invalido', () => {
     return request.post('/validate').send().set(
       { authorization:"Bearer xxxxxxxxxxxxxxxxxx"}
@@ -161,16 +272,6 @@ describe('Cadastro e login de usuários', () => {
     }).catch(error => fail(error))
   })
 
-  test("Obter os dados de si mesmo", () => {
-    return request.get('/me')
-      .set(tokenValido)
-      .then(res => {
-        expect(res.statusCode).toEqual(200)
-        expect(res.body[0].name).toEqual(user.name)
-        expect(res.body[0].email).toEqual(user.email)
-        expect(res.body[0].username).toEqual(user.username)
-    }).catch(error => fail(error))
-  })
 
   test("Deve impedir o login de um usuário não cadastrado", () => {
     return request.post('/auth')

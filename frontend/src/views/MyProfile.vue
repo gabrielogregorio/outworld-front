@@ -109,10 +109,11 @@ export default {
       this.img = me.data[0].img;
       this.user = me.data[0];
       this.motivational = this.user.motivational;
+      axios.get(`${hostServer}/posts`, getHeader()).then(posts => {
+        this.posts = posts.data
+      })
     })
-    axios.get(`${hostServer}/posts`, getHeader()).then(posts => {
-      this.posts = posts.data
-    })
+
   },  
   methods: {
     alternateModel(title, texto) {

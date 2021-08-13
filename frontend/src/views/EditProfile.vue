@@ -81,8 +81,8 @@ export default {
       }
 
       axios.put(`${hostServer}/user/${this.id}`, formData, { headers }).then(res => {
-      console.log(res)
-      this.$router.push({name: 'MyProfile'})
+        console.log(res)
+        this.$router.push({name: 'MyProfile'})
       }).catch(error => {
         console.log(`Erro ao registrar dados: ${error}`);
       })
