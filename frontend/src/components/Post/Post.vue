@@ -27,12 +27,10 @@
       <button v-if="showComment == true" class="showComment" @click="toogleComment()">Comentar</button>
       <button v-else @click="toogleComment()">Comentar</button>
 
-      <button>Retuitar (250)</button>
+      <button>Salvar</button>
       <button v-if="post.sharePost != undefined" @click="sharePostNow(post.sharePost._id)">Compartilhar </button>
       <button v-else @click="sharePostNow(post._id)">Compartilhar </button>
     </div><!-- options-post -->
-
-
 
     <div v-if="showComment">
       <MakeComment :postId="post._id" @newComment="newComment()" :imgProfile="imgProfile"/>

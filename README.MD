@@ -9,13 +9,13 @@
   <img height="30" alt="html5" src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
 </div>
 
-<h3 align="center">Micro Twitter, backend com TDD e frontend com vuejs</h3>
+<h3 align="center">Uma micro rede social feita com nodejs e vuejs. O backend está coberto com TDD</h3>
 <p align="center">
-Um projeto de estudo de TDD, um micro Twitter... Ainda estou escrevendo o README....
+Isso é basicamente uma micro rede social, ainda em alpha e sendo focado principalmente nos meus estudos,
   <br>
 </p>
 
 <h3>Informações gerais</h3>
-Esse projeto não teve foco no frontend, portanto, o frontend foi feito para ser o mais simplista possível, o foco foi o estudo de TDD a API no backend
+Um aviso importante, atualmente minha preocupação é com o backend, portanto no front end eu só estou fazendo o dever de casa e para desktop, pois o backend é bem mais complexo e é o meu foco.
 
-![Interface](images/2.png)
+![Interface](images/1.png)

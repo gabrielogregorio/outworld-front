@@ -91,7 +91,7 @@ export default {
   },
  async created() {
     let me = await axios.get(`${hostServer}/me`, getHeader())
-        console.log( me.data)
+    console.log( me.data)
     this.myId = me.data[0]._id;
     this.img = me.data[0].img;
     this.user = me.data[0];
@@ -102,8 +102,15 @@ export default {
     for (let i=0; i<posts.data.length; i++) {
           
       if (posts.data[i].sharePost != undefined) {
-        var data = await axios.get(`${hostServer}/post/${posts.data[i].sharePost}`, getHeader())
-        posts.data[i].sharePost = data.data[0]
+        try {
+          var data = await axios.get(`${hostServer}/post/${posts.data[i].sharePost}`, getHeader())
+          posts.data[i].sharePost = data.data[0]
+        } catch(error) {
+          if (error.message == 'Request failed with status code 404') {
+            // Post original excluido!
+            posts.data[i].sharePost = undefined
+          }
+        }
       }
       this.posts.push(posts.data[i])
     }
@@ -116,8 +123,15 @@ export default {
       for (let i=0; i<posts.data.length; i++) {
           
         if (posts.data[i].sharePost != undefined) {
-          var data = await axios.get(`${hostServer}/post/${posts.data[i].sharePost}`, getHeader())
-          posts.data[i].sharePost = data.data[0]
+          try {
+            var data = await axios.get(`${hostServer}/post/${posts.data[i].sharePost}`, getHeader())
+            posts.data[i].sharePost = data.data[0]
+          } catch(error) {
+            if (error.message == 'Request failed with status code 404') {
+              // Post original excluido!
+              posts.data[i].sharePost = undefined
+            }
+          }
         }
         novosPosts.push(posts.data[i])
       }

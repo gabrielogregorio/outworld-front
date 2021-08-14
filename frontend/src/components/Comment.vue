@@ -22,7 +22,7 @@
       </div><!-- msg -->
 
       <div class="options">
-        <button>Curtir (10)</button>
+        <button><!--Curtir (10)--></button>
       </div><!-- options -->
     </div><!-- msg-options -->
   </div><!-- coments -->

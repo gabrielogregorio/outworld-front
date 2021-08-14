@@ -41,8 +41,15 @@ export default {
     for (let i=0; i<posts.data.length; i++) {
           
       if (posts.data[i].sharePost != undefined) {
-        var data = await axios.get(`${hostServer}/post/${posts.data[i].sharePost}`, getHeader())
-        posts.data[i].sharePost = data.data[0]
+        try {
+          var data = await axios.get(`${hostServer}/post/${posts.data[i].sharePost}`, getHeader())
+          posts.data[i].sharePost = data.data[0]
+        } catch(error) {
+          if (error.message == 'Request failed with status code 404') {
+            // Post original excluido!
+            posts.data[i].sharePost = undefined
+          }
+        }
       }
       this.posts.push(posts.data[i])
     }
@@ -54,8 +61,15 @@ export default {
       for (let i=0; i<posts.data.length; i++) {
           
         if (posts.data[i].sharePost != undefined) {
-          var data = await axios.get(`${hostServer}/post/${posts.data[i].sharePost}`, getHeader())
-          posts.data[i].sharePost = data.data[0]
+          try {
+            var data = await axios.get(`${hostServer}/post/${posts.data[i].sharePost}`, getHeader())
+            posts.data[i].sharePost = data.data[0]
+          } catch(error) {
+            if (error.message == 'Request failed with status code 404') {
+              // Post original excluido!
+              posts.data[i].sharePost = undefined
+            }
+          }
         }
         novosPosts.push(posts.data[i])
       }
