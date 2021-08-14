@@ -10,7 +10,8 @@ class DataPosts {
       comments: post.comments,
       user: "",
       likes: post.likes == undefined ? 0 : post.likes.length,
-      likedByUser: false
+      likedByUser: false,
+      sharePost: post.sharePost == undefined ? undefined : post.sharePost
     }
 
     if (post.user != undefined) {
@@ -18,6 +19,7 @@ class DataPosts {
     } else {
       newPost.user = {}
     }
+
     post.likes.forEach(postLike => {
       if (userId == postLike.user) {
         newPost.likedByUser = true;

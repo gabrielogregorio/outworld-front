@@ -1,10 +1,10 @@
-<template>
+<template> 
   <div>
-    <Navbar />
+    <Navbar /> 
     <NewPost @updatePostsEvent="updatePosts()" :img="img" />
 
-    <div class="container-post" v-for="post in posts" :key="post.id">
-      <Post :post="post" :myId="myId" :imgProfile="img" @updatePosts="updatePosts()" />
+    <div class="container-post" v-for="post in posts" :key="post._id">
+      <Post v-bind:post="post" v-bind:myId="myId" v-bind:imgProfile="img" @updatePosts="updatePosts()" />      
     </div>
   </div>
 </template>
@@ -14,7 +14,7 @@ import axios from 'axios';
 import getHeader from '../getToken';
 import NewPost from '../components/NewPost.vue';
 import Navbar from '../components/Navbar.vue';
-import Post from '../components/Post.vue';
+import Post from '../components/Post/Post.vue';
 import { hostServer } from '../connections';
 
 export default {
@@ -26,33 +26,40 @@ export default {
   },
   data() {
     return {
-      posts: [{
-        _id: '',
-        body: '',
-        img: '',
-        user: '',
-        likedByUser: false,
-        likes: []
-      }],
+      posts: [],
       myId: '',
       img: ''
     }
   },
-  created() {
-    axios.get(`${hostServer}/me`, getHeader()).then(me => {
-      this.myId = me.data[0]._id;
-      this.img = me.data[0].img;
-      axios.get(`${hostServer}/posts`, getHeader()).then(posts => {
-        this.posts = posts.data
-      })
-    })
+  async created() {
+    let me = await axios.get(`${hostServer}/me`, getHeader())
+    this.myId = me.data[0]._id;
+    this.img = me.data[0].img;
+    this.posts = []
 
+    let posts = await axios.get(`${hostServer}/posts`, getHeader())
+    for (let i=0; i<posts.data.length; i++) {
+          
+      if (posts.data[i].sharePost != undefined) {
+        var data = await axios.get(`${hostServer}/post/${posts.data[i].sharePost}`, getHeader())
+        posts.data[i].sharePost = data.data[0]
+      }
+      this.posts.push(posts.data[i])
+    }
   },  
   methods: {
-    updatePosts() {
-      axios.get(`${hostServer}/posts`, getHeader()).then(posts => {
-        this.posts = posts.data
-      })
+    async updatePosts() {
+      let novosPosts = []
+      let posts = await axios.get(`${hostServer}/posts`, getHeader())
+      for (let i=0; i<posts.data.length; i++) {
+          
+        if (posts.data[i].sharePost != undefined) {
+          var data = await axios.get(`${hostServer}/post/${posts.data[i].sharePost}`, getHeader())
+          posts.data[i].sharePost = data.data[0]
+        }
+        novosPosts.push(posts.data[i])
+      }
+      this.posts = novosPosts;
     }
   }
 }

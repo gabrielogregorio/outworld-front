@@ -11,7 +11,6 @@ require('dotenv/config');
 const jwtSecret = process.env.JWT_SECRET
 
 
-
 router.post('/userLoadFile', userAuth, multerImage.single('image'), async(req, res) => {
   user = `${req.data.id}`
 
@@ -28,7 +27,6 @@ router.post('/userLoadFile', userAuth, multerImage.single('image'), async(req, r
   } else {
     img = ''
   }
-
   return res.json({file:img})
 })
 
@@ -71,7 +69,6 @@ router.post('/user', async (req, res) => {
       }
     })
   } catch(error) {
-    console.log(error)
     res.sendStatus(500);
   }
 })
@@ -132,7 +129,6 @@ router.get('/user/:id', userAuth,  async (req, res) => {
 router.put('/user/:id', userAuth, async (req, res) => { 
   var {name, username, password, itemBio, bio, motivational, img} = req.body;
 
-  
   var id = req.params.id;
   var user = req.data.id;
   
@@ -156,7 +152,6 @@ router.put('/user/:id', userAuth, async (req, res) => {
   if (img == undefined) {
     img = ''
   }
-
 
   try {
     if (updatePassword) {
@@ -256,7 +251,6 @@ router.post('/user/follow/:id', userAuth, async (req, res) => {
 
     }
   } catch(error) {
-    console.log(error)
     return res.sendStatus(500)
   }
 });
@@ -277,9 +271,5 @@ router.get('/me', userAuth,  async (req, res) => {
   })
   return res.json(userFactories);
 })
-
-
-
-
 
 module.exports = router;

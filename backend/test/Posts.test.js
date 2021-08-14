@@ -90,13 +90,12 @@ describe('Gerenciamento de posts', () => {
     }).catch(error => {fail(error)})
   })
 
-  
-  test("Não deve retornar nenhum pot, pois o usuário ainda não segue ninguem", () => {
+  test("Deve retornar apenas o post do usuário, pois o usuário ainda não segue ninguem", () => {
     return request.get('/posts')
       .set(tokenValido)
       .then(res => {
         expect(res.statusCode).toEqual(200)
-        expect(res.body[0]).toBeUndefined()
+        expect(res.body[0].body).toEqual(post.body)
     }).catch(error => fail(error))
   })
   
@@ -116,6 +115,15 @@ describe('Gerenciamento de posts', () => {
         expect(res.statusCode).toEqual(200)
         expect(res.body[0].body).toEqual(post2.body)
     }).catch(error => fail(error))
+  })
+
+  test("Deve compartilhar um post", () => {
+    return request.post(`/post/share/${idPostValido}`)
+      .send(post2)
+      .set(token2Valido)
+      .then(res => {
+        expect(res.statusCode).toEqual(200)
+    }).catch(error => {fail(error)})
   })
 
   test("Deve retornar um post", () => {
@@ -253,19 +261,8 @@ describe('Gerenciamento de posts', () => {
     }).catch(error => fail(error))
   })
 
-
-  test("Obter os posts de algum usuário", () => {
-    return request.get(`/postsUser/${user.id}`)
-      .set(tokenValido)
-      .then(res => {
-        expect(res.statusCode).toEqual(200)
-        expect(res.body[0].body).toBeDefined()
-
-    }).catch(error => fail(error))
-  })
-
-  test("Obter os dados de si mesmo", () => {
-    return request.get('/myPosts')
+  test("Obter os posts de si mesmo", () => {
+    return request.get(`/posts/user/${user.id}`)
       .set(tokenValido)
       .then(res => {
         expect(res.statusCode).toEqual(200)

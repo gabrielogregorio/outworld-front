@@ -1,11 +1,12 @@
 let mongoose = require('mongoose');
 
 let postSchema = new mongoose.Schema({
-  title: String,
+  title: String, 
   body: String,
   test: Boolean,
   img: String,
-  share: this,
+  sharePost: this,
+  thisReferencesShared: [this],
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

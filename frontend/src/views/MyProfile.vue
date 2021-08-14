@@ -16,10 +16,8 @@
       </div>
 
       <div class="citation">
-        <p>{{motivational}}</p>
+        <p>{{user.motivational}}</p>
       </div>
-
-      <Modal v-if="showModal == true" :titleModal="this.titleModal" :textModal="this.textModal" @cancelModel="cancelModel()"/>
 
       <div class="bio-and-work">
         <div class="biograph">
@@ -50,7 +48,7 @@
    <NewPost @updatePostsEvent="updatePosts()" :img="user.img"/>
 
     <div class="container-post" v-for="post in posts" :key="post.id">
-      <Post :post="post" :myId="myId" @updatePosts="updatePosts()" :imgProfile="img" />
+      <Post v-bind:post="post" v-bind:myId="myId" v-bind:imgProfile="img" @updatePosts="updatePosts()" />      
     </div>
 
   </div>
@@ -62,36 +60,24 @@ import axios from 'axios';
 import Navbar from '../components/Navbar.vue';
 import getHeader from '../getToken';
 import NewPost from '../components/NewPost.vue';
-import Post from '../components/Post.vue';
+import Post from '../components/Post/Post.vue';
 import { hostServer } from '../connections';
-import Modal from '../components/Modal.vue';
+
 
 export default {
   name: 'MyPosts',
   components: {
     NewPost,
     Post,
-    Navbar,
-    Modal
+    Navbar
   },
   data() {
     return {
-      posts: [{
-        _id: '',
-        title: '',
-        body: '',
-        img: '',
-        user: '',
-        likes: []
-      }],
+      posts: [],
       hostServer:hostServer,
       myId: '',
       img: '',
-      user: {},
-      motivational: '',
-      showModal: false,
-      titleModal: '',
-      textModal: '',
+      user: '',
       newText: ''
     }
   },
@@ -103,31 +89,39 @@ export default {
       return ''
     }
   },
-   created() {
-    axios.get(`${hostServer}/me`, getHeader()).then(me => {
-      this.myId = me.data[0]._id;
-      this.img = me.data[0].img;
-      this.user = me.data[0];
-      this.motivational = this.user.motivational;
-      axios.get(`${hostServer}/posts`, getHeader()).then(posts => {
-        this.posts = posts.data
-      })
-    })
+ async created() {
+    let me = await axios.get(`${hostServer}/me`, getHeader())
+        console.log( me.data)
+    this.myId = me.data[0]._id;
+    this.img = me.data[0].img;
+    this.user = me.data[0];
 
-  },  
+    this.posts = []
+
+    let posts = await axios.get(`${hostServer}/posts/user/${this.myId}`, getHeader())
+    for (let i=0; i<posts.data.length; i++) {
+          
+      if (posts.data[i].sharePost != undefined) {
+        var data = await axios.get(`${hostServer}/post/${posts.data[i].sharePost}`, getHeader())
+        posts.data[i].sharePost = data.data[0]
+      }
+      this.posts.push(posts.data[i])
+    }
+  }, 
   methods: {
-    alternateModel(title, texto) {
-      this.showModal = !this.showModal;
-      this.titleModal = title;
-      this.textModal = texto;
-    },
-    cancelModel() {
-      this.showModal = !this.showModal;
-    },
-    updatePosts() {
-      axios.get(`${hostServer}/posts`, getHeader()).then(posts => {
-        this.posts = posts.data
-      })
+
+    async updatePosts() {
+      let novosPosts = []
+      let posts = await axios.get(`${hostServer}/posts/user/${this.myId}`, getHeader())
+      for (let i=0; i<posts.data.length; i++) {
+          
+        if (posts.data[i].sharePost != undefined) {
+          var data = await axios.get(`${hostServer}/post/${posts.data[i].sharePost}`, getHeader())
+          posts.data[i].sharePost = data.data[0]
+        }
+        novosPosts.push(posts.data[i])
+      }
+      this.posts = novosPosts;
     }
   }
 }
@@ -150,11 +144,9 @@ export default {
 }
 
 .my-profile img {
-  width: 100%;
-  max-width: 400px;
-  max-height: 400px;
+  width: 400px;
+  height: 400px;
   object-fit: cover;
-  height: 100%;
   border-radius: 50%;
 }
 
