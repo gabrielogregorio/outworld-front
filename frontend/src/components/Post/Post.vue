@@ -20,7 +20,7 @@
     <PostBody v-if="post.sharePost != undefined"
       :postImg="post.sharePost.img" :postBody="post.sharePost.body" v-bind:share="true"/>
 
-    <div  class="options-post">
+    <div class="options-post">
       <button v-if="post.likedByUser == true" class="active-like" @click="sendLike(post._id)">Gostei {{post.likes}} </button>
       <button v-else @click="sendLike(post._id)">Gostei {{post.likes}}</button>
 
@@ -114,9 +114,9 @@ export default {
 div.container-post {
   display: flex;
   flex-direction: column;
-  max-width: 700px;
+  max-width: 900px;
   width: 100%;
-  padding: 10px;
+  padding: 10px 30px;
   margin: 0 auto;
   background-color: var(--primary-background);
   border: var(--border);
@@ -134,27 +134,28 @@ div.container-post {
   background-color: transparent;
   outline: none;
   border: 0;
-  padding: 5px 10px;
+  padding: 10px 15px;
   cursor: pointer;
-  color: rgb(133, 133, 133);
+  color: var(--primary-text-color);
   cursor: pointer;
 }
 
 .options-post .active-like {
   display: block;
   background: var(--primary-blue-color);
-  color: white;
+  color: var(--primary-text-color);
   border-radius: 10px;
 }
 
 .options-post .showComment {
   display: block;
   background: var(--primary-purple-color);
-  color: white;
+  color: var(--primary-text-color);
   border-radius: 10px;
 }
+
 .body-border-share {
-  border-top: var(--border);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
   width: 100%;
   padding-bottom: 20px;
 }

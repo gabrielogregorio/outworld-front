@@ -1,18 +1,21 @@
 <template>
-  <div class="home">
+  <div class="container">
     <Navbar />
     <div class="my-profile">
       <img v-if="user.img == '' || user.img == undefined" src="/user.webp" alt="">
       <img v-else :src='`${hostServer}/images/clients/${user.img}`' alt="">
 
       <div class="name-config">
-        <h2>{{user.name}}</h2><router-link to="/EditProfile"><i class="fas fa-cog"></i></router-link>
+        <h2>{{user.name}}</h2>
+        <router-link to="/EditProfile">
+          <i class="fas fa-cog"></i>
+        </router-link>
       </div>
       
       <div class="statistics">
-        <a href="#">174 publicações </a>
-        <a href="#">820 seguidores </a>
-        <a href="#">721 seguindo </a>
+        <a>174 publicações </a>
+        <a>820 seguidores </a>
+        <a>721 seguindo </a>
       </div>
 
       <div class="citation">
@@ -40,7 +43,6 @@
 
       <div class="menu-items">
         <button>posts</button>
-        <button>fotos</button>
         <button>amigos</button>
       </div>
     </div>
@@ -141,87 +143,3 @@ export default {
 }
 </script>
 
-
-<style scoped>
-.my-profile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 700px;
-  width: 100%;
-  padding: 10px;
-  margin: 0 auto;
-  background-color: var(--primary-background);
-  border: var(--border);
-  border-top: 0;
-  padding-bottom: 0;
-}
-
-.my-profile img {
-  width: 400px;
-  height: 400px;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-.my-profile .name-config {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.my-profile .name-config h2 {
-  font-size: 1.4rem;
-  padding: 5px 0;
-}
-
-.my-profile .name-config i {
-  font-size: 1.4rem;
-  padding: 5px 10px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.my-profile .name-config i:hover {
-  color: rgba(255, 255, 255, 1);
-} 
-
-.citation {
-  width: 100%;
-  padding: 20px 10px;
-  text-align: center;
-}
-
-.bio-and-work {
-  padding: 0;
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-.biograph {}
-
-.work {}
-
-.menu-items {
-  width: 100%;
-  display: flex;
-  padding-top: 20px;
-}
-
-.menu-items button {
-  display: block;
-  flex: 1;
-  background: transparent;
-  border: none;
-  padding: 5px;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-}
-
-.menu-items button:hover {
-  font-weight: 700;
-  border-bottom: 2px solid var(--border-color);
-} 
-</style>

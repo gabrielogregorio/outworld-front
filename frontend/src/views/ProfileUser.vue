@@ -1,5 +1,6 @@
 <template>
  <section> 
+  <div class="container">
     <Navbar />
     <div class="my-profile">
       <img v-if="user.img == '' || user.img == undefined" src="/user.webp" alt="">
@@ -46,6 +47,7 @@
       <Post v-bind:post="post" v-bind:myId="myId" v-bind:imgProfile="img" @updatePosts="updatePosts()" />      
     </div>
 
+  </div>
   </section>  
 </template>
 
@@ -134,69 +136,3 @@ export default {
 }
 </script>
 
-
-<style scoped>
-.my-profile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 700px;
-  width: 100%;
-  padding: 10px;
-  margin: 0 auto;
-  background-color: var(--primary-background);
-  border: var(--border);
-  border-top: 0;
-  padding-bottom: 0;
-}
-
-.my-profile img {
-  width: 400px;
-  height: 400px;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-.my-profile h2 {
-  font-size: 1.4rem;
-  padding: 5px 0;
-}
-
-.citation {
-  width: 100%;
-  padding: 20px 10px;
-  text-align: center;
-}
-
-.bio-and-work {
-  padding: 0;
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-.biograph {}
-
-.work {}
-
-.menu-items {
-  width: 100%;
-  display: flex;
-  padding-top: 20px;
-}
-
-.menu-items button {
-  display: block;
-  flex: 1;
-  background: transparent;
-  border: none;
-  padding: 5px;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-}
-
-.menu-items button:hover {
-  font-weight: 700;
-  border-bottom: 2px solid var(--border-color);
-} 
-</style>

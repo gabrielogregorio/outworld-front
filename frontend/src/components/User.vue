@@ -10,8 +10,8 @@
         <div class="info-user-superior">
           <h2 @click="openProfile(user._id)" >{{user.name}}</h2>
           <p @click="openProfile(user._id)" class="info-username">@user</p>
-          <button v-if="listFollow.includes(user._id) == true" @click="followPerson()" class="seguindo">Seguindo</button>
-          <button v-else @click="followPerson()">Seguir</button>
+          <button class="buttonDefault activeButtonDefault" v-if="listFollow.includes(user._id) == true" @click="followPerson()">Seguindo</button>
+          <button class="buttonDefault" v-else @click="followPerson()">Seguir</button>
         </div><!-- info-user-superior -->
       </div><!-- info-user-perfil -->
     </div><!-- info-user -->
@@ -58,9 +58,9 @@ export default {
 <style scoped>
 div.container-user {
   display: flex;
-  max-width: 700px;
+  max-width: 900px;
   width: 100%;
-  padding: 10px;
+  padding: 10px 30px;
   margin: 0 auto;
   background-color: var(--primary-background);
   border: var(--border);
@@ -76,6 +76,7 @@ div.container-user {
 .img-user-perfil img {
   width: 100%;
   height: 100%;
+  border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
 }
@@ -96,7 +97,7 @@ div.container-user {
 
 .info-user-superior h2 {
   font-weight: 700;
-  color: white;
+  color: var(--primary-text-color);
   font-size: 1rem;
   cursor: pointer;
 }
@@ -109,12 +110,8 @@ div.container-user {
   cursor: pointer;
 }
 
-.seguindo {
-  background: var(--primary-blue-color);
-}
-
-button:hover {
-  background: var(--primary-blue-color);
+.buttonDefault {
+  width: 110px;
   transition: 0.5s;
 }
 

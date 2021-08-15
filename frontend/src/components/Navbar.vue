@@ -1,10 +1,10 @@
 <template> 
-  <section>
+  <section> 
     <div class="titulo-principal">
       <nav>
-        <div class="principal"><router-link to="/Home">Página Inicial</router-link></div>
-        <div><router-link to="/Users">Usuários</router-link></div>
-        <div class="perfil"><router-link to="/MyProfile">Perfil</router-link></div>
+        <div ><router-link to="/Home"><i class="fas fa-home"></i></router-link></div>
+        <div><router-link to="/Users"><i class="fas fa-users"></i></router-link></div>
+        <div class="perfil"><router-link to="/MyProfile"><i class="fas fa-user"></i></router-link></div>
       </nav>
     </div><!-- titulo-principal -->
   </section>
@@ -13,37 +13,37 @@
 
 <style>
 .titulo-principal {
-  max-width: 700px;
+  max-width: 900px;
   width: 100%;
-  padding: 10px 20px;
   margin: 0 auto;
-  background-color: var(--primary-background);
   border: var(--border);
   border-top: 0;
 }
 
 nav {
+  background-color: var(--primary-background);
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: auto;
-  padding: 10px 0;
+  padding: 0 30px;
 }
 
-nav div.principal a{
-  font-size: 1.5rem;
-  font-weight: 700;
-  text-decoration: none;
-  color: var(--primary-text-color);
-}
 
 nav div a{
-  padding: 4px 10px;
-  color: var(--secundary-text-color)
+  color: var(--secundary-text-color);
+  text-transform: uppercase;
+
 }
-nav div a.router-link-exact-active {
-  text-decoration: underline;
-  font-weight: 700;
+
+nav div i{
+  font-size: 1.3rem;
+    padding: 15px;
+}
+
+nav div a.router-link-exact-active i {
+  color: var(--background-body);
+  border-bottom: 2px solid var(--background-body);
 }
 
 nav div.perfil {

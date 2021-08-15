@@ -1,25 +1,25 @@
 <template>
-  <div>
+  <div class="container">
     <Navbar />
     <section>
       <div class="form form-logged">
         <label for="email">E-mail (Não alterável): </label>
-        <input type="email" name="email" id="email" placeholder="your email" v-model="email" disabled>
+        <div class="input"><input type="email" name="email" id="email" placeholder="your email" v-model="email" disabled></div>
 
         <label for="name">Nome: </label>
-        <input type="name" name="name" id="name" placeholder="Seu nome" v-model="name">
+        <div class="input"><input type="name" name="name" id="name" placeholder="Seu nome" v-model="name"></div>
 
         <label for="username">Nome de usuario</label>
-        <input type="text" name="username" id="username" placeholder="Seu nome de usuário" v-model="username">
+        <div class="input"><input type="text" name="username" id="username" placeholder="Seu nome de usuário" v-model="username"></div>
 
         <label for="bio">Sua Biografia</label>
-        <textarea type="text" name="bio" id="bio" placeholder="Uma bigrafia" v-model="bio"></textarea>
+        <div class="input"><textarea type="text" name="bio" id="bio" placeholder="Uma bigrafia" v-model="bio"></textarea></div>
 
         <label for="motivational">Frase</label>
-        <textarea type="text" name="motivational" id="motivational" placeholder="Uma frase que te motica" v-model="motivational"></textarea>
+        <div class="input"><textarea type="text" name="motivational" id="motivational" placeholder="Uma frase que te motica" v-model="motivational"></textarea></div>
 
         <div class="body-image">
-          <img v-if="imgSrc != ''" :src='`${hostServer}/images/clients/${imgSrc}`' alt="">
+        <img v-if="imgSrc != ''" :src='`${hostServer}/images/clients/${imgSrc}`' alt="">
         </div><!-- body-image -->
 
         <label class="custom-file-upload">
@@ -28,9 +28,9 @@
         </label><!-- custom-file-upload -->
 
         <label for="password">Senha: </label>
-        <input type="password" name="password" id="password" placeholder="your password" v-model="password">
+        <div class="input"><input type="password" name="password" id="password" placeholder="your password" v-model="password"></div>
 
-        <button class="red" @click="updateItens">Salvar Alteracoes</button>
+        <button @click="updateItens">Salvar Alteracoes</button>
       </div>
     </section>
   </div>
@@ -77,7 +77,6 @@ export default {
      loadImage() {
       const formData = new FormData();
       const image = document.querySelector("#image");
-      console.log('0000000000')
 
       formData.append("image", image.files[0]);
 
@@ -125,4 +124,6 @@ export default {
   object-fit: cover;
   cursor: pointer;
 }
+
+
 </style>

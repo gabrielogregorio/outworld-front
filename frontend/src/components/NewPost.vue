@@ -18,7 +18,7 @@
               <input type="file" name="image" id="image" @change="loadImage()"/>
               <i class="fas fa-image"></i>
             </label><!-- custom-file-upload -->
-            <button @click="createPost">Comentar</button>
+            <button class="buttonDefault activeButtonDefault" @click="createPost">Comentar</button>
           </div><!-- botao-postar -->
         </div><!-- info-post-perfil -->
       </div><!-- info-post -->
@@ -84,9 +84,9 @@ export default {
 <style scoped>
 div.container-post {
   display: flex;
-  max-width: 700px;
+  max-width: 900px;
   width: 100%;
-  padding: 10px;
+  padding: 10px 30px;
   margin: 0 auto;
   background-color: var(--primary-background);
   border: var(--border);
@@ -123,7 +123,7 @@ div.container-post {
 
 .info-post-superior h2 {
   font-weight: 700;
-  color: white;
+  color: var(--primary-text-color);
   font-size: 1rem;
 }
 
@@ -138,20 +138,8 @@ div.container-post {
   text-align: right;
 }
 
-.delete-post button{
-  background-color: transparent;
-  outline: none;
-  border: 0;
-  font-weight: 700;
-  cursor: pointer;
-  padding: 2px 4px;
-}
-.delete-post button i{
-  color: rgb(255, 88, 88);
-}
-
 .body-post {
-  color: rgb(192, 192, 192);
+  color: var(--primary-text-color);
   font-weight: 400;
   width: 100%;
 }
@@ -176,17 +164,8 @@ div.container-post {
   padding: 10px 0;
 }
 
-.botao-postar button {
-  border-radius: 20px;
-  background: var(--primary-blue-color);
-  padding: 10px 20px;
-  border: none;
-  font-weight: 700;
-  color: #ddd;
-  cursor: pointer;
-}
 
-  textarea {
+textarea {
   width: 100%;
   background: transparent;
   outline: none;
@@ -194,7 +173,10 @@ div.container-post {
   resize: none;
   overflow-y: hidden;
   font-size: 1.4rem;
-  color: #ddd;
+  color: var(--primary-text-color);
+}
+textarea::placeholder{
+  color: var(--secundary-text-color);
 }
 
 </style>

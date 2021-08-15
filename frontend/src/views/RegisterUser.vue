@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="form">
+    <div class="form container">
       <h1>Criar conta</h1>
 
       <label for="name">Seu nome </label>

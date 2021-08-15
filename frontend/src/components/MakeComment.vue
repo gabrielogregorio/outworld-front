@@ -91,7 +91,7 @@ button {
   padding: 10px 10px;
   border: none;
   font-weight: 700;
-  color: #ddd;
+  color: var(--primary-text-color);
   cursor: pointer;
   }
 </style>

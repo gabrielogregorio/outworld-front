@@ -87,7 +87,7 @@ export default {
 }
 .info-post-superior a:nth-child(1) {
   font-weight: 700;
-  color: white;
+  color: var(--primary-text-color);
   font-size: 1rem;
   cursor: pointer;
 }
@@ -111,7 +111,7 @@ export default {
   padding: 2px 4px;
 }
 .delete-post button i, .delete-post a i{
-  color: rgb(255, 88, 88);
+  color: var(--primary-danger-color)
 }
 
 .body-padding {

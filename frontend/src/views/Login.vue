@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="form">
+    <div class="form container">
       <h1>Fazer login</h1>
  
       <label for="email">E-mail: </label>

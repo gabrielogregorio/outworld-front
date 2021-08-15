@@ -88,7 +88,7 @@ export default {
 }
 
 .msg {
-  background: #3a3b3c;
+  background: var(--primary-nigth-color);
   padding: 10px;
   width: 100%;
   border-radius: 0 5px 5px 5px;
@@ -108,7 +108,7 @@ export default {
 
 .msg-data p {
   font-size: 0.9rem;
-  color: #c4c4c4;
+  color: var(--primary-text-color);
 }
 
 .msg-body p {

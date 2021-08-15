@@ -1,10 +1,10 @@
 <template>
-<div>
-  <Navbar />
+  <div class="container">
   <section>
+  <Navbar />
     <div class="form">
       <label for="body">Seu post</label>
-      <textarea name="body" v-model="body" id="body" cols="15" rows="2" placeholder="O que você quer polemizar?"></textarea>
+      <div class="input"><textarea name="body" v-model="body" id="body" cols="15" rows="2" placeholder="O que você quer polemizar?"></textarea></div>
       <img v-if="imgSrc != '' || imgSrc == undefined" :src='`${hostServer}/images/posts/${imgSrc}`' alt="">
 
       <label class="custom-file-upload">

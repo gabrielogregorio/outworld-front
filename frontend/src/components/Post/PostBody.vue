@@ -27,10 +27,8 @@ export default {
 
 
 <style scoped>
-
-
 .content-post {
-  color: rgb(192, 192, 192);
+  color: var(--primary-text-color);
   font-weight: 400;
   width: 100%;
 }

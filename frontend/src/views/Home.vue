@@ -1,9 +1,8 @@
 <template> 
-  <div>
+  <div class="container">
     <Navbar /> 
     <NewPost @updatePostsEvent="updatePosts()" :img="img" />
-
-    <div class="container-post" v-for="post in posts" :key="post._id">
+    <div v-for="(post, index) in posts" :key="post._id + index">
       <Post v-bind:post="post" v-bind:myId="myId" v-bind:imgProfile="img" @updatePosts="updatePosts()" />      
     </div>
   </div>
