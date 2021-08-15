@@ -23,7 +23,8 @@ export default {
   name: 'MakeComment',
   props: {
     imgProfile: String,
-    postId: String
+    postId: String,
+    commentId: String
   },
   data() {
     return {
@@ -33,10 +34,20 @@ export default {
   },
   methods: {
     comentar() {
-      axios.post(`${hostServer}/post/comment/${this.postId}`,{text:this.comment},  getHeader()).then(res => {
-        this.comment = '';
-        this.$emit('newComment', res.data.id)
-      })
+      if (this.commentId == "") {
+        axios.post(`${hostServer}/post/comment/${this.postId}`,{text:this.comment},  getHeader()).then(res => {
+          this.comment = '';
+          this.$emit('newComment', res.data.id)
+        })
+      } else {
+        console.log('aaaaaa')
+        console.log(this.commentId)
+        axios.post(`${hostServer}/post/comment/${this.postId}`,{text:this.comment, replie: this.commentId},  getHeader()).then(res => {
+          this.comment = '';
+          console.log('aaaaaaaaa', res)
+          this.$emit('newComment', res.data.id)
+        })
+      }
     },
   }
 }

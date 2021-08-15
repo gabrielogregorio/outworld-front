@@ -66,7 +66,6 @@ describe("Login no sistema", () => {
         fail(error)
       })
   })
-
 })
 
 
@@ -226,7 +225,7 @@ describe('Gerenciamento de posts', () => {
     }).catch(error => fail(error))
   })
 
-  test("Deve enviar um comentario", () => {
+  test("Deve enviar um comentario novo", () => {
     return request.post(`/post/comment/${idPostValido}`)
       .set(tokenValido)
       .send({text: 'Isso é um comentario'})
@@ -236,6 +235,19 @@ describe('Gerenciamento de posts', () => {
         expect(res.body.id).toBeDefined()
     }).catch(error => fail(error))
   })
+
+  test("Deve enviar um comentario como resposta", () => {
+    return request.post(`/post/comment/${idPostValido}`)
+      .set(tokenValido)
+      .send({text: 'Isso é uma resposta', replie: idComentarioValido})
+      .then(res => {
+        idComentarioValido = res.body.id;
+        expect(res.statusCode).toEqual(200)
+        expect(res.body.id).toBeDefined()
+        expect(res.body.replie).toBeDefined()
+    }).catch(error => fail(error))
+  })
+
   test("Deve Editar um comentario", () => {
     return request.put(`/post/comment/${idComentarioValido}`)
       .set(tokenValido)

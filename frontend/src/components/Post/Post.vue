@@ -33,9 +33,9 @@
     </div><!-- options-post -->
 
     <div v-if="showComment">
-      <MakeComment :postId="post._id" @newComment="newComment()" :imgProfile="imgProfile"/>
+      <MakeComment commentId="" :postId="post._id" @newComment="newComment()" :imgProfile="imgProfile"/>
       <div v-for="postComment in post.comments" :key="postComment.id" class="comments">
-        <Comment :user="postComment.user" :text="postComment.text" />
+        <Comment :postComment="postComment" @newComment="newComment()" :user="postComment.user" :text="postComment.text" :postId="post._id" :commentId="postComment._id" :imgProfile="imgProfile"/>
       </div><!-- comments -->
     </div>
 
@@ -64,11 +64,20 @@ export default {
       hostServer:hostServer,
       showComment: false,
       postShared: false,
-      postImg: this.post.img
+      postImg: this.post.img,
+      comments: []
     }
   },
 
-   created() {       
+   created() {      
+     console.log('ccres')
+     axios.get(`${hostServer}/post/comments/${this.post._id}`, getHeader()).then(res => {
+       this.comments = res.data;
+       console.log(res.data, '........')
+     }).catch(error => {
+       console.log(error)
+     })
+     
   },  
   props: {
     post: Object,

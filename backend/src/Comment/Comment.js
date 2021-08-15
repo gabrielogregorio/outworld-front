@@ -4,6 +4,8 @@ let commentSchema = new mongoose.Schema({
   text: {
     type: String,
  },
+ replie: this,
+ replies: [this],
   post: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Post'
@@ -13,6 +15,8 @@ let commentSchema = new mongoose.Schema({
     ref: 'User'
   }
 })
+
+
 
 var Comment = mongoose.model('Comment', commentSchema);
 module.exports = Comment;

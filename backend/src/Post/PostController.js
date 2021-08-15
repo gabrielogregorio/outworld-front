@@ -73,6 +73,7 @@ router.get('/posts', userAuth, async (req, res) => {
   res.json(postFactories) 
 })
 
+
 router.get('/post/:id', userAuth, async (req, res) => {
   var user = `${req.data.id}`
   try {
@@ -92,6 +93,7 @@ router.get('/post/:id', userAuth, async (req, res) => {
 
   res.json(postFactories) 
 })
+
 
 router.put('/post/:id', userAuth,  async (req, res) => { 
   var {body, img} = req.body;
@@ -123,24 +125,45 @@ router.put('/post/:id', userAuth,  async (req, res) => {
   }
 })
 
+//precisa testar
+router.get('/post/comments/:id', userAuth,  async (req, res) => { 
+  var id = req.params.id;
+  var comments = await Comment.find({post:id})
+  return res.json(comments);
+})
+
+
 router.post('/post/comment/:id', userAuth,  async (req, res) => { 
   var id = req.params.id;
-  var user =`${req.data.id}`
+  var user =`${req.data.id}`;
+  var replie = req.body.replie;
   var text = req.body.text;
 
   if (text == '' || id == '' || user == '' || id == undefined || user == undefined || text == undefined) {
     return res.sendStatus(400)
   }
-
+    
   try {
-    var newComment = new Comment({post:id, user, text});
-    await newComment.save();  
+    if (replie  != undefined) {
+      var newComment = new Comment({post: id, user, text, replie});
+      await newComment.save();  
 
-    var post = await Post.findById({_id:id})
-    post.comments.push(newComment)
-    await post.save();
-
-    return res.json({id:newComment.id})
+      var originalComment = await Comment.findById({_id:replie})
+      console.log(newComment.id, '........')
+      originalComment.replies.push(newComment)
+      await originalComment.save();
+  
+      return res.json({id:newComment.id, replie:originalComment._id})  
+    } else {
+      var newComment = new Comment({post:id, user, text});
+      await newComment.save();  
+  
+      var post = await Post.findById({_id:id})
+      post.comments.push(newComment)
+      await post.save();
+  
+      return res.json({id:newComment.id})  
+    }
   } catch(error)  {
     return res.sendStatus(500)
   }

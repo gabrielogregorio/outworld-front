@@ -18,4 +18,6 @@ Isso é basicamente uma micro rede social, ainda em alpha e sendo focado princip
 <h3>Informações gerais</h3>
 Um aviso importante, atualmente minha preocupação é com o backend, portanto no front end eu só estou fazendo o dever de casa e para desktop, pois o backend é bem mais complexo e é o meu foco.
 
-![Interface](images/1.png)
+![Interface](images/a.png)
+![Interface](images/b.png)
+![Interface](images/c.png)

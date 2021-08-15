@@ -23,6 +23,14 @@
 
       <div class="options">
         <button><!--Curtir (10)--></button>
+        <button @click="replyComment()">Responder</button>
+        <!-- commentId, postId -->
+        <MakeComment v-if="showComment == true" :postId="postId" :commentId="commentId" @newComment="newComment()" :imgProfile="imgProfile"/>
+
+        <div v-for="postComment in postComment.replies" :key="postComment.id" class="comments">
+          <Comment :postComment="postComment" @newComment="newComment()" :user="postComment.user" :text="postComment.text" :postId="postId" :commentId="commentId" :imgProfile="imgProfile"/>
+        </div><!-- comments -->
+
       </div><!-- options -->
     </div><!-- msg-options -->
   </div><!-- coments -->
@@ -33,14 +41,20 @@
 import { hostServer } from '../connections';
 import axios from 'axios';
 import getHeader from '../getToken';
+import MakeComment from './MakeComment.vue';
 
 export default {
   name: 'Comment',
   data(){
     return {
       hostServer: hostServer,
-      userData: ''
+      userData: '',
+      showComment: false,
     } 
+  },
+  components: {
+    MakeComment
+    
   },
   created() {
     axios.get(`${this.hostServer}/user/${this.user}`, getHeader()).then(userData => {
@@ -49,7 +63,20 @@ export default {
   },
   props: {
     user: String,
-    text: String
+    text: String,
+    commentId: String,
+    postId: String,
+    imgProfile: String,
+    postComment: Object
+  },
+
+  methods:{
+    newComment() {
+      this.$emit("newComment", "")
+    },
+    replyComment() {
+      this.showComment = !this.showComment
+    }
   },
   filters: {
     processUsername: (value) => {
