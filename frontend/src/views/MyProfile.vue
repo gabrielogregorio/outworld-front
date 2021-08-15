@@ -93,7 +93,6 @@ export default {
   },
  async created() {
     let me = await axios.get(`${hostServer}/me`, getHeader())
-    console.log( me.data)
     this.myId = me.data[0]._id;
     this.img = me.data[0].img;
     this.user = me.data[0];

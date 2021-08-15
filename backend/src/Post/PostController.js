@@ -5,6 +5,7 @@ const DataPosts = require('../factories/dataPosts');
 const multerImagePosts = require('../middlewares/multerImagePosts');
 const userAuth = require('../middlewares/userAuth');
 const Like = require('../Likes/Like')
+const Save = require('../Saves/Save');
 const Comment = require('../Comment/Comment');
 const User = require('../Users/User');
 const {processId} = require('../util/textProcess');
@@ -64,9 +65,15 @@ router.get('/posts', userAuth, async (req, res) => {
 
   var posts = await Post.find({ 'user':{$in:ids} }).sort({'_id': 'desc'}).populate('user comments likes');
 
+  var saves = await Save.find({user:user});
+  var idSavedByUser = []
+  saves.forEach(item => {
+    idSavedByUser.push(item.post)
+  })
+
   var postFactories = []
   posts.forEach(async post => {
-    postFactories.push(DataPosts.Build(post, user))
+    postFactories.push(DataPosts.Build(post, user, idSavedByUser))
   })
 
   res.statusCode = 200
@@ -86,9 +93,16 @@ router.get('/post/:id', userAuth, async (req, res) => {
     return res.sendStatus(404)
   }
 
+  var saves = await Save.find({user:user});
+  var idSavedByUser = []
+  saves.forEach(item => {
+    idSavedByUser.push(item.post)
+  })
+
+
   var postFactories = []
   posts.forEach(post => {
-    postFactories.push(DataPosts.Build(post, user))
+    postFactories.push(DataPosts.Build(post, user, idSavedByUser))
   })
 
   res.json(postFactories) 
@@ -149,7 +163,6 @@ router.post('/post/comment/:id', userAuth,  async (req, res) => {
       await newComment.save();  
 
       var originalComment = await Comment.findById({_id:replie})
-      console.log(newComment.id, '........')
       originalComment.replies.push(newComment)
       await originalComment.save();
   
@@ -206,6 +219,61 @@ router.put('/post/comment/:idComment', userAuth,  async (req, res) => {
   } catch(error)  {
     return res.sendStatus(500)
   }
+})
+
+
+
+router.post('/post/save/:id', userAuth,  async (req, res) => { 
+  var id = req.params.id;
+  var user = req.data.id;
+  try {
+    var saveExists = await Save.findOne({post:id, user:user});
+    if (saveExists != null) {
+      await Save.deleteOne({post:id, user:user});
+
+      var user = await User.findById({_id:user})
+  
+      user.saves =user.saves.filter(value => value != `${saveExists._id}`)
+      await user.save();
+  
+      return res.json({includeSave: false})  
+    }
+  } catch(error) {
+    return res.sendStatus(500)
+  }
+
+  try {
+    var newSave = new Save({post:id, user:user});
+    await newSave.save();  
+
+    var user = await User.findById({_id:user})
+    user.saves.push(newSave)
+    await user.save();
+
+    return res.json({includeSave: true})
+  } catch(error)  {
+    return res.sendStatus(500)
+  }
+})
+
+
+
+router.get('/post/list/save', userAuth,  async (req, res) => { 
+  var user = req.data.id;
+  var saves = await Save.find({user:user});
+  var idSavedByUser = []
+  saves.forEach(item => {
+    idSavedByUser.push(item.post)
+  })
+
+  var posts = await Post.find({ '_id':{$in:idSavedByUser} }).sort({'_id': 'desc'}).populate('user comments likes');
+
+  var postFactories = []
+  posts.forEach(async post => {
+    postFactories.push(DataPosts.Build(post, user, idSavedByUser))
+  })
+
+  return res.json(postFactories);
 })
 
 

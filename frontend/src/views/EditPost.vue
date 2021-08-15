@@ -49,9 +49,7 @@ export default {
     }).catch(error => {console.log(error)})
   },
   methods: {
-        loadImage() {
-      console.log('Escolheu umagem!')
-  
+    loadImage() {  
       const formData = new FormData();
       const image = document.querySelector("#image");
 

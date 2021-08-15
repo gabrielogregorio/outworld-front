@@ -1,5 +1,6 @@
 let {app, mongoose} = require('../src/app');
 let supertest = require('supertest');
+const { compare } = require('bcrypt');
 let request = supertest(app)
 let userAny = {name: 'userTest', email: 'user@teste.com', password: 'adminPassword'}
 let post = {body: 'Um body qualquer', test: true}
@@ -197,6 +198,34 @@ describe('Gerenciamento de posts', () => {
     }).catch(error => fail(error))
   })
 
+  test("Deve salvar um post", () => {
+    return request.post(`/post/save/${idPostValido}`)
+      .set(tokenValido)
+      .then(res => {
+        expect(res.statusCode).toEqual(200)
+        expect(res.body.includeSave).toEqual(true)
+    }).catch(error => fail(error))
+  })
+
+
+  test("Deve retornar o post salvo", () => {
+    return request.get(`/post/list/save/`)
+      .set(tokenValido)
+      .then(res => {
+        expect(res.statusCode).toEqual(200)
+        expect(res.body[0]._id).toEqual(idPostValido)
+      })
+  })
+  
+  test("Deve remover dos salvos um post", () => {
+    return request.post(`/post/save/${idPostValido}`)
+      .set(tokenValido)
+      .then(res => {
+        expect(res.statusCode).toEqual(200)
+        expect(res.body.includeSave).toEqual(false)
+    }).catch(error => fail(error))
+  })
+
   test("Deve retornar 500 quando um post inválido for enviado", () => {
     return request.post(`/post/like/11111111`)
       .set(tokenValido)
@@ -204,8 +233,6 @@ describe('Gerenciamento de posts', () => {
         expect(res.statusCode).toEqual(500)
     }).catch(error => fail(error))
   })
-
-
 
   test("Deve retornar 400 com um comentário sem texto", () => {
     return request.post(`/post/comment/${idPostValido}`)

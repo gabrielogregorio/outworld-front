@@ -30,13 +30,22 @@ export default {
       img: ''
     }
   },
+  beforeRouteUpdate(to, from, next) {
+    //to
+    //to.query.archive == true
+    next();
+    this.updatePosts()
+
+  },
   async created() {
     let me = await axios.get(`${hostServer}/me`, getHeader())
     this.myId = me.data[0]._id;
     this.img = me.data[0].img;
     this.posts = []
 
-    let posts = await axios.get(`${hostServer}/posts`, getHeader())
+    var rota = '/posts';
+    if (this.$route.query.archive == 'true') { rota = '/post/list/save/' }
+    let posts = await axios.get(`${hostServer}${rota}`, getHeader())
     for (let i=0; i<posts.data.length; i++) {
           
       if (posts.data[i].sharePost != undefined) {
@@ -51,12 +60,15 @@ export default {
         }
       }
       this.posts.push(posts.data[i])
-    }
+    } 
   },  
   methods: {
     async updatePosts() {
       let novosPosts = []
-      let posts = await axios.get(`${hostServer}/posts`, getHeader())
+
+      var rota = '/posts';
+      if (this.$route.query.archive == 'true') {rota = '/post/list/save/'}
+      let posts = await axios.get(`${hostServer}${rota}`, getHeader())
       for (let i=0; i<posts.data.length; i++) {
           
         if (posts.data[i].sharePost != undefined) {

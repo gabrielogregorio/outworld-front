@@ -86,7 +86,6 @@ export default {
       }
       axios.post(`${hostServer}/userLoadFile`, formData, { headers }, ).then(res => {
         this.imgSrc = res.data.file;
-        console.log('img atualizada!', this.imgSrc)
       }).catch(error => {
         console.log(`Erro ao registrar dados: ${error}`);
       })
@@ -100,8 +99,7 @@ export default {
         bio: this.bio,
         motivational: this.motivational,
         img: this.imgSrc
-      }, getHeader()).then(res => {
-        console.log(res)
+      }, getHeader()).then(() => {
         this.$router.push({name: 'MyProfile'})
       }).catch(error => {
         console.log(`Erro ao registrar dados: ${error}`);

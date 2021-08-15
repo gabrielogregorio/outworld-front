@@ -17,6 +17,12 @@ let postSchema = new mongoose.Schema({
       ref: 'Like'
     }
   ],
+  saves: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Save'
+    }
+  ],
   comments: [
     {
       type: mongoose.Schema.Types.ObjectId,

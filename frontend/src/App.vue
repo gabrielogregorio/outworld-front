@@ -12,7 +12,7 @@
 
   --primary-blue-color: rgb(0, 89, 161);
   --primary-purple-color: rgb(137, 29, 199);
-
+  --primary-orange-color: rgb(252, 148, 50);
   --primary-nigth-color: #3a3b3c;
 
   --primary-danger-color: rgba(255, 255, 255, 0.966);

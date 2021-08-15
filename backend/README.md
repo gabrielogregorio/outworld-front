@@ -1,3 +1,6 @@
+# Sistema de comentários em profundidade ainda está em beta, cheio de bugs e uma etapa não testada e que precisará de uma atenção especial.
+Mudei o foco depois de perder umas 3 horas nisso!
+
 # Api Crud com TDD
 backend do projeto
 

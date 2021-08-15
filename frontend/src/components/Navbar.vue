@@ -2,13 +2,25 @@
   <section> 
     <div class="titulo-principal">
       <nav>
-        <div ><router-link to="/Home"><i class="fas fa-home"></i></router-link></div>
+        <div><router-link to='Home'><i class="fas fa-home"></i></router-link></div>
         <div><router-link to="/Users"><i class="fas fa-users"></i></router-link></div>
+        <div><router-link :to="{path: 'Home', query: {archive: true}}"><i class="fas fa-archive"></i></router-link></div>
         <div class="perfil"><router-link to="/MyProfile"><i class="fas fa-user"></i></router-link></div>
       </nav>
     </div><!-- titulo-principal -->
   </section>
 </template>
+
+<script>
+export default {
+  name: 'Navbar',
+  methods: {
+    updatePosts() {
+      this.$emit("updatePosts", "")
+    }
+  }
+}
+</script>
 
 
 <style>

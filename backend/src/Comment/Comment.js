@@ -16,7 +16,15 @@ let commentSchema = new mongoose.Schema({
   }
 })
 
+/*
+var autoPopulateReplies = function(next) {
+  this.populate('replies');
+  next();
+};
 
-
+commentSchema
+  .pre('findOne', autoPopulateReplies)
+  .pre('find', autoPopulateReplies)
+  */
 var Comment = mongoose.model('Comment', commentSchema);
 module.exports = Comment;

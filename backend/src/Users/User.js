@@ -14,7 +14,12 @@ let userSchema = new mongoose.Schema({
   likes: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Likes'
+  }],
+  saves: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Save'
   }]
+
 })
 
 var User = mongoose.model('User', userSchema);

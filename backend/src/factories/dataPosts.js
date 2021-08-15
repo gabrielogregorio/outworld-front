@@ -1,7 +1,7 @@
 DataUsers = require('./dataUsers');
 
 class DataPosts {
-  Build(post, userId) {
+  Build(post, userId, idsSaves=[]) {
     var newPost = {
       _id: post.id,
       title: post.title,
@@ -11,6 +11,7 @@ class DataPosts {
       user: "",
       likes: post.likes == undefined ? 0 : post.likes.length,
       likedByUser: false,
+      savedByUser: false,
       sharePost: post.sharePost == undefined ? undefined : post.sharePost
     }
 
@@ -19,6 +20,16 @@ class DataPosts {
     } else {
       newPost.user = {}
     }
+
+    if (idsSaves != undefined) {
+      idsSaves.forEach(idsave => {
+        if (`${post._id}` == `${idsave}`) {
+          newPost.savedByUser = true;
+        }
+
+      })
+    }
+
 
     post.likes.forEach(postLike => {
       if (userId == postLike.user) {

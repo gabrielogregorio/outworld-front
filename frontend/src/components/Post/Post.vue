@@ -27,7 +27,10 @@
       <button v-if="showComment == true" class="showComment" @click="toogleComment()">Comentar</button>
       <button v-else @click="toogleComment()">Comentar</button>
 
-      <button>Salvar</button>
+
+      <button v-if="post.savedByUser == true" class="active-share" @click="sendSave(post._id)">Salvo+ </button>
+      <button v-else @click="sendSave(post._id)">Salvar</button>
+
       <button v-if="post.sharePost != undefined" @click="sharePostNow(post.sharePost._id)">Compartilhar </button>
       <button v-else @click="sharePostNow(post._id)">Compartilhar </button>
     </div><!-- options-post -->
@@ -70,10 +73,8 @@ export default {
   },
 
    created() {      
-     console.log('ccres')
      axios.get(`${hostServer}/post/comments/${this.post._id}`, getHeader()).then(res => {
        this.comments = res.data;
-       console.log(res.data, '........')
      }).catch(error => {
        console.log(error)
      })
@@ -107,12 +108,19 @@ export default {
     newComment(){
       this.$emit("updatePosts", "")
     },
+
+    
+    sendSave(postId) {
+      axios.post(`${hostServer}/post/save/${postId}`, {}, getHeader())
+      .then(() => {
+        this.$emit("updatePosts", "")
+      })
+    },
+
     sendLike(postId) {
        axios.post(`${hostServer}/post/like/${postId}`, {}, getHeader())
         .then(() => {
-          axios.get(`${hostServer}/post/${postId}`, getHeader()).then(() => {
-            this.$emit("updatePosts", "")
-          })
+          this.$emit("updatePosts", "")
         })
     }
   }
@@ -155,6 +163,15 @@ div.container-post {
   color: var(--primary-text-color);
   border-radius: 10px;
 }
+
+ 
+.options-post .active-share {
+  display: block;
+  background: var(--primary-orange-color);
+  color: var(--primary-text-color);
+  border-radius: 10px;
+}
+
 
 .options-post .showComment {
   display: block;

@@ -40,11 +40,8 @@ export default {
           this.$emit('newComment', res.data.id)
         })
       } else {
-        console.log('aaaaaa')
-        console.log(this.commentId)
         axios.post(`${hostServer}/post/comment/${this.postId}`,{text:this.comment, replie: this.commentId},  getHeader()).then(res => {
           this.comment = '';
-          console.log('aaaaaaaaa', res)
           this.$emit('newComment', res.data.id)
         })
       }
