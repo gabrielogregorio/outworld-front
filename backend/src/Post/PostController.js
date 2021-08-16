@@ -106,7 +106,7 @@ router.get('/post/:id', userAuth, async (req, res) => {
     postFactories.push(DataPosts.Build(post, user, idSavedByUser))
   })
 
-  res.json(postFactories) 
+  return res.json(postFactories) 
 })
 
 
@@ -356,9 +356,15 @@ router.get('/posts/user/:id', userAuth, async (req, res) => {
   
     var posts = await Post.find({user:user}).sort({'_id': 'desc'}).populate('user comments likes');
   
+    var saves = await Save.find({user:user});
+    var idSavedByUser = []
+    saves.forEach(item => {
+      idSavedByUser.push(item.post)
+    })
+  
     var postFactories = []
     posts.forEach(async post => {
-      postFactories.push(DataPosts.Build(post, userCall))
+      postFactories.push(DataPosts.Build(post, userCall, idSavedByUser))
     }) 
   
     res.statusCode = 200

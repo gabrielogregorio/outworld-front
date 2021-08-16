@@ -42,14 +42,14 @@
       </div>
 
       <div class="menu-items">
-        <button>posts</button>
+        <button>posts</button> 
         <button>amigos</button>
       </div>
     </div>
 
    <NewPost @updatePostsEvent="updatePosts()" :img="user.img"/>
 
-    <div class="container-post" v-for="post in posts" :key="post.id">
+    <div class="container-post" v-for="(post, index) in posts" :key="post._id + index">
       <Post v-bind:post="post" v-bind:myId="myId" v-bind:imgProfile="img" @updatePosts="updatePosts()" />      
     </div>
 
@@ -81,7 +81,7 @@ export default {
       idUser: '',
       img: '',
       user: '',
-      newText: ''
+      newText: '' 
     }
   },
    computed: {

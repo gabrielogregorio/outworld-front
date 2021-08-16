@@ -101,25 +101,22 @@ export default {
       axios.post(`${hostServer}/post/share/${id}`, {}, getHeader()).then(() => {
         this.$emit("updatePosts", "")
       })
-
     },
     newComment(){
       this.$emit("updatePosts", "")
     },
 
-    
     sendSave(postId) {
-      axios.post(`${hostServer}/post/save/${postId}`, {}, getHeader())
-      .then(() => {
+      console.log(postId)
+      axios.post(`${hostServer}/post/save/${postId}`, {}, getHeader()).then(() => {
         this.$emit("updatePosts", "")
       })
     },
 
     sendLike(postId) {
-       axios.post(`${hostServer}/post/like/${postId}`, {}, getHeader())
-        .then(() => {
-          this.$emit("updatePosts", "")
-        })
+      axios.post(`${hostServer}/post/like/${postId}`, {}, getHeader()).then(() => {
+        this.$emit("updatePosts", "")
+      })
     }
   }
 }
