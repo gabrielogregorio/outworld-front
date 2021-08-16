@@ -38,11 +38,6 @@ const routes = [
     component:  () => import('../views/RegisterUser')
   },
   {
-    path: '/ProfileUser',
-    name: 'ProfileUser',
-    component:  () => import('../views/ProfileUser.vue')
-  },
-  {
     path: '/Home',
     name: 'Home',
     component: Home,
@@ -78,9 +73,9 @@ const routes = [
     beforeEnter: authUser,
   },
   {
-    path: '/MyProfile',
-    name: 'MyProfile',
-    component: () => import('../views/MyProfile.vue'),
+    path: '/Profile',
+    name: 'Profile',
+    component: () => import('../views/Profile.vue'),
     beforeEnter: authUser,
   }
 ]

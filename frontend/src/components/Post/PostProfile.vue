@@ -1,14 +1,14 @@
 <template>
   <div :class="share != true ? 'row-info-profile' : 'row-info-profile body-padding'">
 
-    <router-link :to="{ path: 'ProfileUser', query: { id: userId }}" class="img-post-perfil">
+    <router-link :to="{ path: 'Profile', query: { id: userId }}" class="img-post-perfil">
       <img v-if="userImg == '' || userImg == undefined" src="/user.webp" alt="">
       <img v-else :src='`${hostServer}/images/clients/${userImg}`' alt="">
-   </router-link>
+    </router-link>
 
     <div class="info-post-superior">
-      <router-link :to="{ path: 'ProfileUser', query: { id: userId }}">{{postName}}</router-link>
-      <router-link :to="{ path: 'ProfileUser', query: { id: userId }}">{{postUsername | processUsername}} ·</router-link>
+      <router-link :to="{ path: 'Profile', query: { id: userId }}">{{postName}}</router-link>
+      <router-link :to="{ path: 'Profile', query: { id: userId }}">{{postUsername | processUsername}} ·</router-link>
       <p>16h</p>
       <div class="delete-post">
         <div v-if="myId == userId">
@@ -85,12 +85,18 @@ export default {
   justify-content: space-between;
   width: 100%;
 }
+
+.info-post-superior a {
+  text-decoration: none;
+}
+
 .info-post-superior a:nth-child(1) {
   font-weight: 700;
   color: var(--primary-text-color);
   font-size: 1rem;
   cursor: pointer;
 }
+
 .info-post-superior a:nth-child(2) {
   font-weight: 700;
   margin-left: 5px;

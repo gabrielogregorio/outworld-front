@@ -8,7 +8,7 @@
       <div class="name-config">
         <h2>{{user.name}}</h2>
         <router-link to="/EditProfile">
-          <i class="fas fa-cog"></i>
+          <i v-if="idUser == myId" class="fas fa-cog"></i>
         </router-link>
       </div>
       
@@ -61,7 +61,7 @@
 import axios from 'axios';
 import Navbar from '../components/Navbar.vue';
 import getHeader from '../getToken';
-import NewPost from '../components/NewPost.vue';
+import NewPost from '../components/Post/NewPost.vue';
 import Post from '../components/Post/Post.vue';
 import { hostServer } from '../connections';
 
@@ -78,6 +78,7 @@ export default {
       posts: [],
       hostServer:hostServer,
       myId: '',
+      idUser: '',
       img: '',
       user: '',
       newText: ''
@@ -95,11 +96,20 @@ export default {
     let me = await axios.get(`${hostServer}/me`, getHeader())
     this.myId = me.data[0]._id;
     this.img = me.data[0].img;
-    this.user = me.data[0];
+
+    if (this.$route.query.id == undefined) {
+      this.user = me.data[0];
+      this.idUser = me.data[0]._id
+    } else {
+      me = await axios.get(`${hostServer}/user/${this.$route.query.id}`, getHeader())
+      this.idUser = me.data[0]._id
+      this.user = me.data[0];
+    }
 
     this.posts = []
-
-    let posts = await axios.get(`${hostServer}/posts/user/${this.myId}`, getHeader())
+    var idUrl = this.myId;
+    if (this.$route.query.id != undefined) { idUrl = this.$route.query.id }
+    let posts = await axios.get(`${hostServer}/posts/user/${idUrl}`, getHeader())
     for (let i=0; i<posts.data.length; i++) {
           
       if (posts.data[i].sharePost != undefined) {
@@ -118,9 +128,11 @@ export default {
   }, 
   methods: {
 
-    async updatePosts() {
+    async updatePosts() { 
       let novosPosts = []
-      let posts = await axios.get(`${hostServer}/posts/user/${this.myId}`, getHeader())
+      var idUrl = this.myId;
+      if (this.$route.query.id != undefined) { idUrl = this.$route.query.id }
+      let posts = await axios.get(`${hostServer}/posts/user/${idUrl}`, getHeader())
       for (let i=0; i<posts.data.length; i++) {
           
         if (posts.data[i].sharePost != undefined) {

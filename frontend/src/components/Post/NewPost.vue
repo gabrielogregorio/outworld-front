@@ -29,8 +29,8 @@
 
 <script>
 import axios from 'axios'
-import getHeader from '../getToken';
-import { hostServer } from '../connections';
+import getHeader from '../../getToken';
+import { hostServer } from '../../connections';
 
 export default {
   name: 'NewPost',

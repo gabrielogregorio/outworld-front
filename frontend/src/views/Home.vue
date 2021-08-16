@@ -11,7 +11,7 @@
 <script>
 import axios from 'axios';
 import getHeader from '../getToken';
-import NewPost from '../components/NewPost.vue';
+import NewPost from '../components/Post/NewPost.vue';
 import Navbar from '../components/Navbar.vue';
 import Post from '../components/Post/Post.vue';
 import { hostServer } from '../connections';

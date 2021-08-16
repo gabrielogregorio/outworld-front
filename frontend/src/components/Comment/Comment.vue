@@ -38,10 +38,10 @@
 
 
 <script>
-import { hostServer } from '../connections';
+import { hostServer } from '../../connections';
 import axios from 'axios';
-import getHeader from '../getToken';
-import MakeComment from './MakeComment.vue';
+import getHeader from '../../getToken';
+import MakeComment from '../Comment/MakeComment.vue';
 
 export default {
   name: 'Comment',

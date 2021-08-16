@@ -13,7 +13,7 @@
 import axios from 'axios';
 import Navbar from '../components/Navbar.vue';
 import getHeader from '../getToken';
-import User from '../components/User.vue'
+import User from '../components/User/User.vue'
 import { hostServer } from '../connections';
 
 

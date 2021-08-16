@@ -1,6 +1,5 @@
 <template>
   <div class="container-post">
-
     <PostProfile 
       :userId="post.user._id" :postId="post._id"
       :postName="post.user.name" :postUsername="post.user.username"
@@ -27,7 +26,6 @@
       <button v-if="showComment == true" class="showComment" @click="toogleComment()">Comentar</button>
       <button v-else @click="toogleComment()">Comentar</button>
 
-
       <button v-if="post.savedByUser == true" class="active-share" @click="sendSave(post._id)">Salvo+ </button>
       <button v-else @click="sendSave(post._id)">Salvar</button>
 
@@ -49,8 +47,8 @@
 import axios from 'axios';
 import getHeader from '../../getToken';
 import { hostServer } from '../../connections';
-import Comment from '../Comment.vue';
-import MakeComment from '../MakeComment.vue';
+import Comment from '../Comment/Comment.vue';
+import MakeComment from '../Comment/MakeComment.vue';
 import PostProfile from './PostProfile.vue';
 import PostBody from './PostBody.vue';
 
@@ -92,7 +90,7 @@ export default {
     },
     openProfile(id){
       this.$router.push({
-        name:"ProfileUser",
+        name:"Profile",
         query: {id}
       })    
     },

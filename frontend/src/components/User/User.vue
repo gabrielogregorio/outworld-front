@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import { hostServer } from '../connections';
+import { hostServer } from '../../connections';
 import axios from 'axios'
-import getHeader from '../getToken';
+import getHeader from '../../getToken';
 
 export default {
   name: 'User',
