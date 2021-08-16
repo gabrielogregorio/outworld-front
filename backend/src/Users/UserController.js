@@ -9,17 +9,14 @@ const multerImage = require('../middlewares/multerImage');
 const ItemBio = require('../ItemBio/ItemBio');
 require('dotenv/config');
 const jwtSecret = process.env.JWT_SECRET
+const { processId } = require('../util/textProcess');
 
 
 router.post('/userLoadFile', userAuth, multerImage.single('image'), async(req, res) => {
-  user = `${req.data.id}`
+  user = processId(req.data.id)
 
-  if (
-    (user == '') ||
-    (user == undefined)
-    )
-     {
-      return res.sendStatus(400)
+  if (user == undefined) {
+    return res.sendStatus(400)
   }
 
   if (req.file) {
@@ -128,9 +125,8 @@ router.get('/user/:id', userAuth,  async (req, res) => {
  
 router.put('/user/:id', userAuth, async (req, res) => { 
   var {name, username, password, itemBio, bio, motivational, img} = req.body;
-
-  var id = req.params.id;
-  var user = req.data.id;
+  var id = processId(req.params.id)
+  var user = processId(req.data.id)
   
   if (id != `${user}`) {
     // Só pode alterar a si mesmo
@@ -205,8 +201,8 @@ router.put('/user/:id', userAuth, async (req, res) => {
 })
 
 router.post('/user/follow/:id', userAuth, async (req, res) => {
-  var idUserToken = req.data.id;
-  var idUserFollow = req.params.id;
+  var idUserToken = processId(req.data.id)
+  var idUserFollow = processId(req.params.id)
 
   if (idUserToken == idUserFollow) {
     res.statusCode = 400
@@ -257,7 +253,8 @@ router.post('/user/follow/:id', userAuth, async (req, res) => {
 
 
 router.get('/me', userAuth,  async (req, res) => { 
-  var id = req.data.id;
+  id = processId(req.data.id)
+
   var users = await User.find({_id: id}).populate('itemBio following followers');
 
   if (users.length == 0) {

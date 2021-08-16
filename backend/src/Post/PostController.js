@@ -8,14 +8,14 @@ const Like = require('../Likes/Like')
 const Save = require('../Saves/Save');
 const Comment = require('../Comment/Comment');
 const User = require('../Users/User');
-const {processId} = require('../util/textProcess');
+const { processId } = require('../util/textProcess');
 require('dotenv/config');
 
 const jwtSecret = process.env.JWT_SECRET
 
 
 router.post('/postLoadFile', userAuth, multerImagePosts.single('image'), async(req, res) => {
-  user = `${req.data.id}`
+  var user = processId(req.data.id)
 
   if (user == undefined || user == '') { return res.sendStatus(400) }
 
@@ -32,7 +32,8 @@ router.post('/postLoadFile', userAuth, multerImagePosts.single('image'), async(r
 router.post('/post', userAuth, async(req, res) => {
   let { body, test, img} = req.body;
 
-  user = `${req.data.id}`
+  let user = processId(req.data.id)
+  
   if ( body == '' ||body == undefined || user == undefined || user == '') {
       return res.sendStatus(400)
   }
@@ -56,7 +57,7 @@ router.post('/post', userAuth, async(req, res) => {
 })
 
 router.get('/posts', userAuth, async (req, res) => {
-  var user = `${req.data.id}`
+  var user = processId(req.data.id)
   if ( user == undefined || user == '') { return res.sendStatus(400) }
 
   var userItem = await User.findById({_id:user}).populate('following')
@@ -82,7 +83,7 @@ router.get('/posts', userAuth, async (req, res) => {
 
 
 router.get('/post/:id', userAuth, async (req, res) => {
-  var user = `${req.data.id}`
+  var user = processId(req.data.id)
   try {
     var posts = await Post.find({_id:req.params.id}).populate('user comments likes sharePost').exec();
   } catch(error) {
@@ -111,12 +112,11 @@ router.get('/post/:id', userAuth, async (req, res) => {
 
 router.put('/post/:id', userAuth,  async (req, res) => { 
   var {body, img} = req.body;
-  var id = req.params.id;
-  var user = `${req.data.id}`;
+  var id = processId(req.params.id)
+  var user = processId(req.data.id)
   
   if (
-    (body == '' || id == '' || user == '') ||
-    (body == undefined || id == undefined || user == undefined)
+    (body == '' || body == undefined || id == undefined || user == undefined)
     ){
     return res.sendStatus(400);
   }
@@ -141,15 +141,15 @@ router.put('/post/:id', userAuth,  async (req, res) => {
 
 //precisa testar
 router.get('/post/comments/:id', userAuth,  async (req, res) => { 
-  var id = req.params.id;
+  var id = processId(req.params.id);
   var comments = await Comment.find({post:id})
   return res.json(comments);
 })
 
 
 router.post('/post/comment/:id', userAuth,  async (req, res) => { 
-  var id = req.params.id;
-  var user =`${req.data.id}`;
+  var id = processId(req.params.id);
+  var user = processId(req.data.id);
   var replie = req.body.replie;
   var text = req.body.text;
 
@@ -184,10 +184,10 @@ router.post('/post/comment/:id', userAuth,  async (req, res) => {
 
 
 router.delete('/post/comment/:idComment', userAuth,  async (req, res) => { 
-  var id = req.params.idComment;
-  var user = `${req.data.id}`
+  var id = processId(req.params.idComment)
+  var user = processId(req.data.id)
 
-  if (id == '' || user == '' || id == undefined || user == undefined ) {
+  if ( id == undefined || user == undefined ) {
     return res.sendStatus(400)
   }
 
@@ -201,8 +201,8 @@ router.delete('/post/comment/:idComment', userAuth,  async (req, res) => {
 
 
 router.put('/post/comment/:idComment', userAuth,  async (req, res) => { 
-  var id = req.params.idComment;
-  var user = req.data.id;
+  var id = processId(req.params.idComment)
+  var user = processId(req.data.id)
   var text = req.body.text;
 
   if (text == '' || id == '' || user == '' || id == undefined || user == undefined || text == undefined) {
@@ -221,11 +221,9 @@ router.put('/post/comment/:idComment', userAuth,  async (req, res) => {
   }
 })
 
-
-
 router.post('/post/save/:id', userAuth,  async (req, res) => { 
-  var id = req.params.id;
-  var user = req.data.id;
+  var id = processId(req.params.id)
+  var user = processId(req.data.id)
   try {
     var saveExists = await Save.findOne({post:id, user:user});
     if (saveExists != null) {
@@ -256,10 +254,8 @@ router.post('/post/save/:id', userAuth,  async (req, res) => {
   }
 })
 
-
-
 router.get('/post/list/save', userAuth,  async (req, res) => { 
-  var user = req.data.id;
+  var user = processId(req.data.id);
   var saves = await Save.find({user:user});
   var idSavedByUser = []
   saves.forEach(item => {
@@ -278,8 +274,8 @@ router.get('/post/list/save', userAuth,  async (req, res) => {
 
 
 router.post('/post/like/:id', userAuth,  async (req, res) => { 
-  var id = req.params.id;
-  var user = req.data.id;
+  var id = processId(req.params.id);
+  var user = processId(req.data.id);
   try {
     var likeExistente = await Like.findOne({post:id, user:user});
     if (likeExistente != null) {
@@ -314,8 +310,8 @@ router.post('/post/like/:id', userAuth,  async (req, res) => {
 
 // Compartilha um post
 router.post('/post/share/:id', userAuth, async(req, res) => {
-  var user = req.data.id;
-  var idPost = req.params.id;
+  var user = processId(req.data.id)
+  var idPost = processId(req.params.id)
 
   // Cria o novo post referenciando o post que será compartilhado
   let newPost = new Post({user, sharePost:idPost});
@@ -334,8 +330,10 @@ router.post('/post/share/:id', userAuth, async(req, res) => {
 
 
 router.delete('/post/:id', userAuth, async (req, res) => {
+  var id = processId(req.params.id)
+
   try {
-    var resDelete = await Post.deleteOne({_id:req.params.id})
+    var resDelete = await Post.deleteOne({_id:id})
     if (resDelete.deletedCount == 1) {
       res.sendStatus(200)
     } else {
@@ -346,13 +344,10 @@ router.delete('/post/:id', userAuth, async (req, res) => {
   }
 })
 
-
-
-
 router.get('/posts/user/:id', userAuth, async (req, res) => {
-  var user = `${req.params.id}`
-  var userCall = `${req.data.id}`
-  if ( user == undefined || user == '') { return res.sendStatus(400) }
+  var user = processId(req.params.id)
+  var userCall = processId(req.data.id)
+  if ( user == undefined ) { return res.sendStatus(400) }
 
   try {
     var userItem = await User.findById({_id:user}).populate('following')

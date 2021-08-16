@@ -3,9 +3,9 @@ let supertest = require('supertest');
 let request = supertest(app)
 var tokenValido = {}
 var idUsuarioValido = '';
-
 var token2Valido = {}
 var idUsuario2Valido = '';
+
 let user = {
   name:'sherek',
   username:'sherek',
@@ -16,8 +16,8 @@ let user = {
     ['work', 'Desenvolvedor web'],
     ['film', 'Interestelar']
   ],
-  bio: 'Carol 🌻\n🏠 Araçatuba\n⏳ 23\n♍ Virginiana\n🐶 @dogduuque',
-  motivational: 'Ela é oxigênio, carbono, hidrogênio, nitrogênio, cálcio e fósforo. Os mesmos elementos que estão dentro de todos nós, mas não consigo parar de pensar que ela é mais que isso e que tem outros elementos dos quais ninguém nunca ouviu falar, que a tornam diferente de todas as outras pessoas.',
+  bio: 'Lucas 🌻\n🏠 \n⏳ 23\n♍ testetesttesttestestes',
+  motivational: 'Loremmmmmmm snsadnadlaldjsaddssasdaad',
   password: 'asdmkaksasdas'
 }
 
@@ -82,7 +82,10 @@ describe('Cadastro e login de usuários', () => {
         tokenValido = { authorization:"Bearer " + res.body.token}
     }).catch(error => fail(error))
   })
+})
 
+
+describe("Testes gerais", () => {
   test("Deve retornar um Usuário", () => {
     return request.get(`/user/${idUsuarioValido}`)
       .set(tokenValido)
@@ -162,8 +165,6 @@ describe('Cadastro e login de usuários', () => {
     }).catch(error => fail(error))
   })
 
-
-
   test("Obter os dados de si mesmo e verificar que DEIXOU de seguir o usuario 2", () => {
     return request.get('/me')
       .set(tokenValido)
@@ -188,9 +189,6 @@ describe('Cadastro e login de usuários', () => {
     }).catch(error => fail(error))
   })
 
-
-
-
   test('Usuário não pode seguir a si mesmo', () => {
     return request.post(`/user/follow/${idUsuarioValido}`)
       .set(tokenValido)
@@ -202,7 +200,7 @@ describe('Cadastro e login de usuários', () => {
 
   test('Impedir acesso com token invalido', () => {
     return request.post('/validate').send().set(
-      { authorization:"Bearer xxxxxxxxxxxxxxxxxx"}
+      { authorization:"Bearer aaaaaaaaaaaaaaaaa"}
     ).then(res2 => {
       expect(res2.statusCode).toEqual(403)
     }).catch(error => fail(error))
@@ -210,7 +208,6 @@ describe('Cadastro e login de usuários', () => {
 
   test("Deve impedir cadastro com dados vazios", () => {
     let user = {name: '', email:'', password: ''};
-
     return request.post('/user').send(user).then(res => {
       expect(res.statusCode).toEqual(400) // bad request
     }).catch(error => fail(error))
@@ -272,7 +269,6 @@ describe('Cadastro e login de usuários', () => {
     }).catch(error => fail(error))
   })
 
-
   test("Deve impedir o login de um usuário não cadastrado", () => {
     return request.post('/auth')
       .send({email:'invalid_email_test', password:'aaaaaaaaa'})
@@ -290,9 +286,7 @@ describe('Cadastro e login de usuários', () => {
       expect(res.statusCode).toEqual(403)
     }).catch(error => {fail(error)})
   })
-})
 
-describe('Visualização de usuários', () => {
   test("Deve retornar uma lista de usuários", () => {
     return request.get('/users')
     .set(tokenValido)

@@ -1,6 +1,5 @@
 let {app, mongoose} = require('../src/app');
 let supertest = require('supertest');
-const { compare } = require('bcrypt');
 let request = supertest(app)
 let userAny = {name: 'userTest', email: 'user@teste.com', password: 'adminPassword'}
 let post = {body: 'Um body qualquer', test: true}
@@ -11,7 +10,6 @@ var idComentarioValido = "";
 var token2Valido = { }
 require('dotenv/config')
  
-
 var user = {
   name: process.env.TEST_USER_NAME,
   email: process.env.TEST_USER_NAME,
@@ -30,8 +28,7 @@ var user2 = {
 
 beforeAll(() => {
   return request.post('/configure')
-    .then(res => {
-    })
+    .then(() => {})
 })
 
 afterAll(() => {
@@ -63,9 +60,7 @@ describe("Login no sistema", () => {
       .then(res => {
         token2Valido = { authorization:"Bearer " + res.body.token}
         user2.id = res.body.id;
-      }).catch(error => {
-        fail(error)
-      })
+      }).catch(error => {fail(error)})
   })
 })
 
@@ -206,7 +201,6 @@ describe('Gerenciamento de posts', () => {
         expect(res.body.includeSave).toEqual(true)
     }).catch(error => fail(error))
   })
-
 
   test("Deve retornar o post salvo", () => {
     return request.get(`/post/list/save/`)

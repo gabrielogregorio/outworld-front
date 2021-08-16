@@ -5,7 +5,7 @@
  * @param {Um canditado a ser o identificado} id String, null or undefined
  * @returns value or undefined
  */
-async function processId (id) {
+function processId (id) {
   // Realiza processamento de ids
   if (id == undefined || id == '' || id == null) {
     return undefined;
