@@ -4,7 +4,7 @@
     <div class="body-image">
       <img v-if="postImg != '' && postImg != undefined" :src='`${hostServer}/images/posts/${postImg}`' alt="">
     </div>
-  </div>
+  </div> 
 </template>
 
 <script>

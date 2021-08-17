@@ -1,8 +1,6 @@
 <template> 
   <div class="container">
     <Navbar /> 
-
-
     <div class="grid-message">
       <div class="message-users" id="scrool">
 
@@ -46,10 +44,10 @@
             <button  @click="sendMessage()">Enviar <i class="fas fa-paper-plane"></i></button>
           </div><!-- message-send-button -->
 
-
         </div><!-- messages-send-messages -->
       </div><!-- messages -->
     </div><!-- grid-message -->
+
 
   </div><!-- container -->
 </template>
@@ -60,6 +58,7 @@ import axios from 'axios';
 import Navbar from '../components/Navbar.vue';
 import getHeader from '../getToken';
 import { hostServer } from '../connections';
+// import io from 'socket.io-client';
 
 export default {
   name: 'Users',
@@ -75,11 +74,22 @@ export default {
       myId: '',
       message: '',
       idSendMesssage: ''
+      //socket: ''
     }
   },
 
+  mounted() {
+    //this.socket.on('MESSAGE', (data) => {
+    //    console.log([...this.messages, data], 'xxxxxx')
+    //});
+  },
   methods: {
     sendMessage(){
+
+      //this.socket.emit('SEND_MESSAGE', {
+      //  message: this.message
+      //});
+
 
       if (this.message != '') {
         axios.post(`${hostServer}/message`, {
@@ -113,6 +123,7 @@ export default {
     }
   },
   created() { 
+    //this.socket = io(this.hostServer)
     axios.get(`${hostServer}/me`, getHeader()).then(res => {
       this.myId = res.data[0]._id
     })
@@ -129,6 +140,7 @@ export default {
 
 
 .grid-message {
+  flex: 1;
   width: 100%;
   display: grid;
   grid-template-columns: 5fr 8fr;
@@ -138,7 +150,6 @@ export default {
   background: var(--primary-background);
   width: 100%;
   overflow-y: auto;
-  height: calc(100vh - 50px);
   padding: 20px 0;
 }
 
@@ -168,15 +179,14 @@ export default {
 }
 
 .user .user-img img {
-  width: 100%;
-  height: 100%;
+  width: 50px;
+  height: 50px;  
   object-fit: cover;
   border-radius: 50%;
 }
 
 .messages-items {
   overflow-y: auto;
-  height: calc(100vh - 100px);
   padding: 0 10px;
 }
 
@@ -250,4 +260,11 @@ export default {
 }
 
 
+
+
+@media screen and (max-width: 600px){
+.user {
+  padding: 5px 5px;
+}
+}
 </style>

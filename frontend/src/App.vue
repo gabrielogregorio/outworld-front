@@ -25,7 +25,8 @@
   --primary-text-color: #ffffff;
   --secundary-text-color: rgb(212, 212, 212);
 }
- 
+
+
 * {
   margin: 0;
   padding: 0;
@@ -36,10 +37,30 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Solução para remover a cor que o Google chrome coloca nos campos após serem preenchidos com o autocomplete
+> https://stackoverflow.com/questions/2781549/removing-input-background-colour-for-chrome-autocomplete
+*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active
+{
+ -webkit-box-shadow: 0 0 0 30px var(--primary-background) inset !important;
+}
+
+input:-webkit-autofill
+{
+ -webkit-text-fill-color: var(--secundary-text-color) !important;
+}
+/* Fim da solução */
+
 body {
   min-height: 100vh;
   background-color: var(--background-body);
   overflow-y: scroll;
+  height: 100%;
+
+
 }
 
 section {
@@ -104,13 +125,18 @@ form .novo-post-imagem img {
 .form input {
   color: var(--primary-text-color);
   padding: 10px;
-  background-color: transparent;
+  background: transparent;
   outline: none;
   border: var(--border);
 }
 
 .form input::placeholder {
   color: var(--secundary-text-color);
+  background: transparent;
+}
+
+.form input:slotted {
+  background: transparent;
 }
 
 .form button {
@@ -118,7 +144,7 @@ form .novo-post-imagem img {
   margin: 10px 0;
   padding: 10px 0;
   cursor: pointer;
-  background-color: var(--primary-blue-color);
+  background-color: var(--background-body);
   border: none;
   color: var(--primary-text-color);
   transition: 0.2s;
@@ -178,7 +204,7 @@ input[type="file"] {
 
 .buttonDefault {
   border-radius: 20px;
-    background: transparent;
+  background: transparent;
   padding: 10px 20px;
   border: none;
   font-weight: 700;
@@ -200,7 +226,7 @@ input[type="file"] {
 }
 
 img {
-    box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.1);
 }
 
 
@@ -289,4 +315,95 @@ img {
   font-weight: 700;
   border-bottom: 2px solid var(--border-color);
 } 
+
+@media screen and (max-width: 600px){
+  .form {
+    padding: 50px 2%;
+  }
+
+  .form h1 {
+    font-size: 2.5rem;
+  }
+
+  .form a {
+    font-size: 1.2rem;
+    padding: 10px 0;
+  }
+
+  .form label {
+    font-size: 1.2rem;
+  }
+
+  .form input {
+    font-size: 1.2rem;
+    padding: 20px inherit;
+  }
+
+ .form button {
+   padding: 20px 0;
+ }
+
+
+
+
+
+
+
+
+/* Perfil de imagem */
+.my-profile {
+  padding: 30px 2%;
+}
+
+.my-profile img {
+  display: block;
+  width: 90vw;
+  height: 90vw;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Fim de imagem */
+ 
+/* Configurações de perfil */
+.my-profile .name-config {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.my-profile .name-config h2 {
+  font-size: 2rem;
+  padding: 15px 0;
+}
+
+.my-profile .name-config i {
+  font-size: 2rem;
+} 
+
+.statistics p {
+  font-size: 1.2rem;
+}
+.citation p {
+  font-size: 1.2rem;
+}
+
+.bio-and-work {
+  padding: 0 2%;
+}
+
+ .biograph p span {
+   font-size: 1.2rem;
+   line-height: 1.3;
+ }
+
+ .work div p{
+   font-size: 1.2rem;
+   line-height: 1.3;
+ }
+
+
+
+}
 </style>

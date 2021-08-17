@@ -18,19 +18,20 @@
 
     <PostBody v-if="post.sharePost != undefined"
       :postImg="post.sharePost.img" :postBody="post.sharePost.body" v-bind:share="true"/>
-
+ 
     <div class="options-post">
-      <button v-if="post.likedByUser == true" class="active-like" @click="sendLike(post._id)">Gostei {{post.likes}} </button>
-      <button v-else @click="sendLike(post._id)">Gostei {{post.likes}}</button>
+      
+      <button v-if="post.likedByUser == true" class="active-like" @click="sendLike(post._id)"><i class="fas fa-thumbs-up"></i> {{post.likes}} </button>
+      <button v-else @click="sendLike(post._id)"><i class="fas fa-thumbs-up"></i> {{post.likes}}</button>
 
-      <button v-if="showComment == true" class="showComment" @click="toogleComment()">Comentar</button>
-      <button v-else @click="toogleComment()">Comentar</button>
+      <button v-if="showComment == true" class="showComment" @click="toogleComment()"><i class="fas fa-comment-dots"></i></button>
+      <button v-else @click="toogleComment()"><i class="fas fa-comment-dots"></i></button>
 
-      <button v-if="post.savedByUser == true" class="active-share" @click="sendSave(post._id)">Salvo+ </button>
-      <button v-else @click="sendSave(post._id)">Salvar</button>
+      <button v-if="post.savedByUser == true" class="active-share" @click="sendSave(post._id)"><i class="fas fa-archive" aria-hidden="true"></i> </button>
+      <button v-else @click="sendSave(post._id)"><i class="fas fa-archive" aria-hidden="true"></i></button>
 
-      <button v-if="post.sharePost != undefined" @click="sharePostNow(post.sharePost._id)">Compartilhar </button>
-      <button v-else @click="sharePostNow(post._id)">Compartilhar </button>
+      <button v-if="post.sharePost != undefined" @click="sharePostNow(post.sharePost._id)"><i class="fas fa-share-alt"></i> </button>
+      <button v-else @click="sharePostNow(post._id)"><i class="fas fa-share-alt"></i> </button>
     </div><!-- options-post -->
 
     <div v-if="showComment">
@@ -154,30 +155,46 @@ div.container-post {
 
 .options-post .active-like {
   display: block;
-  background: var(--primary-blue-color);
-  color: var(--primary-text-color);
   border-radius: 10px;
+  color: var(--background-body);
+}
+.options-post button > i{
+    font-size: 1.2rem;
 }
 
- 
-.options-post .active-share {
-  display: block;
-  background: var(--primary-orange-color);
-  color: var(--primary-text-color);
-  border-radius: 10px;
+.options-post button.active-like  > i{
+  color: var(--background-body);
 }
-
 
 .options-post .showComment {
   display: block;
-  background: var(--primary-purple-color);
-  color: var(--primary-text-color);
   border-radius: 10px;
 }
+
+.options-post .showComment > i{
+  color: var(--background-body);
+}
+ 
+.options-post button.active-share {
+  display: block;
+  border-radius: 10px;
+}
+
+.options-post button.active-share > i{
+  color: var(--background-body);
+}
+
+
 
 .body-border-share {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   width: 100%;
   padding-bottom: 20px;
+}
+
+@media screen and (max-width: 600px){
+ div.container-post {
+   padding: 2%;
+ }
 }
 </style>

@@ -145,7 +145,7 @@ div.container-post {
 }
 
 .body-image {
-  padding: 10px;
+  padding: 10px 0;
 }
 
 .body-image > img{
@@ -161,6 +161,7 @@ div.container-post {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 10px 0;
 }
 
@@ -175,8 +176,19 @@ textarea {
   font-size: 1.4rem;
   color: var(--primary-text-color);
 }
+
 textarea::placeholder{
   color: var(--secundary-text-color);
+} 
+
+@media screen and (max-width: 600px){
+ div.container-post {
+   padding: 2%;
+ }
+
+ .botao-postar i{
+   font-size: 1.8rem;
+ }
 }
 
 </style>

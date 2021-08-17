@@ -69,13 +69,13 @@ div.container-user {
 
 .img-user-perfil {
   margin-right: 15px;
-  max-width: 50px;
-  max-height: 50px;
+  width: 50px;
+  height: 50px;
 }
 
 .img-user-perfil img {
-  width: 100%;
-  height: 100%;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
@@ -115,4 +115,9 @@ div.container-user {
   transition: 0.5s;
 }
 
+@media screen and (max-width: 600px){
+  div.container-user {
+    padding: 2%;
+  }
+}
 </style>

@@ -1,5 +1,17 @@
 let {app, mongoose}  = require('../src/app');
+//const { Server } = require('socket.io');
 
-app.listen(3333, () => {
+const server = app.listen(3333, () => {
   console.log('server is running!');
 })
+
+/*
+const io = new Server(server, { cors: { origin: 'http://127.0.0.1:8080' } });
+
+io.on('connection', function(socket) {
+  console.log(socket.id)
+  socket.on('SEND_MESSAGE', function(data) {
+        io.emit('MESSAGE', data)
+    });
+})  
+*/
