@@ -56,6 +56,11 @@ const routes = [
     beforeEnter: authUser
   },
   {
+    path: '/Messages',
+    name: 'Messages',
+    component: () => import ('../views/Messages.vue')
+  },
+  {
     path: '/EditProfile',
     name: 'EditProfile',
     component: () => import('../views/EditProfile.vue'),

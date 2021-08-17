@@ -35,7 +35,6 @@ export default {
     //to.query.archive == true
     next();
     this.updatePosts()
-
   },
   async created() {
     let me = await axios.get(`${hostServer}/me`, getHeader())
@@ -43,24 +42,7 @@ export default {
     this.img = me.data[0].img;
     this.posts = []
 
-    var rota = '/posts';
-    if (this.$route.query.archive == 'true') { rota = '/post/list/save/' }
-    let posts = await axios.get(`${hostServer}${rota}`, getHeader())
-    for (let i=0; i<posts.data.length; i++) {
-          
-      if (posts.data[i].sharePost != undefined) {
-        try {
-          var data = await axios.get(`${hostServer}/post/${posts.data[i].sharePost}`, getHeader())
-          posts.data[i].sharePost = data.data[0]
-        } catch(error) {
-          if (error.message == 'Request failed with status code 404') {
-            // Post original excluido!
-            posts.data[i].sharePost = undefined
-          }
-        }
-      }
-      this.posts.push(posts.data[i])
-    } 
+   this.updatePosts()
   },  
   methods: {
     async updatePosts() {

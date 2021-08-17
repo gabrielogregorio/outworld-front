@@ -8,6 +8,7 @@ const ItemBio = require('./ItemBio/ItemBio');
 const Comment = require('./Comment/Comment');
 const UserController = require('./Users/UserController');
 const PostController = require('./Post/PostController');
+const MessageController = require('./Messages/MessageController');
 const userAuth = require('../src/middlewares/userAuth');
 const cors = require('cors');
 const bcrypt = require('bcrypt')
@@ -25,6 +26,7 @@ app.use(express.static('public'))
 app.use(cors())
 app.use('/', UserController)
 app.use('/', PostController)
+app.use('/', MessageController)
 
 mongoose.set('useFindAndModify', false)
 mongoose.connect(`mongodb://localhost:${port}/${dbname}`,
@@ -44,26 +46,31 @@ app.post('/validate', userAuth, (req, res) => {
 
 /* Rotas de desenvolvimento */
 app.post('/configure', async (req, res) => {
+  var message = req.body.extra;
+  if (message == undefined) {message = ''}
   let salt = await bcrypt.genSalt(10);
-  let hash = await bcrypt.hash(test_user_name, salt)
-  let newUser = new User({name:test_user_name, email:test_user_name, password:hash, username:test_user_name})
+  let hash = await bcrypt.hash(test_user_name + message, salt)
+  let newUser = new User({name:test_user_name + message, email:test_user_name + message, password:hash, username:test_user_name + message})
   await newUser.save()  
 
   salt = await bcrypt.genSalt(10);
-  hash = await bcrypt.hash(test_user2_name, salt)
-  let newUser2 = new User({name:test_user2_name, email:test_user2_name, password:hash, username:test_user2_name})
+  hash = await bcrypt.hash(test_user2_name + message, salt)
+  let newUser2 = new User({name:test_user2_name + message, email:test_user2_name + message, password:hash, username:test_user2_name + message})
   await newUser2.save()  
 
-  res.json({email:test_user_name, id:newUser._id, email:test_user2_name, id2:newUser2._id,}); 
+  res.json({email:test_user_name + message, id:newUser._id, email:test_user2_name + message, id2:newUser2._id,}); 
 })
 
 app.post('/endconfigure', async (req, res) => {
-  await User.deleteMany({email:test_user_name})
-  await User.deleteMany({email:test_user2_name})
-  res.sendStatus(200)
+  var message = req.body.extra;
+  if (message == undefined) {message = ''}
+  await User.deleteMany({email:test_user_name + message})
+  await User.deleteMany({email:test_user2_name + message})
+  return res.sendStatus(200)
 })
 
 app.delete('/user/:email', async (req, res) => {
+
   await User.deleteMany({email:req.params.email})
   return res.sendStatus(200)
 })

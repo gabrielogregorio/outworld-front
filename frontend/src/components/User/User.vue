@@ -39,7 +39,7 @@ export default {
     },
     openProfile(id) {
       this.$router.push({
-        name:"ProfileUser",
+        path:"/Profile",
         query: {id}
       })    
     }

@@ -11,13 +11,21 @@
 
 <h3 align="center">Uma micro rede social feita com nodejs e vuejs. O backend está coberto com TDD</h3>
 <p align="center">
-Isso é basicamente uma micro rede social, ainda em alpha e sendo focado principalmente nos meus estudos,
+Isso é basicamente uma micro rede social, ainda em alpha e sendo focado principalmente nos meus estudos.
   <br>
 </p>
 
 <h3>Informações gerais</h3>
-Um aviso importante, atualmente minha preocupação é com o backend, portanto no front end eu só estou fazendo o dever de casa e para desktop, pois o backend é bem mais complexo e é o meu foco.
+Um aviso importante, este é um projeto para portifólio e questões como arquiteturas mirabolantes ou sofisticadas não estão sendo levadas em conta, estou fazendo o básico para colocar esse projeto para funcionar e aprendendo conforme desenvolvo.
 
+### Tela inicial
 ![Interface](images/a.png)
+
+### Sistema de comentários - beta
 ![Interface](images/b.png)
+
+### Conta do usuário
 ![Interface](images/c.png)
+
+### Sistema de mensagens
+![Interface](images/d.png)

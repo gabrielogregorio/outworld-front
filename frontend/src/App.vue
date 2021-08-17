@@ -20,7 +20,8 @@
   --background-body: #470c8a;
   --background-body-transparent: #ffffff;
 
-  --primary-background: #009c8f;
+  --primary-background: #008a7e;
+  --secundary-background: #009c8f;
   --primary-text-color: #ffffff;
   --secundary-text-color: rgb(212, 212, 212);
 }

@@ -4,13 +4,13 @@ let request = supertest(app)
 let userAny = {name: 'userTest', email: 'user@teste.com', password: 'adminPassword'}
 let post = {body: 'Um body qualquer', test: true}
 let post2 = {body: 'post2', test: true}
-var idPostValido = "";
-var tokenValido = {}
-var idComentarioValido = "";
-var token2Valido = { }
+let idPostValido = "";
+let tokenValido = {}
+let idComentarioValido = "";
+let token2Valido = { }
 require('dotenv/config')
  
-var user = {
+let user = {
   name: process.env.TEST_USER_NAME,
   email: process.env.TEST_USER_NAME,
   username: process.env.TEST_USER_NAME,
@@ -18,7 +18,7 @@ var user = {
   id: ''
 }
 
-var user2 = {
+let user2 = {
   name: process.env.TEST_USER2_NAME,
   email: process.env.TEST_USER2_NAME,
   username: process.env.TEST_USER2_NAME,
@@ -60,7 +60,8 @@ describe("Login no sistema", () => {
       .then(res => {
         token2Valido = { authorization:"Bearer " + res.body.token}
         user2.id = res.body.id;
-      }).catch(error => {fail(error)})
+      }).catch(error => {
+        fail(error)})
   })
 })
 
@@ -201,6 +202,7 @@ describe('Gerenciamento de posts', () => {
         expect(res.body.includeSave).toEqual(true)
     }).catch(error => fail(error))
   })
+
 
   test("Deve retornar o post salvo", () => {
     return request.get(`/post/list/save/`)

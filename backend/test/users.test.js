@@ -1,10 +1,10 @@
 let {app, mongoose}  = require('../src/app');
 let supertest = require('supertest');
 let request = supertest(app)
-var tokenValido = {}
-var idUsuarioValido = '';
-var token2Valido = {}
-var idUsuario2Valido = '';
+let tokenValido = {}
+let idUsuarioValido = '';
+let token2Valido = {}
+let idUsuario2Valido = '';
 
 let user = {
   name:'sherek',
