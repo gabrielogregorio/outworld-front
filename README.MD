@@ -9,11 +9,28 @@
   <img height="30" alt="html5" src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
 </div>
 
-<h3 align="center">Uma micro rede social feita com nodejs e vuejs. O backend está coberto com TDD</h3>
+
+<h3 align="center">Rede Social</h3>
 <p align="center">
-Isso é basicamente uma micro rede social, ainda em alpha e sendo focado principalmente nos meus estudos.
+  Uma micro rede social feita com nodejs e vuejs. O backend está coberto com TDD
   <br>
+  <a href="https://gabrielogregorio.com/projetos/Rede-Social/"><strong></strong></a>
+  <br>
+  <br>
+  <a href="https://github.com/gabrielogregorio/Rede-Social/issues/new?template=bug_report.md">Reportar bug</a>
+  ·
+  <a href="https://github.com/gabrielogregorio/Rede-Social/issues/new?template=feature_request.md">Solicitar Recursos</a>
 </p>
+
+<h3>Informações gerais</h3>
+
+![GitHub estrelas](https://img.shields.io/github/stars/gabrielogregorio/Rede-Social)
+![GitHub last commit](https://img.shields.io/github/last-commit/gabrielogregorio/Rede-Social?style=flat-square)
+![GitHub contributors](https://img.shields.io/github/contributors/gabrielogregorio/Rede-Social)
+![GitHub language count](https://img.shields.io/github/languages/count/gabrielogregorio/Rede-Social)
+![GitHub repo size](https://img.shields.io/github/repo-size/gabrielogregorio/Rede-Social)
+
+
 
 <h3>Informações gerais</h3>
 Um aviso importante, este é um projeto para portifólio e questões como arquiteturas mirabolantes ou sofisticadas não estão sendo levadas em conta, estou fazendo o básico para colocar esse projeto para funcionar e aprendendo conforme desenvolvo.
