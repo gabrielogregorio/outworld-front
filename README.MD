@@ -33,7 +33,6 @@
 
 
 <h3>Informações gerais</h3>
-Um aviso importante, este é um projeto para portifólio e questões como arquiteturas mirabolantes ou sofisticadas não estão sendo levadas em conta, estou fazendo o básico para colocar esse projeto para funcionar e aprendendo conforme desenvolvo.
 
 ### Tela inicial
 ![Interface](images/a.png)
