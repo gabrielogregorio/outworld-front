@@ -91,22 +91,15 @@ export default {
       return ''
     }
   },
- async created() {
-    let me = await axios.get(`${hostServer}/me`, getHeader())
-    this.myId = me.data[0]._id;
-    this.img = me.data[0].img;
-
-    if (this.$route.query.id == undefined) {
-      this.user = me.data[0];
-      this.idUser = me.data[0]._id
-    } else {
-      me = await axios.get(`${hostServer}/user/${this.$route.query.id}`, getHeader())
-      this.idUser = me.data[0]._id
-      this.user = me.data[0];
-    }
-
-    this.updatePosts()
+  created() {
+    this.updateProfile()
   }, 
+  beforeRouteUpdate(to, from, next) {
+    //to
+    //to.query.archive == true
+    next();
+    this.updateProfile()
+  },
   filters: {
     processImg: (value) => {
       if(value == '' || value == undefined) {
@@ -116,6 +109,22 @@ export default {
     }
   },
   methods: {
+    async updateProfile() {
+      let me = await axios.get(`${hostServer}/me`, getHeader())
+      this.myId = me.data[0]._id;
+      this.img = me.data[0].img;
+
+      if (this.$route.query.id == undefined) {
+        this.user = me.data[0];
+        this.idUser = me.data[0]._id
+      } else {
+        me = await axios.get(`${hostServer}/user/${this.$route.query.id}`, getHeader())
+        this.idUser = me.data[0]._id
+        this.user = me.data[0];
+      }
+
+      this.updatePosts()
+    },
     async updatePosts() { 
       let novosPosts = []
       var idUrl = this.myId;
