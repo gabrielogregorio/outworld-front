@@ -15,10 +15,8 @@ class DataUsers {
       followersIds: user.followers == undefined ? [] : user.followers.map(userTemp => userTemp._id),
       followingIds: user.following == undefined ? [] : user.following.map(userTemp => userTemp._id)
     }
-
     return newUser;
   }
 }
 
 module.exports = new DataUsers();
-

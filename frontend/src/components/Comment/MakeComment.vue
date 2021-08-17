@@ -1,13 +1,12 @@
 <template>
   <div class="new-comment">
     <div class="profile">
-      <img v-if="imgProfile == '' || imgProfile == undefined" src="/user.webp" alt="">
-      <img v-else :src='`${hostServer}/images/clients/${imgProfile}`' alt="">
+      <img :src="imgProfile | processImg" alt="">
     </div><!-- profile -->
 
     <div class="comment">
       <textarea type="text" name="comment" id="" v-model="comment"></textarea>
-      <button @click="comentar()">comentar</button>
+      <button @click="sendComment()">sendComment</button>
     </div><!-- comment -->
   </div><!-- new-comment -->
 </template>
@@ -16,7 +15,6 @@
 import axios from 'axios'
 import { hostServer } from '../../connections';
 import getHeader from '../../getToken';
-
 
 
 export default {
@@ -33,26 +31,32 @@ export default {
     }
   },
   methods: {
-    comentar() {
-      if (this.commentId == "") {
-        axios.post(`${hostServer}/post/comment/${this.postId}`,{text:this.comment},  getHeader()).then(res => {
-          this.comment = '';
-          this.$emit('newComment', res.data.id)
-        })
-      } else {
-        axios.post(`${hostServer}/post/comment/${this.postId}`,{text:this.comment, replie: this.commentId},  getHeader()).then(res => {
-          this.comment = '';
-          this.$emit('newComment', res.data.id)
-        })
+    sendComment() {
+      var data = {text:this.comment}
+
+      if (this.commentId != "") {
+        data.replie = this.commentId
       }
+
+      axios.post(`${hostServer}/post/comment/${this.postId}`,data,  getHeader()).then(res => {
+        this.comment = '';
+        this.$emit('newComment', res.data.id)
+      })
     },
+  },
+  filters: {
+    processImg: (value) => {
+      if(value == '' || value == undefined) {
+        return "/user.webp"
+      }
+      return `${hostServer}/images/clients/${value}`
+    }
   }
 }
 </script>
 
 
 <style scoped>
-
 .new-comment {
   display: flex;
   align-content: center;

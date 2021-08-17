@@ -1,19 +1,19 @@
 <template> 
   <div class="coments">
     <div class="profile">
-      <img v-if="userData.img == '' || userData.img == undefined" src="/user.webp" alt="">
-      <img v-else :src='`${hostServer}/images/clients/${userData.img}`' alt="">
+      <img :src='userData.img | processImg' alt=''>
     </div><!-- profile -->
+
     <div class="msg-options">
       <div class="msg">
         <div class="msg-name-options">
           <p><pre>{{userData.name}} </pre></p>
           <p><pre>{{userData.username | processUsername}} </pre></p>
-          <p><pre>Há 10 horas</pre></p>
+          <!--<p><pre>Há 10 horas</pre></p> -->
         </div><!-- msg-name-options -->
 
         <div class="msg-data">
-          <p>Economista e cientista de dados em Uberlandia!</p>
+          <!-- <p>Economista</p>-->
         </div><!-- msg-data -->
 
         <div class="msg-body">
@@ -79,6 +79,12 @@ export default {
     }
   },
   filters: {
+    processImg: (value) => {
+      if(value == '' || value == undefined) {
+        return "/user.webp"
+      }
+      return `${hostServer}/images/clients/${value}`
+    },
     processUsername: (value) => {
       if (value == '') {
         return '';

@@ -21,14 +21,11 @@
  
     <div class="options-post">
       
-      <button v-if="post.likedByUser == true" class="active-like" @click="sendLike(post._id)"><i class="fas fa-thumbs-up"></i> {{post.likes}} </button>
-      <button v-else @click="sendLike(post._id)"><i class="fas fa-thumbs-up"></i> {{post.likes}}</button>
+      <button :class=" post.likedByUser == true ? 'active-like': ''" @click="sendLike(post._id)"><i class="fas fa-thumbs-up"></i> {{post.likes}} </button>
 
-      <button v-if="showComment == true" class="showComment" @click="toogleComment()"><i class="fas fa-comment-dots"></i></button>
-      <button v-else @click="toogleComment()"><i class="fas fa-comment-dots"></i></button>
+      <button :class="showComment == true ? 'showComment' : ''" @click="toogleComment()"><i class="fas fa-comment-dots"></i></button>
 
-      <button v-if="post.savedByUser == true" class="active-share" @click="sendSave(post._id)"><i class="fas fa-archive" aria-hidden="true"></i> </button>
-      <button v-else @click="sendSave(post._id)"><i class="fas fa-archive" aria-hidden="true"></i></button>
+      <button :class="post.savedByUser == true ? 'active-share' : ''" @click="sendSave(post._id)"><i class="fas fa-archive" aria-hidden="true"></i> </button>
 
       <button v-if="post.sharePost != undefined" @click="sharePostNow(post.sharePost._id)"><i class="fas fa-share-alt"></i> </button>
       <button v-else @click="sharePostNow(post._id)"><i class="fas fa-share-alt"></i> </button>
@@ -43,6 +40,7 @@
 
   </div><!-- container-post -->
 </template>
+
 
 <script>
 import axios from 'axios';
@@ -70,14 +68,12 @@ export default {
       comments: []
     }
   },
-
-   created() {      
-     axios.get(`${hostServer}/post/comments/${this.post._id}`, getHeader()).then(res => {
-       this.comments = res.data;
-     }).catch(error => {
-       console.log(error)
-     })
-     
+  created() {      
+    axios.get(`${hostServer}/post/comments/${this.post._id}`, getHeader()).then(res => {
+      this.comments = res.data;
+    }).catch(error => {
+      console.log(error)
+    })
   },  
   props: {
     post: Object,
@@ -106,14 +102,12 @@ export default {
     newComment(){
       this.$emit("updatePosts", "")
     },
-
     sendSave(postId) {
       console.log(postId)
       axios.post(`${hostServer}/post/save/${postId}`, {}, getHeader()).then(() => {
         this.$emit("updatePosts", "")
       })
     },
-
     sendLike(postId) {
       axios.post(`${hostServer}/post/like/${postId}`, {}, getHeader()).then(() => {
         this.$emit("updatePosts", "")
@@ -158,6 +152,7 @@ div.container-post {
   border-radius: 10px;
   color: var(--background-body);
 }
+
 .options-post button > i{
     font-size: 1.2rem;
 }
@@ -183,8 +178,6 @@ div.container-post {
 .options-post button.active-share > i{
   color: var(--background-body);
 }
-
-
 
 .body-border-share {
   border-top: 1px solid rgba(0, 0, 0, 0.1);

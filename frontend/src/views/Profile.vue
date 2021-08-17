@@ -2,8 +2,7 @@
   <div class="container">
     <Navbar />
     <div class="my-profile">
-      <img v-if="user.img == '' || user.img == undefined" src="/user.webp" alt="">
-      <img v-else :src='`${hostServer}/images/clients/${user.img}`' alt="">
+      <img :src="user.img | processImg" alt="">
 
       <div class="name-config">
         <h2>{{user.name}}</h2>
@@ -13,9 +12,9 @@
       </div>
       
       <div class="statistics">
-        <a>174 publicações </a>
+        <!--<a>174 publicações </a>
         <a>820 seguidores </a>
-        <a>721 seguindo </a>
+        <a>721 seguindo </a>-->
       </div>
 
       <div class="citation">
@@ -43,7 +42,7 @@
 
       <div class="menu-items">
         <button>posts</button> 
-        <button>amigos</button>
+        <!--<button>amigos</button>-->
       </div>
     </div>
 
@@ -108,8 +107,15 @@ export default {
 
     this.updatePosts()
   }, 
+  filters: {
+    processImg: (value) => {
+      if(value == '' || value == undefined) {
+        return "/user.webp"
+      }
+      return `${hostServer}/images/clients/${value}`
+    }
+  },
   methods: {
-
     async updatePosts() { 
       let novosPosts = []
       var idUrl = this.myId;

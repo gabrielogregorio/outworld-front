@@ -2,14 +2,13 @@
   <div :class="share != true ? 'row-info-profile' : 'row-info-profile body-padding'">
 
     <router-link :to="{ path: 'Profile', query: { id: userId }}" class="img-post-perfil">
-      <img v-if="userImg == '' || userImg == undefined" src="/user.webp" alt="">
-      <img v-else :src='`${hostServer}/images/clients/${userImg}`' alt="">
+      <img :src="userImg | processImg" alt="">
     </router-link>
 
     <div class="info-post-superior">
       <router-link :to="{ path: 'Profile', query: { id: userId }}">{{postName}}</router-link>
-      <router-link :to="{ path: 'Profile', query: { id: userId }}">{{postUsername | processUsername}} ·</router-link>
-      <p>16h</p>
+      <router-link :to="{ path: 'Profile', query: { id: userId }}">{{postUsername | processUsername}}</router-link>
+      <!--<p>· 16h</p>-->
       <div class="delete-post">
         <div v-if="myId == userId">
           <button @click="deletePost(postId)" ><i class="far fa-trash-alt"></i></button>
@@ -50,6 +49,12 @@ export default {
     }
   },
   filters: {
+    processImg: (value) => {
+      if(value == '' || value == undefined) {
+        return "/user.webp"
+      }
+      return `${hostServer}/images/clients/${value}`
+    },
     processUsername: (value) => {
       if (value == '') {
         return '';

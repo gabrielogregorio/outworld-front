@@ -115,9 +115,7 @@ router.put('/post/:id', userAuth,  async (req, res) => {
   var id = processId(req.params.id)
   var user = processId(req.data.id)
   
-  if (
-    (body == '' || body == undefined || id == undefined || user == undefined)
-    ){
+  if (body == '' || body == undefined || id == undefined || user == undefined){
     return res.sendStatus(400);
   }
 
@@ -139,7 +137,9 @@ router.put('/post/:id', userAuth,  async (req, res) => {
   }
 })
 
-//precisa testar
+
+//precisa de testes mais aprimorados. -> Sistema de comentários como um todo precisa
+// de uma atualização geral
 router.get('/post/comments/:id', userAuth,  async (req, res) => { 
   var id = processId(req.params.id);
   var comments = await Comment.find({post:id})
@@ -156,7 +156,7 @@ router.post('/post/comment/:id', userAuth,  async (req, res) => {
   if (text == '' || id == '' || user == '' || id == undefined || user == undefined || text == undefined) {
     return res.sendStatus(400)
   }
-    
+
   try {
     if (replie  != undefined) {
       var newComment = new Comment({post: id, user, text, replie});
@@ -221,6 +221,7 @@ router.put('/post/comment/:idComment', userAuth,  async (req, res) => {
   }
 })
 
+
 router.post('/post/save/:id', userAuth,  async (req, res) => { 
   var id = processId(req.params.id)
   var user = processId(req.data.id)
@@ -253,6 +254,7 @@ router.post('/post/save/:id', userAuth,  async (req, res) => {
     return res.sendStatus(500)
   }
 })
+
 
 router.get('/post/list/save', userAuth,  async (req, res) => { 
   var user = processId(req.data.id);

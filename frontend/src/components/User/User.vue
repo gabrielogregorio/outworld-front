@@ -1,8 +1,7 @@
 <template> 
   <div class="container-user">
     <div class="img-user-perfil" @click="openProfile(user._id)">
-      <img v-if="user.img == '' || user.img == undefined" src="/user.webp" alt="">
-      <img v-else :src='`${hostServer}/images/clients/${user.img}`' alt="">
+      <img :src="user.img | processImg" alt="">
     </div><!-- img-user-perfil -->
 
     <div class="info-user">
@@ -50,6 +49,14 @@ export default {
     }
   },
   created() {
+  },
+  filters: {
+    processImg: (value) => {
+      if(value == '' || value == undefined) {
+        return "/user.webp"
+      }
+      return `${hostServer}/images/clients/${value}`
+    }
   }
 }
 </script>

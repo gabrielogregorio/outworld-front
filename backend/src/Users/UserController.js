@@ -27,7 +27,7 @@ router.post('/userLoadFile', userAuth, multerImage.single('image'), async(req, r
   return res.json({file:img})
 })
 
-
+/* Cria um usuário */
 router.post('/user', async (req, res) => {
   var {name, email, username, password, img} = req.body;
 
@@ -96,6 +96,7 @@ router.post('/auth', async (req, res) => {
   })
 })
 
+
 router.get('/users', userAuth,  async (req, res) => { 
   var users = await User.find().populate('itemBio following followers')
   var userFactories = []
@@ -104,6 +105,7 @@ router.get('/users', userAuth,  async (req, res) => {
   })
   return res.json(userFactories);
 })
+
 
 router.get('/user/:id', userAuth,  async (req, res) => { 
   try {
@@ -123,6 +125,7 @@ router.get('/user/:id', userAuth,  async (req, res) => {
   return res.json(userFactories);
 })
  
+
 router.put('/user/:id', userAuth, async (req, res) => { 
   var {name, username, password, itemBio, bio, motivational, img} = req.body;
   var id = processId(req.params.id)
@@ -200,6 +203,7 @@ router.put('/user/:id', userAuth, async (req, res) => {
   } 
 })
 
+
 router.post('/user/follow/:id', userAuth, async (req, res) => {
   var idUserToken = processId(req.data.id)
   var idUserFollow = processId(req.params.id)
@@ -244,7 +248,6 @@ router.post('/user/follow/:id', userAuth, async (req, res) => {
       await user.save()
       await userFollow.save()  
       return res.json({followed:false})
-
     }
   } catch(error) {
     return res.sendStatus(500)

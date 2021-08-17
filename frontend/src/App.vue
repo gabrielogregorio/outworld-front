@@ -63,6 +63,7 @@ section {
   margin: 0 auto;
   width: 100%;
 }
+
 .container {
   box-shadow: 0px 0px 19px -1px rgba(0,0,0,0.3);
   width: 100%;
@@ -242,13 +243,6 @@ input[type="file"] {
 
 /* Layout dos formulários */
 
-
-
-
-
-
-
-
 /* Configurações de perfil */
 .my-profile .name-config {
   width: 100%;
@@ -280,8 +274,7 @@ input[type="file"] {
   grid-template-columns: 1fr 1fr;
 }
 
-.statistics {
-}
+.statistics {}
 
 .citation {
   width: 100%;
@@ -310,7 +303,6 @@ input[type="file"] {
   object-fit: cover;
   border-radius: 50%;
 }
-
 /* Fim de imagem */
 
 /* Opções Posts e Amigos */
@@ -362,67 +354,57 @@ input[type="file"] {
    padding: 20px 0;
  }
 
+  /* Perfil de imagem */
+  .my-profile {
+    padding: 30px 2%;
+  }
 
+  .my-profile img {
+    display: block;
+    width: 90vw;
+    height: 90vw;
+    object-fit: cover;
+    border-radius: 50%;
+  }
 
+  /* Fim de imagem */
+  
+  /* Configurações de perfil */
+  .my-profile .name-config {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
+  .my-profile .name-config h2 {
+    font-size: 2rem;
+    padding: 15px 0;
+  }
 
+  .my-profile .name-config i {
+    font-size: 2rem;
+  } 
 
+  .statistics p {
+    font-size: 1.2rem;
+  }
+  .citation p {
+    font-size: 1.2rem;
+  }
 
+  .bio-and-work {
+    padding: 0 2%;
+  }
 
-/* Perfil de imagem */
-.my-profile {
-  padding: 30px 2%;
-}
+  .biograph p span {
+    font-size: 1.2rem;
+    line-height: 1.3;
+  }
 
-.my-profile img {
-  display: block;
-  width: 90vw;
-  height: 90vw;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-/* Fim de imagem */
- 
-/* Configurações de perfil */
-.my-profile .name-config {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.my-profile .name-config h2 {
-  font-size: 2rem;
-  padding: 15px 0;
-}
-
-.my-profile .name-config i {
-  font-size: 2rem;
-} 
-
-.statistics p {
-  font-size: 1.2rem;
-}
-.citation p {
-  font-size: 1.2rem;
-}
-
-.bio-and-work {
-  padding: 0 2%;
-}
-
- .biograph p span {
-   font-size: 1.2rem;
-   line-height: 1.3;
- }
-
- .work div p{
-   font-size: 1.2rem;
-   line-height: 1.3;
- }
-
-
-
+  .work div p{
+    font-size: 1.2rem;
+    line-height: 1.3;
+  }
 }
 </style>

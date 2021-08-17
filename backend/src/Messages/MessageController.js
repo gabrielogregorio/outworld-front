@@ -28,18 +28,18 @@ router.post('/message', userAuth, async (req, res) => {
   return res.json(newMessage)
 })
 
+
 router.get('/messages', userAuth, async (req, res) => {
   let id = processId(req.data.id)
 
-  // Usuários 
   let messagesAllUsers = await Message.find({$or: [{to:id}, {from: id}]}).populate('from to')
 
-  let lista = []
-  messagesAllUsers.forEach(messages => {
-    //list
-  })
+  //let lista = []
+  //messagesAllUsers.forEach(messages => {
+  //})
   return res.json(messagesAllUsers) 
 })
+
 
 router.get('/message/:id', userAuth, async (req, res) => {
   let id = processId(req.data.id)
@@ -51,6 +51,7 @@ router.get('/message/:id', userAuth, async (req, res) => {
   ]}).populate('from to') 
   return res.json(messagesAllUsers)
 })
+
 
 router.get('/messages/users', userAuth, async(req, res) => {
   let id = processId(req.data.id)

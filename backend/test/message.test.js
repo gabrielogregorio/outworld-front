@@ -21,11 +21,13 @@ let user2 = {
   idMessage: ''
 }
 
+
 beforeAll(() => {
   return request.post('/configure')
   .send({extra: 'message'})
     .then(() => {})
 })
+
 
 describe("Login no sistema", () => {
   test("Deve acessar o sistema e fornecer um token válido para os outros testes", () => {
@@ -51,7 +53,6 @@ describe("Login no sistema", () => {
 
 
 describe('Envio de mensagens', () => {
-
   test("Usuário 1 não deve conseguir enviar uma mensagem sem os parametros", () => {
     return request.post('/message')
       .send({})
@@ -69,7 +70,6 @@ describe('Envio de mensagens', () => {
       })
   })
  
-
   test("Usuário 1 deve obter todas as mensagens enviadas", () => {
     return request.get('/messages')
       .set(tokenValidoMessage)
@@ -96,8 +96,6 @@ describe('Envio de mensagens', () => {
         expect(res.body[0]._id).toEqual(user2.idMessage)
       })
   })
-
-
 })
 
 afterAll(() => {

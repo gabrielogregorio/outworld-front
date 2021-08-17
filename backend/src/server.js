@@ -6,6 +6,8 @@ const server = app.listen(3333, () => {
 })
 
 /*
+// socket.io para tornar as coisas mais dinamicas. Ainda é preciso extruturar melhor como tudo isso vai
+acontecer
 const io = new Server(server, { cors: { origin: 'http://127.0.0.1:8080' } });
 
 io.on('connection', function(socket) {

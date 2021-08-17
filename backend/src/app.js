@@ -35,16 +35,19 @@ mongoose.connect(`mongodb://localhost:${port}/${dbname}`,
 
 app.use('/static', express.static('public'));
 
+
 app.get('/test', async (req, res) => {
   return res.json({ola:'oi'})
 })
+
 
 app.post('/validate', userAuth, (req, res) => {
   return res.sendStatus(200)
 })
 
 
-/* Rotas de desenvolvimento */
+/* Rotas de desenvolvimento. É preciso aumentar a segurança delas e impedir acesso indevido, hoje
+elas estão soltinhas para qualquer um */
 app.post('/configure', async (req, res) => {
   var message = req.body.extra;
   if (message == undefined) {message = ''}
@@ -70,7 +73,6 @@ app.post('/endconfigure', async (req, res) => {
 })
 
 app.delete('/user/:email', async (req, res) => {
-
   await User.deleteMany({email:req.params.email})
   return res.sendStatus(200)
 })
@@ -84,6 +86,5 @@ app.delete('/image', async (req, res) => {
   await Post.deleteMany({test:true})
   return res.sendStatus(200)
 })
-
 
 module.exports = { app, mongoose };

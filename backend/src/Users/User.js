@@ -19,7 +19,6 @@ let userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Save'
   }]
-
 })
 
 var User = mongoose.model('User', userSchema);

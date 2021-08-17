@@ -26,10 +26,8 @@ class DataPosts {
         if (`${post._id}` == `${idsave}`) {
           newPost.savedByUser = true;
         }
-
       })
     }
-
 
     post.likes.forEach(postLike => {
       if (userId == postLike.user) {

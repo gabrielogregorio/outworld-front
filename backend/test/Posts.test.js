@@ -26,10 +26,12 @@ let user2 = {
   id: ''
 }
 
+
 beforeAll(() => {
   return request.post('/configure')
     .then(() => {})
 })
+
 
 afterAll(() => {
   // Finalização da suite
@@ -41,6 +43,7 @@ afterAll(() => {
     })
   })
 })
+
 
 describe("Login no sistema", () => {
   test("Deve acessar o sistema e fornecer um token válido para os outros testes", () => {
@@ -203,7 +206,6 @@ describe('Gerenciamento de posts', () => {
     }).catch(error => fail(error))
   })
 
-
   test("Deve retornar o post salvo", () => {
     return request.get(`/post/list/save/`)
       .set(tokenValido)
@@ -288,6 +290,7 @@ describe('Gerenciamento de posts', () => {
         expect(res.statusCode).toEqual(404)
     }).catch(error => fail(error))
   })
+
   test("Deve desfazer um comentário", () => {
     return request.delete(`/post/comment/${idComentarioValido}`)
       .set(tokenValido)

@@ -29,7 +29,6 @@ let postSchema = new mongoose.Schema({
       ref: 'Comment'
     }
   ]
-  
 })
 
 var Post = mongoose.model('Post', postSchema);

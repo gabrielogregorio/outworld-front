@@ -2,9 +2,11 @@ let {app, mongoose}  = require('../src/app');
 let supertest = require('supertest');
 let request = supertest(app)
 
+
 afterAll(() => {
   mongoose.connection.close()
 })
+
 
 describe('Testes de aplicação', () => {
   it("A aplicação deve responder", () => {

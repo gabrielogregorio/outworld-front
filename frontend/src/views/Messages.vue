@@ -5,8 +5,7 @@
       <div class="users" id="scrool">
         <div v-for="(user, index) in users" @click="selectUser(index)" :key="user._id + index" :class="index == userSelect ? 'user selected' : 'user'">
           <div class="user-img">
-            <img v-if="user.img == '' || user.img == undefined" src="/user.webp" alt="">
-            <img v-else :src='`${hostServer}/images/clients/${user.img}`' alt="">
+            <img :src="user.img | processImg" alt="">
           </div><!-- user-img -->
           <div class="user-info">
             <p>{{user.name}}</p>
@@ -56,7 +55,6 @@ export default {
       //socket: ''
     }
   },
-
   mounted() {
     //this.socket.on('MESSAGE', (data) => {
     //    console.log([...this.messages, data], 'xxxxxx')
@@ -105,6 +103,14 @@ export default {
     })
 
     this.updateMessages()
+  },
+  filters: {
+    processImg: (value) => {
+      if(value == '' || value == undefined) {
+        return "/user.webp"
+      }
+      return `${hostServer}/images/clients/${value}`
+    }
   }
 }
 </script>

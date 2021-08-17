@@ -36,10 +36,12 @@ let user2 = {
   password: '9d591724044b57d9b3607bbef285cbb9086b53edaf1cd1cedb47e6ad6855721c'
 }
 
+
 beforeAll(() => {
   return request.post('/configure').then(() => {}).catch(error => fail(error))
 })
 // Upload de imagens não está incluso nos testes
+
 
 afterAll(() => {
   return request.delete(`/user/${user.email}`).then(res => {
@@ -50,6 +52,7 @@ afterAll(() => {
     })
   })
 })
+
 
 describe('Cadastro e login de usuários', () => {
   test("Deve cadastrar um usuário com sucesso!", () => {

@@ -2,8 +2,7 @@
   <section>
     <div class="container-post">
       <div class="img-post-perfil">
-        <img v-if="img == '' || img == undefined" src="/user.webp" alt="">
-        <img v-else :src='`${hostServer}/images/clients/${img}`' alt="">
+        <img :src="img | processImg" alt="">
       </div><!-- img-post-perfil -->
 
       <div class="info-post">
@@ -32,6 +31,7 @@ import axios from 'axios'
 import getHeader from '../../getToken';
 import { hostServer } from '../../connections';
 
+
 export default {
   name: 'NewPost',
   data() {
@@ -44,8 +44,7 @@ export default {
   props: {
     img: String
   },
-  create() {
-  },
+  create() {},
   methods: {
     loadImage() {
       const formData = new FormData();
@@ -75,6 +74,14 @@ export default {
       }).catch(error => {
         console.log(`Erro ao registrar dados: ${error}`);
       })
+    }
+  },
+  filters: {
+    processImg: (value) => {
+      if(value == '' || value == undefined) {
+        return "/user.webp"
+      }
+      return `${hostServer}/images/clients/${value}`
     }
   }
 }
@@ -165,7 +172,6 @@ div.container-post {
   padding: 10px 0;
 }
 
-
 textarea {
   width: 100%;
   background: transparent;
@@ -179,7 +185,8 @@ textarea {
 
 textarea::placeholder{
   color: var(--secundary-text-color);
-} 
+}
+
 
 @media screen and (max-width: 600px){
  div.container-post {
@@ -190,5 +197,4 @@ textarea::placeholder{
    font-size: 1.8rem;
  }
 }
-
 </style>

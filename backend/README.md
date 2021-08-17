@@ -1,15 +1,13 @@
-# Sistema de comentários em profundidade ainda está em beta, cheio de bugs e uma etapa não testada e que precisará de uma atenção especial.
-Mudei o foco depois de perder umas 3 horas nisso!
+# API da rede social
 
-# Api Crud com TDD
-backend do projeto
-
+### TDD
 Para executar os testes automatizados é preciso ter o jest instalado de forma global. Após isso, execute o comando abaixo:
 
 ```shell
 npm run test
 ```
 
+### Servidor   
 Para executar o backend é preciso configurar o arquivo .env.example, renomeando para .env, e então você poderá alterar os valores para a sua preferência.
 
 Também será preciso iniciar o mongodb, no meu caso, estou usando na minha máquina e portanto preciso abrir o Prompt de comando como administrador e rodar o seguinte comando
@@ -29,6 +27,7 @@ node src/server.js
 ```
 
 
+# Documentação parcial.
 ## Endpoints   
 ### <img src="images/post.png" height="18"> - /user
 
