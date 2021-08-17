@@ -8,24 +8,18 @@
 :root { 
   --border-color: #470c8a;
   --border: 1px solid var(--border-color);
-
-
   --primary-blue-color: rgb(0, 89, 161);
   --primary-purple-color: rgb(137, 29, 199);
   --primary-orange-color: rgb(252, 148, 50);
   --primary-nigth-color: #3a3b3c;
-
   --primary-danger-color: rgba(255, 255, 255, 0.966);
-
   --background-body: #470c8a;
   --background-body-transparent: #ffffff;
-
   --primary-background: #008a7e;
   --secundary-background: #009c8f;
   --primary-text-color: #ffffff;
   --secundary-text-color: rgb(212, 212, 212);
 }
-
 
 * {
   margin: 0;
@@ -54,13 +48,14 @@ input:-webkit-autofill
 }
 /* Fim da solução */
 
+/* Configurações de layout e itens globais */
 body {
   min-height: 100vh;
   background-color: var(--background-body);
   overflow-y: scroll;
   height: 100%;
-
-
+  display: flex;
+  flex-direction: column;
 }
 
 section {
@@ -68,7 +63,51 @@ section {
   margin: 0 auto;
   width: 100%;
 }
+.container {
+  box-shadow: 0px 0px 19px -1px rgba(0,0,0,0.3);
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
 
+.message-container {
+  height: 100vh;
+  box-shadow: 0px 0px 19px -1px rgba(0,0,0,0.3);
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: red;
+}
+
+.novo-post-imagem img{
+  width: 100%;
+}
+
+.buttonDefault {
+  border-radius: 20px;
+  background: transparent;
+  padding: 10px 20px;
+  border: none;
+  font-weight: 700;
+  color: var(--primary-text-color);
+  cursor: pointer;
+  border: 1px solid var(--primary-text-color);
+}
+
+.activeButtonDefault {
+  background: var(--background-body);
+  border: 1px solid transparent;
+}
+
+img {
+  box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.1);
+}
+/* Fim layout geral e itens */
+
+/* Layout dos formulários */
 .form { 
   display: flex;
   flex-direction: column;
@@ -91,10 +130,6 @@ section {
   resize: vertical;
   overflow-y: hidden;
   color: var(--primary-text-color);
-}
-
-.novo-post-imagem img{
-  width: 100%;
 }
 
 form .novo-post-imagem img {
@@ -185,6 +220,9 @@ input[type="file"] {
   height: 100%;
   padding: 1px;
 }
+.input::placeholder {
+  color: var(--secundary-text-color);
+}
 
 .input input {
   background: var(--primary-background);
@@ -202,32 +240,13 @@ input[type="file"] {
   color: var(--secundary-text-color);
 }
 
-.buttonDefault {
-  border-radius: 20px;
-  background: transparent;
-  padding: 10px 20px;
-  border: none;
-  font-weight: 700;
-  color: var(--primary-text-color);
-  cursor: pointer;
-  border: 1px solid var(--primary-text-color);
-}
+/* Layout dos formulários */
 
-.activeButtonDefault {
-  background: var(--background-body);
-  border: 1px solid transparent;
-}
 
-.container {
-  box-shadow: 0px 0px 19px -1px rgba(0,0,0,0.3);
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-}
 
-img {
-  box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.1);
-}
+
+
+
 
 
 /* Configurações de perfil */

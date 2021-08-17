@@ -1,54 +1,33 @@
 <template> 
-  <div class="container">
+  <div class="message-container">
     <Navbar /> 
-    <div class="grid-message">
-      <div class="message-users" id="scrool">
-
+    <div class="users-message">
+      <div class="users" id="scrool">
         <div v-for="(user, index) in users" @click="selectUser(index)" :key="user._id + index" :class="index == userSelect ? 'user selected' : 'user'">
           <div class="user-img">
-
-          <img v-if="user.img == '' || user.img == undefined" src="/user.webp" alt="">
-          <img v-else :src='`${hostServer}/images/clients/${user.img}`' alt="">
-
+            <img v-if="user.img == '' || user.img == undefined" src="/user.webp" alt="">
+            <img v-else :src='`${hostServer}/images/clients/${user.img}`' alt="">
           </div><!-- user-img -->
-
           <div class="user-info">
-            <div class="user-info-name">
-              <p>{{user.name}}</p>
-            </div><!-- user-info-name -->
-
-            <div class="user-info-last-message">
-              <p>...</p>
-            </div><!-- user-info-last-message -->
+            <p>{{user.name}}</p>
+            <p>...</p>
           </div><!-- user-info -->
         </div> <!-- user -->
-
-      </div><!-- message-users -->
-
-
+      </div><!-- users -->
 
       <div class="messages">
-        <div class="messages-items">
-
+        <div class="message">
           <div v-for="(message, index) in messages" :key="message._id + index" :class="message.from._id == myId ? 'message-item this' :'message-item reply'">
             <p>{{message.message}}</p>
-          </div>
-
-        </div>
-        <div class="messages-send-messages">
-          <div class="message-send-input">
-            <input v-model="message" type="text" name="" id="" placeholder="Sua mensagem">
-          </div><!-- message-send-input -->
-
-          <div class="message-send-button">            
-            <button  @click="sendMessage()">Enviar <i class="fas fa-paper-plane"></i></button>
-          </div><!-- message-send-button -->
-
-        </div><!-- messages-send-messages -->
+          </div><!-- message-item -->
+        </div><!-- message -->
+ 
+        <div class="send-messages">
+          <input class="input" v-model="message" type="text" name="" id="" placeholder="Sua mensagem">
+          <button  @click="sendMessage()">Enviar <i class="fas fa-paper-plane"></i></button>
+        </div><!-- send-messages -->
       </div><!-- messages -->
-    </div><!-- grid-message -->
-
-
+    </div><!-- users-message -->
   </div><!-- container -->
 </template>
 
@@ -90,7 +69,6 @@ export default {
       //  message: this.message
       //});
 
-
       if (this.message != '') {
         axios.post(`${hostServer}/message`, {
           to: this.idSendMesssage,
@@ -99,10 +77,8 @@ export default {
           this.updateMessages()
           this.message = ''
         })
-
       }
     },
-
     selectUser(item) {
       this.userSelect = item;
       this.updateMessages()
@@ -129,142 +105,119 @@ export default {
     })
 
     this.updateMessages()
-
   }
-
 }
 </script>
 
 <style scoped>
-/* Estrutura geral */
 
-
-.grid-message {
-  flex: 1;
-  width: 100%;
-  display: grid;
-  grid-template-columns: 5fr 8fr;
-}
-
-.grid-message .message-users {
-  background: var(--primary-background);
-  width: 100%;
-  overflow-y: auto;
-  padding: 20px 0;
-}
-
-.grid-message .messages {
-  background: var(--secundary-background);
-  width: 100%;
-  overflow-y: auto;
-}
-/* Fim Estrutura geral */
-
-/*Usuário */
-.user {
+.users-message {
   display: flex;
-  align-items: center;
-  cursor: pointer;
+  flex: 1;
+  background: var(--primary-background);;
+}
+
+.users {}
+
+.user  {
+  display: flex;
+  width: 100%;
+  background:  var(--primary-background);
   padding: 5px 20px;
+  cursor: pointer;
 }
 
 .user.selected {
   background: var(--secundary-background);
 }
 
-.user .user-img {
-  width: 50px;
-  height: 50px;  
-  margin-right: 10px;
-}
+.user-img {}
 
-.user .user-img img {
+.user-img img {
   width: 50px;
-  height: 50px;  
+  height: 50px;
   object-fit: cover;
   border-radius: 50%;
+  margin-right: 5px;
 }
 
-.messages-items {
-  overflow-y: auto;
+.user-info {}
+.user-info p {}
+
+.messages {
+  background: var(--primary-background);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: calc(100vh - 52px);
+}
+
+.message {
+  flex: 1;
   padding: 0 10px;
+  width: 100%;
+  background: var(--secundary-background);
+  overflow-y: auto;
 }
 
-.messages-send-messages {
+.message-item {}
+
+.message-item > p {
+  width: 100%;
+  word-break: break-all;
+  padding: 10px;
+  margin: 5px 0;
+}
+
+.message-item.this {
+  background: var(--primary-background);
+  margin-left: 20px;
+  border-radius: 10px 10px 0 10px;
+}
+
+.message-item.reply {
+  background: var(--primary-blue-color);
+  margin-right: 20px;
+  border-radius: 0px 10px 10px 10px;
+}
+
+.send-messages {
   height: 50px;
-  background: var(--primary-background);
-}
-
-.messages-items .message-item{
-  margin: 10px 0;
-  padding: 10px;
-}
-
-.messages-items .message-item.this {
-  background: var(--primary-blue-color);
-  margin-left: 50px;
-  border-radius: 20px 0 20px 20px;
-}
-
-.messages-items .message-item.reply {
-  background: var(--primary-background);
-  margin-right: 50px;
-  border-radius: 0 20px 20px 20px;
-}
-
-
-.messages-send-messages {
+  width: 100%;
+  background: var(--primary-background);;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 5px;
 }
 
-.message-send-input {
+.send-messages input {
   width: 100%;
-  padding: 0 5px 0 10px;
-}
-
-.message-send-input input {
-  width: 100%;
-  padding: 7px;
   outline: none;
+  padding: 0 10px;
   background: transparent;
-  border: none;
-}
-
-.message-send-input input::placeholder {
-  color: var(--secundary-text-color);
-}
-
-
-.message-send-button {
-  padding: 0 10px 0 5px
-}
-
-.message-send-button button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 10px;
-  background: var(--primary-blue-color);
-  outline: none;
-  border: none;  
-  cursor: pointer;
+  border: var(--border);
+  margin-right: 5px;
   border-radius: 10px;
 }
 
-.message-send-button button > i{
-  font-size: 1.3rem;
-  padding-left: 10px;
+.send-messages button {
+  display: flex;  
+  background: var(--primary-blue-color);
+  border: 0;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-
-
+.send-messages button i {
+  padding: 0 3px;
+}
 
 @media screen and (max-width: 600px){
-.user {
-  padding: 5px 5px;
-}
+  .user-info {
+    display: none;
+  }
+
 }
 </style>
