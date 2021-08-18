@@ -39,7 +39,7 @@ export default {
 
   methods: {
     cadastrar() {
-      var data = {
+      let data = {
         name: this.name,
         email: this.email,
         password: this.password,

@@ -6,7 +6,7 @@
 export default {
   name: "Redirect",
   created() {
-    var token = localStorage.getItem('token');
+    let token = localStorage.getItem('token');
     if (token == '' || token == undefined) {
       this.$router.push({name: 'Login'})
     } else {

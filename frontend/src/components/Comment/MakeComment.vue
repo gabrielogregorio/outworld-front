@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     sendComment() {
-      var data = {text:this.comment}
+      let data = {text:this.comment}
 
       if (this.commentId != "") {
         data.replie = this.commentId

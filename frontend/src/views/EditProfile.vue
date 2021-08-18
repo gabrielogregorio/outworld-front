@@ -75,12 +75,12 @@ export default {
   },
   methods: {
      loadImage() {
-      const formData = new FormData();
-      const image = document.querySelector("#image");
+      let formData = new FormData();
+      let image = document.querySelector("#image");
 
       formData.append("image", image.files[0]);
 
-      var headers  = {
+      let headers  = {
         "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
         Authorization:getHeader().headers.Authorization
       }
@@ -100,7 +100,7 @@ export default {
         motivational: this.motivational,
         img: this.imgSrc
       }, getHeader()).then(() => {
-        this.$router.push({name: 'MyProfile'})
+        this.$router.push({name: 'Profile'})
       }).catch(error => {
         console.log(`Erro ao registrar dados: ${error}`);
       })

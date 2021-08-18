@@ -47,12 +47,12 @@ export default {
   create() {},
   methods: {
     loadImage() {
-      const formData = new FormData();
-      const image = document.querySelector("#image");
+      let formData = new FormData();
+      let image = document.querySelector("#image");
 
       formData.append("image", image.files[0]);
 
-      var headers  = {
+      let headers  = {
         "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
         Authorization:getHeader().headers.Authorization
       }

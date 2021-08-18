@@ -48,14 +48,14 @@ export default {
     async updatePosts() {
       let novosPosts = []
 
-      var rota = '/posts';
+      let rota = '/posts';
       if (this.$route.query.archive == 'true') {rota = '/post/list/save/'}
       let posts = await axios.get(`${hostServer}${rota}`, getHeader())
       for (let i=0; i<posts.data.length; i++) {
           
         if (posts.data[i].sharePost != undefined) {
           try {
-            var data = await axios.get(`${hostServer}/post/${posts.data[i].sharePost}`, getHeader())
+            let data = await axios.get(`${hostServer}/post/${posts.data[i].sharePost}`, getHeader())
             posts.data[i].sharePost = data.data[0]
           } catch(error) {
             if (error.message == 'Request failed with status code 404') {

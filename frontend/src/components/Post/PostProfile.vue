@@ -24,6 +24,7 @@ import getHeader from '../../getToken';
 import { hostServer } from '../../connections';
 import axios from 'axios'
 
+
 export default {
   name: 'PostProfile',
   data() {

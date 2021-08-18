@@ -51,6 +51,7 @@ import MakeComment from '../Comment/MakeComment.vue';
 import PostProfile from './PostProfile.vue';
 import PostBody from './PostBody.vue';
 
+
 export default {
   name: 'Post',
   components: {
