@@ -1,10 +1,24 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
-import router from './router'
+import router from './router';
+const app = createApp(App)
+const {hostServer} = require('./connections');
 
-Vue.config.productionTip = false
+app.config.globalProperties.$filters = {
+  processImg(value) {
+    if(value == '' || value == undefined) {
+      return "/user.webp"
+    }
+    return `${hostServer}/images/clients/${value}`
+  },
+  processUsername: (value) => {
+    if (value == '') {
+      return '';
+    } else {
+      return `@${value}`;
+    }
+  }
+}
 
-new Vue({
-  router,
-  render: h => h(App)
-}).$mount('#app')
+app.use(router);
+app.mount('#app')

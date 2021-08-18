@@ -1,20 +1,8 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import axios from 'axios';
 import getHeader from '../getToken';
 import { hostServer } from '../connections';
-Vue.use(VueRouter)
-
-
-/* Trecho para impedir os erros ao tentar acessar a mesma rota. 
-https://stackoverflow.com/questions/65878999/vue-router-push-error-avoided-redundant-navigation-to-current-location/65879787
-*/
-const originalPush = VueRouter.prototype.push;
-VueRouter.prototype.push = function push(location) {
-  return originalPush.call(this, location).catch(() => {
-  });
-};
+import { createRouter, createWebHistory  } from "vue-router";
 
 
 function authUser(to, from, next) {
@@ -31,7 +19,9 @@ function authUser(to, from, next) {
 }
 
 
-const routes = [
+const router = createRouter({
+  history: createWebHistory(),
+	routes: [
   {
     path: '/Cadastro',
     name: 'Register',
@@ -43,6 +33,14 @@ const routes = [
     component: Home,
     beforeEnter: authUser,
   },
+
+  {
+    path: '/Save',
+    name: 'Save',
+    component: Home,
+    beforeEnter: authUser,
+  },
+  
   {
     path: '/',
     name: 'Redirect',
@@ -83,12 +81,8 @@ const routes = [
     component: () => import('../views/Profile.vue'),
     beforeEnter: authUser,
   }
-]
+]})
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
-})
+
 
 export default router

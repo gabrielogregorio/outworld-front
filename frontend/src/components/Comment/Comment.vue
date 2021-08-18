@@ -1,14 +1,14 @@
 <template> 
   <div class="coments">
     <div class="profile">
-      <img :src='userData.img | processImg' alt=''>
+      <img :src='$filters.processImg(userData.img)' alt=''>
     </div><!-- profile -->
 
     <div class="msg-options">
       <div class="msg">
         <div class="msg-name-options">
           <p><pre>{{userData.name}} </pre></p>
-          <p><pre>{{userData.username | processUsername}} </pre></p>
+          <p><pre>{{$filters.processUsername(userData.username)}} </pre></p>
           <!--<p><pre>Há 10 horas</pre></p> -->
         </div><!-- msg-name-options -->
 
@@ -76,21 +76,6 @@ export default {
     },
     replyComment() {
       this.showComment = !this.showComment
-    }
-  },
-  filters: {
-    processImg: (value) => {
-      if(value == '' || value == undefined) {
-        return "/user.webp"
-      }
-      return `${hostServer}/images/clients/${value}`
-    },
-    processUsername: (value) => {
-      if (value == '') {
-        return '';
-      } else {
-        return `@${value}`;
-      }
     }
   }
 }

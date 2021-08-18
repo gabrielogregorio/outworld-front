@@ -2,12 +2,12 @@
   <div :class="share != true ? 'row-info-profile' : 'row-info-profile body-padding'">
 
     <router-link :to="{ path: 'Profile', query: { id: userId }}" class="img-post-perfil">
-      <img :src="userImg | processImg" alt="">
+      <img :src="$filters.processImg(userImg)" alt="">
     </router-link>
 
     <div class="info-post-superior">
       <router-link :to="{ path: 'Profile', query: { id: userId }}">{{postName}}</router-link>
-      <router-link :to="{ path: 'Profile', query: { id: userId }}">{{postUsername | processUsername}}</router-link>
+      <router-link :to="{ path: 'Profile', query: { id: userId }}">{{$filters.processUsername(postUsername)}}</router-link>
       <!--<p>· 16h</p>-->
       <div class="delete-post">
         <div v-if="myId == userId">
@@ -48,22 +48,7 @@ export default {
           this.$emit("updatePosts", "")
         }).catch(error => console.log(error))
     }
-  },
-  filters: {
-    processImg: (value) => {
-      if(value == '' || value == undefined) {
-        return "/user.webp"
-      }
-      return `${hostServer}/images/clients/${value}`
-    },
-    processUsername: (value) => {
-      if (value == '') {
-        return '';
-      } else {
-        return `@${value}`;
-      }
-    }
-  },
+  }
 }
 </script>
 

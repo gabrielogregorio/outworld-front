@@ -5,7 +5,7 @@
       <div class="users" id="scrool">
         <div v-for="(user, index) in users" @click="selectUser(index)" :key="user._id + index" :class="index == userSelect ? 'user selected' : 'user'">
           <div class="user-img">
-            <img :src="user.img | processImg" alt="">
+            <img :src="$filters.processImg(user.img)" alt="">
           </div><!-- user-img -->
           <div class="user-info">
             <p>{{user.name}}</p>
@@ -103,14 +103,6 @@ export default {
     })
 
     this.updateMessages()
-  },
-  filters: {
-    processImg: (value) => {
-      if(value == '' || value == undefined) {
-        return "/user.webp"
-      }
-      return `${hostServer}/images/clients/${value}`
-    }
   }
 }
 </script>

@@ -30,12 +30,11 @@ export default {
       img: ''
     }
   },
-  beforeRouteUpdate(to, from, next) {
-    //to
-    //to.query.archive == true
-    next();
-    this.updatePosts()
-  },
+  watch:{
+    $route(){
+      this.updatePosts()
+    }
+  }, 
   async created() {
     let me = await axios.get(`${hostServer}/me`, getHeader())
     this.myId = me.data[0]._id;

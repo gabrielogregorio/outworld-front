@@ -1,7 +1,7 @@
 <template>
   <div class="new-comment">
     <div class="profile">
-      <img :src="imgProfile | processImg" alt="">
+      <img :src="$filters.processImg(imgProfile)" alt="">
     </div><!-- profile -->
 
     <div class="comment">
@@ -43,14 +43,6 @@ export default {
         this.$emit('newComment', res.data.id)
       })
     },
-  },
-  filters: {
-    processImg: (value) => {
-      if(value == '' || value == undefined) {
-        return "/user.webp"
-      }
-      return `${hostServer}/images/clients/${value}`
-    }
   }
 }
 </script>

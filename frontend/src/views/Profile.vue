@@ -2,7 +2,7 @@
   <div class="container">
     <Navbar />
     <div class="my-profile">
-      <img :src="user.img | processImg" alt="">
+      <img :src="$filters.processImg(user.img)" alt="">
 
       <div class="name-config">
         <h2>{{user.name}}</h2>
@@ -46,7 +46,7 @@
       </div>
     </div>
 
-   <NewPost @updatePostsEvent="updatePosts()" :img="user.img"/>
+   <NewPost v-if="idUser == myId" @updatePostsEvent="updatePosts()" :img="user.img"/>
 
     <div class="container-post" v-for="(post, index) in posts" :key="post._id + index">
       <Post v-bind:post="post" v-bind:myId="myId" v-bind:imgProfile="img" @updatePosts="updatePosts()" />      
@@ -94,18 +94,9 @@ export default {
   created() {
     this.updateProfile()
   }, 
-  beforeRouteUpdate(to, from, next) {
-    //to
-    //to.query.archive == true
-    next();
-    this.updateProfile()
-  },
-  filters: {
-    processImg: (value) => {
-      if(value == '' || value == undefined) {
-        return "/user.webp"
-      }
-      return `${hostServer}/images/clients/${value}`
+  watch:{
+    $route(){
+      this.updateProfile()
     }
   },
   methods: {

@@ -1,7 +1,7 @@
 <template> 
   <div class="container-user">
     <div class="img-user-perfil" @click="openProfile(user._id)">
-      <img :src="user.img | processImg" alt="">
+      <img :src="$filters.processImg(user.img)" alt="">
     </div><!-- img-user-perfil -->
 
     <div class="info-user">
@@ -49,14 +49,6 @@ export default {
     }
   },
   created() {
-  },
-  filters: {
-    processImg: (value) => {
-      if(value == '' || value == undefined) {
-        return "/user.webp"
-      }
-      return `${hostServer}/images/clients/${value}`
-    }
   }
 }
 </script>

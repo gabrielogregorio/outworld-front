@@ -2,7 +2,7 @@
   <section>
     <div class="container-post">
       <div class="img-post-perfil">
-        <img :src="img | processImg" alt="">
+        <img :src="$filters.processImg(img)" alt="">
       </div><!-- img-post-perfil -->
 
       <div class="info-post">
@@ -74,14 +74,6 @@ export default {
       }).catch(error => {
         console.log(`Erro ao registrar dados: ${error}`);
       })
-    }
-  },
-  filters: {
-    processImg: (value) => {
-      if(value == '' || value == undefined) {
-        return "/user.webp"
-      }
-      return `${hostServer}/images/clients/${value}`
     }
   }
 }
