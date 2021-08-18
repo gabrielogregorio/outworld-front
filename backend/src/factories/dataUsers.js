@@ -1,7 +1,7 @@
 class DataUsers {
   Build(user) {
 
-    var newUser = {
+    let newUser = {
       _id: user._id,
       name: user.name,
       username: user.username == undefined ? '' : `${user.username}`,

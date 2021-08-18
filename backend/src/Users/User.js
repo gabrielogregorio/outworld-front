@@ -21,5 +21,5 @@ let userSchema = new mongoose.Schema({
   }]
 })
 
-var User = mongoose.model('User', userSchema);
+let User = mongoose.model('User', userSchema);
 module.exports = User;

@@ -29,7 +29,7 @@ router.post('/userLoadFile', userAuth, multerImage.single('image'), async(req, r
 
 /* Cria um usuário */
 router.post('/user', async (req, res) => {
-  var {name, email, username, password, img} = req.body;
+  let {name, email, username, password, img} = req.body;
 
   if (
     (name == '' || email == '' || password == '' || username == '') ||
@@ -98,8 +98,8 @@ router.post('/auth', async (req, res) => {
 
 
 router.get('/users', userAuth,  async (req, res) => { 
-  var users = await User.find().populate('itemBio following followers')
-  var userFactories = []
+  let users = await User.find().populate('itemBio following followers')
+  let userFactories = []
   users.forEach(user => {
     userFactories.push(DataUsers.Build(user))
   })
@@ -108,8 +108,9 @@ router.get('/users', userAuth,  async (req, res) => {
 
 
 router.get('/user/:id', userAuth,  async (req, res) => { 
+  let users;
   try {
-    var users = await User.find({_id: req.params.id}).populate('itemBio following followers')
+    users = await User.find({_id: req.params.id}).populate('itemBio following followers')
   } catch(error) {
     return res.sendStatus(500)
   }
@@ -118,7 +119,7 @@ router.get('/user/:id', userAuth,  async (req, res) => {
     return res.sendStatus(404)
   }
 
-  var userFactories = []
+  let userFactories = []
   users.forEach(user => {
     userFactories.push(DataUsers.Build(user))
   })
@@ -127,9 +128,10 @@ router.get('/user/:id', userAuth,  async (req, res) => {
  
 
 router.put('/user/:id', userAuth, async (req, res) => { 
-  var {name, username, password, itemBio, bio, motivational, img} = req.body;
-  var id = processId(req.params.id)
-  var user = processId(req.data.id)
+  let {name, username, password, itemBio, bio, motivational, img} = req.body;
+  let id = processId(req.params.id)
+  let user = processId(req.data.id)
+  let updatePassword;
   
   if (id != `${user}`) {
     // Só pode alterar a si mesmo
@@ -143,22 +145,25 @@ router.put('/user/:id', userAuth, async (req, res) => {
   }
 
   if (password == '' || password == undefined) {
-    var updatePassword = false;
+    updatePassword = false;
   } else {
-    var updatePassword = true;
+    updatePassword = true;
   }
   
   if (img == undefined) {
     img = ''
   }
 
+  let update = {}
+  let salt = '';
+  let hash = '';
   try {
     if (updatePassword) {
-      let salt = await bcrypt.genSalt(10);
-      let hash = await bcrypt.hash(password, salt)
-      var update = {name, password:hash, username}
+      salt = await bcrypt.genSalt(10);
+      hash = await bcrypt.hash(password, salt)
+      update = {name, password:hash, username}
     } else {
-      var update = {name, username}
+      update = {name, username}
     }
 
     if (img != '') {
@@ -180,9 +185,9 @@ router.put('/user/:id', userAuth, async (req, res) => {
       update.itemBio = []
 
       // Loop para adicionar os novos itens
-      for (i = 0; i < itemBio.length; i++) {
+      for (let i = 0; i < itemBio.length; i++) {
         // Relaciona os itens com o usuário
-        var item = await new ItemBio({typeItem: itemBio[i][0], text: itemBio[i][1], user: id});
+        let item = await new ItemBio({typeItem: itemBio[i][0], text: itemBio[i][1], user: id});
         await item.save()
         await update.itemBio.push(item._id)
       }
@@ -192,7 +197,7 @@ router.put('/user/:id', userAuth, async (req, res) => {
     await User.findOneAndUpdate({_id:id}, {$set:update})
 
     // retorna os dados atualizados!
-    var userNew = await User.findOne({_id:id}).populate('itemBio following followers');
+    let userNew = await User.findOne({_id:id}).populate('itemBio following followers');
 
     if (userNew == null) {
       return res.sendStatus(404)      
@@ -205,8 +210,8 @@ router.put('/user/:id', userAuth, async (req, res) => {
 
 
 router.post('/user/follow/:id', userAuth, async (req, res) => {
-  var idUserToken = processId(req.data.id)
-  var idUserFollow = processId(req.params.id)
+  let idUserToken = processId(req.data.id)
+  let idUserFollow = processId(req.params.id)
 
   if (idUserToken == idUserFollow) {
     res.statusCode = 400
@@ -215,8 +220,8 @@ router.post('/user/follow/:id', userAuth, async (req, res) => {
  
   try {
     // Encontra o usuário que quer seguir e o usuário que será seguido
-    var userFollow = await User.findById({_id:idUserFollow});
-    var user = await User.findById({_id:idUserToken});
+    let userFollow = await User.findById({_id:idUserFollow});
+    let user = await User.findById({_id:idUserToken});
 
     // Algum usuário não encontrado
     if (userFollow == '' || user == '' || userFollow == null || user == null){
@@ -224,7 +229,7 @@ router.post('/user/follow/:id', userAuth, async (req, res) => {
     }
 
     // Verifica se o usuário que quer seguir já está seguindo o outro usuário
-    var filterFollonUser = user.following.filter(item => item._id != idUserFollow)
+    let filterFollonUser = user.following.filter(item => item._id != idUserFollow)
 
     // Usuário NÃO estava seguindo
     if (filterFollonUser.length == user.following.length) {
@@ -242,7 +247,7 @@ router.post('/user/follow/:id', userAuth, async (req, res) => {
 
       // Atualizar ambos os lados
       user.following = filterFollonUser
-      var filterRemoveFollon = user.followers.filter(item => item._id != idUserToken)
+      let filterRemoveFollon = user.followers.filter(item => item._id != idUserToken)
       userFollow.followers = filterRemoveFollon
 
       await user.save()
@@ -258,14 +263,14 @@ router.post('/user/follow/:id', userAuth, async (req, res) => {
 router.get('/me', userAuth,  async (req, res) => { 
   id = processId(req.data.id)
 
-  var users = await User.find({_id: id}).populate('itemBio following followers');
+  let users = await User.find({_id: id}).populate('itemBio following followers');
 
   if (users.length == 0) {
     res.statusCode =404
     return res.json({msg: 'Identificador do usuário não encontrado'})
   }
 
-  var userFactories = []
+  let userFactories = []
   users.forEach(user => {
     userFactories.push(DataUsers.Build(user))
   })

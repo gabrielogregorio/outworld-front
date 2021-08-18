@@ -14,5 +14,5 @@ let saveSchema = new mongoose.Schema({
   }
 })
 
-var Save = mongoose.model('Save', saveSchema);
+let Save = mongoose.model('Save', saveSchema);
 module.exports = Save;

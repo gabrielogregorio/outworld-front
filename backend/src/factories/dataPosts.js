@@ -2,7 +2,7 @@ DataUsers = require('./dataUsers');
 
 class DataPosts {
   Build(post, userId, idsSaves=[]) {
-    var newPost = {
+    let newPost = {
       _id: post.id,
       title: post.title,
       body: post.body,

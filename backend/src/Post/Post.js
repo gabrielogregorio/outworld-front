@@ -31,5 +31,5 @@ let postSchema = new mongoose.Schema({
   ]
 })
 
-var Post = mongoose.model('Post', postSchema);
+let Post = mongoose.model('Post', postSchema);
 module.exports = Post;

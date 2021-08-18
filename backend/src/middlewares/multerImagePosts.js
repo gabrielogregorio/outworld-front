@@ -8,7 +8,7 @@ module.exports = (multerImage({
       cb(null, './public/images/posts');
     },
     filename: (req, file, cb) => {
-      var extension = path.extname(file.originalname)
+      let extension = path.extname(file.originalname)
       
       cb(null, file.fieldname + '-' + Date.now() + extension) 
     }

@@ -8,13 +8,13 @@ module.exports = (req, res, next) => {
   }
 
   const bearer = authToken.split(' ');
-  var auth = bearer[1];
+  let auth = bearer[1];
 
   if (auth == undefined) {
     res.sendStatus(403)
   } else {
     try {
-      var data = jwt.verify(auth, process.env.JWT_SECRET);
+      let data = jwt.verify(auth, process.env.JWT_SECRET);
       req.data = data;
       if (data.email == undefined) {
         res.sendStatus(403)

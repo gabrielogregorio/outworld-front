@@ -347,24 +347,24 @@ router.delete('/post/:id', userAuth, async (req, res) => {
 })
 
 router.get('/posts/user/:id', userAuth, async (req, res) => {
-  var user = processId(req.params.id)
-  var userCall = processId(req.data.id)
+  let user = processId(req.params.id)
+  let userCall = processId(req.data.id)
   if ( user == undefined ) { return res.sendStatus(400) }
 
   try {
-    var userItem = await User.findById({_id:user}).populate('following')
+    let userItem = await User.findById({_id:user}).populate('following')
     let ids = DataUsers.Build(userItem).followingIds;
     ids.push(user) // Próprio usuário
   
-    var posts = await Post.find({user:user}).sort({'_id': 'desc'}).populate('user comments likes');
+    let posts = await Post.find({user:user}).sort({'_id': 'desc'}).populate('user comments likes');
   
-    var saves = await Save.find({user:user});
-    var idSavedByUser = []
+    let saves = await Save.find({user:user});
+    let idSavedByUser = []
     saves.forEach(item => {
       idSavedByUser.push(item.post)
     })
   
-    var postFactories = []
+    let postFactories = []
     posts.forEach(async post => {
       postFactories.push(DataPosts.Build(post, userCall, idSavedByUser))
     }) 

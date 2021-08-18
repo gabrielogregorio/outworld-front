@@ -57,12 +57,12 @@ router.get('/messages/users', userAuth, async(req, res) => {
   let id = processId(req.data.id)
 
   // Lista de pessoas que o dono da conta segue.
-  var userItem = await User.findById({_id:id}).populate('following')
+  let userItem = await User.findById({_id:id}).populate('following')
   let ids = DataUsers.Build(userItem).followingIds;
   ids.push(id)
 
   // Pessoas que o dono segue
-  var usersFolling = await User.find({_id:{$in:ids}}).populate()
+  let usersFolling = await User.find({_id:{$in:ids}}).populate()
     
   // Obter todas as mensagens que foram para o usuário ou que ele enviou
   let users = await Message.find({$or:

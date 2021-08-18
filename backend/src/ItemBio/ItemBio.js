@@ -13,5 +13,5 @@ let itemSchema = new mongoose.Schema({
   }
 })
 
-var ItemBio = mongoose.model('ItemBio', itemSchema);
+let ItemBio = mongoose.model('ItemBio', itemSchema);
 module.exports = ItemBio;
