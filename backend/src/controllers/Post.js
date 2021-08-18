@@ -1,13 +1,13 @@
 const express = require('express');
-const Post = require('./Post');
+const Post = require('../models/Post');
 const router = express.Router()
 const DataPosts = require('../factories/dataPosts');
 const multerImagePosts = require('../middlewares/multerImagePosts');
 const userAuth = require('../middlewares/userAuth');
-const Like = require('../Likes/Like')
-const Save = require('../Saves/Save');
-const Comment = require('../Comment/Comment');
-const User = require('../Users/User');
+const Like = require('../models/Like')
+const Save = require('../models/Save');
+const Comment = require('../models/Comment');
+const User = require('../models/User');
 const { processId } = require('../util/textProcess');
 require('dotenv/config');
 

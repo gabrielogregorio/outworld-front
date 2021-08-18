@@ -1,12 +1,12 @@
 const express = require('express');
-const User = require('./User');
+const User = require('../models/User');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
-const userAuth = require('../../src/middlewares/userAuth');
+const userAuth = require('../middlewares/userAuth');
 const router = express.Router()
 const DataUsers = require('../factories/dataUsers');
 const multerImage = require('../middlewares/multerImage');
-const ItemBio = require('../ItemBio/ItemBio');
+const ItemBio = require('../models/ItemBio');
 require('dotenv/config');
 const jwtSecret = process.env.JWT_SECRET
 const { processId } = require('../util/textProcess');
