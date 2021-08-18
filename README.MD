@@ -12,8 +12,7 @@
 
 <h3 align="center">Rede Social</h3>
 <p align="center">
-  Uma micro rede social feita com nodejs e vuejs. O backend está coberto com TDD
-  <br>
+  Uma micro rede social feita com nodejs e Vue,Js
   <a href="https://gabrielogregorio.com/projetos/Rede-Social/"><strong></strong></a>
   <br>
   <br>
@@ -23,6 +22,25 @@
 </p>
 
 <h3>Informações gerais</h3>
+
+
+#### Frontend
+Para executar o frontend é preciso ter o vuecli, instalar as dependências com o comando 'yarn install' e executar o comando 'yarn serve' para colocar a aplicação no ar.
+
+Também é preciso configurar o arquivo 'connections.js' para que ele aponte para o endereço da API.
+
+------------
+
+
+#### Backend.
+
+Para executar o backend é preciso instalar o mongodb no seu computador e inicia-lo.
+
+Então é preciso instalar as dependências usando o 'npm install' e posteiormente o 'node src/server.js' para executar o servidor.
+
+
+README EM CONSTRUÇÃO, Vou separar tudo em tópicos ainda
+
 
 ![GitHub estrelas](https://img.shields.io/github/stars/gabrielogregorio/Rede-Social)
 ![GitHub last commit](https://img.shields.io/github/last-commit/gabrielogregorio/Rede-Social?style=flat-square)
