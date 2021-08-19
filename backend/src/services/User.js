@@ -20,6 +20,12 @@ class UserService {
     return user;
   }
 
+  async FindByIdRaw(id) {
+    let user = await User.findById({_id:id})
+    return user;
+  }
+
+  
   /*Retorna dados crus, precisa ser ajustado*/
   async FindByIdNotPopulate(id) {
     let user = await User.findById({_id:id})

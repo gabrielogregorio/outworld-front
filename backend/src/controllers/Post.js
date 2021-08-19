@@ -1,19 +1,16 @@
 const express = require('express');
-const Post = require('../models/Post');
 const router = express.Router()
 const DataPosts = require('../factories/dataPosts');
 const multerImagePosts = require('../middlewares/multerImagePosts');
 const userAuth = require('../middlewares/userAuth');
-const Like = require('../models/Like')
-const Save = require('../models/Save');
 const SavePostsService = require('../services/SavePosts')
-const Comment = require('../models/Comment');
 const LikeService = require('../services/Like')
 const PostService = require('../services/Post');
 const CommentService = require('../services/Comment')
-const User = require('../models/User');
 const { processId } = require('../util/textProcess');
+const UserService = require('../services/User')
 require('dotenv/config');
+
 
 const jwtSecret = process.env.JWT_SECRET
 
@@ -94,7 +91,7 @@ router.get('/post/:id', userAuth, async (req, res) => {
     return res.sendStatus(404)
   }
 
-  var saves = await Save.find({user:user});
+  var saves = await SavePostsService.FindByUser(user);
   var idSavedByUser = []
   saves.forEach(item => {
     idSavedByUser.push(item.post)
@@ -125,14 +122,14 @@ router.put('/post/:id', userAuth,  async (req, res) => {
  
   try {
     await PostService.FindOneAndUpdate(id, user, upload)
-    var postNew = await PostService.FindOne(id, user)
-    if (postNew == null || postNew == undefined || postNew.length == 0) {
+    var post = await PostService.FindOne(id, user)
+    if (post == null || post == undefined) {
       return res.sendStatus(403)
     }
-    return res.json(DataPosts.Build(postNew, user))
+    return res.json(post)
   } catch(error)  {
     return res.sendStatus(500)
-  }
+  } 
 })
 
 
@@ -140,7 +137,7 @@ router.put('/post/:id', userAuth,  async (req, res) => {
 // de uma atualização geral
 router.get('/post/comments/:id', userAuth,  async (req, res) => { 
   var id = processId(req.params.id);
-  var comments = await Comment.find({post:id})
+  var comments = CommentService.FindByPosts(id)
   return res.json(comments);
 })
 
@@ -157,19 +154,17 @@ router.post('/post/comment/:id', userAuth,  async (req, res) => {
 
   try {
     if (replie  != undefined) {
-      var newComment = new Comment({post: id, user, text, replie});
-      await newComment.save();  
+      var newComment = await CommentService.Create({post: id, user, text, replie})
 
-      var originalComment = await Comment.findById({_id:replie})
+      var originalComment = await CommentService.FindById(replie)
       originalComment.replies.push(newComment)
       await originalComment.save();
   
       return res.json({id:newComment.id, replie:originalComment._id})  
     } else {
-      var newComment = new Comment({post:id, user, text});
-      await newComment.save();  
+      var newComment = await CommentService.Create({post: id, user, text})
   
-      var post = await Post.findById({_id:id})
+      var post = await PostService.FindById(id)
       post.comments.push(newComment)
       await post.save();
   
@@ -208,7 +203,7 @@ router.put('/post/comment/:idComment', userAuth,  async (req, res) => {
   }
 
   try {
-    var comment = await Comment.findOneAndUpdate({_id:id, user}, {$set:{text}})
+    var comment = await CommentService.FindOneAndUpdate(id, user, {text})
     if (comment == null) {
       return res.sendStatus(404)
     }
@@ -224,13 +219,12 @@ router.post('/post/save/:id', userAuth,  async (req, res) => {
   var id = processId(req.params.id)
   var user = processId(req.data.id)
   try {
-    var saveExists = await Save.findOne({post:id, user:user});
+    var saveExists = await SavePostsService.FindOne(id, user)
+    
     if (saveExists != null) {
-      await Save.deleteOne({post:id, user:user});
-
-      var user = await User.findById({_id:user})
-  
-      user.saves =user.saves.filter(value => value != `${saveExists._id}`)
+      await SavePostsService.DeleteOne(id, user)
+      var user = await UserService.FindByIdRaw(user)  
+      user.saves = user.saves.filter(value => value != `${saveExists._id}`)
       await user.save();
   
       return res.json({includeSave: false})  
@@ -240,11 +234,10 @@ router.post('/post/save/:id', userAuth,  async (req, res) => {
   }
 
   try {
-    var newSave = new Save({post:id, user:user});
-    await newSave.save();  
+    var newSave = await SavePostsService.Create(id, user)
 
-    var user = await User.findById({_id:user})
-    
+    var user = await UserService.FindByIdRaw(user)
+
     user.saves.push(newSave)
     await user.save();
 
@@ -252,25 +245,19 @@ router.post('/post/save/:id', userAuth,  async (req, res) => {
   } catch(error)  {
     return res.sendStatus(500)
   }
-})
-
+}) 
+ 
 
 router.get('/post/list/save', userAuth,  async (req, res) => { 
   var user = processId(req.data.id);
-  var saves = await Save.find({user:user});
-  var idSavedByUser = []
+  var saves = await SavePostsService.FindByUser(user)
+  var ids = []
   saves.forEach(item => {
-    idSavedByUser.push(item.post)
+    ids.push(item.post)
   })
+  let posts = await PostService.FindPostsByIds(user, ids)
 
-  var posts = await Post.find({ '_id':{$in:idSavedByUser} }).sort({'_id': 'desc'}).populate('user comments likes');
-
-  var postFactories = []
-  posts.forEach(async post => {
-    postFactories.push(DataPosts.Build(post, user, idSavedByUser))
-  })
-
-  return res.json(postFactories);
+  return res.json(posts);
 })
 
 
@@ -315,14 +302,13 @@ router.post('/post/share/:id', userAuth, async(req, res) => {
   var idPost = processId(req.params.id)
 
   // Cria o novo post referenciando o post que será compartilhado
-  let newPost = new Post({user, sharePost:idPost});
-  var newPostSave = await newPost.save();
+  var newPostSave = PostService.Create({user, sharePost:idPost})
 
   // Ainda é preciso arrumar uma forma de remover
   // essa referência quando o post novo for deletado, porém,
   // não é minha prioridade esse detalhe
   // Atualiza o post original com a referência do novo post
-  let sharedPost = await Post.findById({_id:idPost});
+  let sharedPost = await PostService.FindById(idPost);
   sharedPost.thisReferencesShared.push(newPostSave._id)
   await sharedPost.save()
 
@@ -351,13 +337,13 @@ router.get('/posts/user/:id', userAuth, async (req, res) => {
   if ( user == undefined ) { return res.sendStatus(400) }
  
   try {
-    let userItem = await User.findById({_id:user}).populate('following')
+    let userItem = await UserService.FindById(user)
     let ids = DataUsers.Build(userItem).followingIds;
     ids.push(user) // Próprio usuário
   
-    let posts = await Post.find({user:user}).sort({'_id': 'desc'}).populate('user comments likes');
+    let posts = await PostService.FindPostsByUser(user)
   
-    let saves = await Save.find({user:user});
+    let saves = await SavePostsService.FindByUser(user)
     let idSavedByUser = []
     saves.forEach(item => {
       idSavedByUser.push(item.post)
