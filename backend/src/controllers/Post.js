@@ -6,7 +6,11 @@ const multerImagePosts = require('../middlewares/multerImagePosts');
 const userAuth = require('../middlewares/userAuth');
 const Like = require('../models/Like')
 const Save = require('../models/Save');
+const SavePostsService = require('../services/SavePosts')
 const Comment = require('../models/Comment');
+const LikeService = require('../services/Like')
+const PostService = require('../services/Post');
+const CommentService = require('../services/Comment')
 const User = require('../models/User');
 const { processId } = require('../util/textProcess');
 require('dotenv/config');
@@ -46,8 +50,7 @@ router.post('/post', userAuth, async(req, res) => {
   }
 
   try {
-    let newPost = new Post({body, user, test, img});
-    var newPostSave = await newPost.save();  
+    var newPostSave = await PostService.Create({body, user, test, img}) 
     res.json({_id: newPostSave._id, user})
   } catch(error) {
 
@@ -56,17 +59,14 @@ router.post('/post', userAuth, async(req, res) => {
   }
 })
 
+
 router.get('/posts', userAuth, async (req, res) => {
   var user = processId(req.data.id)
   if ( user == undefined || user == '') { return res.sendStatus(400) }
 
-  var userItem = await User.findById({_id:user}).populate('following')
-  let ids = DataUsers.Build(userItem).followingIds;
-  ids.push(user) // Próprio usuário
-
-  var posts = await Post.find({ 'user':{$in:ids} }).sort({'_id': 'desc'}).populate('user comments likes');
-
-  var saves = await Save.find({user:user});
+  var posts = await PostService.findFollowingPosts(user, true)
+  var saves = await SavePostsService.FindByUser(user);
+ 
   var idSavedByUser = []
   saves.forEach(item => {
     idSavedByUser.push(item.post)
@@ -85,7 +85,7 @@ router.get('/posts', userAuth, async (req, res) => {
 router.get('/post/:id', userAuth, async (req, res) => {
   var user = processId(req.data.id)
   try {
-    var posts = await Post.find({_id:req.params.id}).populate('user comments likes sharePost').exec();
+    var posts = await PostService.FindByIdAndPopulate(req.params.id)
   } catch(error) {
     return res.sendStatus(500)
   }
@@ -100,12 +100,10 @@ router.get('/post/:id', userAuth, async (req, res) => {
     idSavedByUser.push(item.post)
   })
 
-
   var postFactories = []
   posts.forEach(post => {
     postFactories.push(DataPosts.Build(post, user, idSavedByUser))
   })
-
   return res.json(postFactories) 
 })
 
@@ -124,10 +122,10 @@ router.put('/post/:id', userAuth,  async (req, res) => {
   if (img != '') {
     upload.img = img
   }
-
+ 
   try {
-    await Post.findOneAndUpdate({_id:id, user}, {$set:upload})
-    var postNew = await Post.findOne({_id:id, user}).populate('user');
+    await PostService.FindOneAndUpdate(id, user, upload)
+    var postNew = await PostService.FindOne(id, user)
     if (postNew == null || postNew == undefined || postNew.length == 0) {
       return res.sendStatus(403)
     }
@@ -192,7 +190,7 @@ router.delete('/post/comment/:idComment', userAuth,  async (req, res) => {
   }
 
   try {
-    await Comment.deleteOne({_id:id, user});
+     await CommentService.DeleteOne(id, user)
     return res.sendStatus(200)
   } catch(error)  {
     return res.sendStatus(500)
@@ -246,6 +244,7 @@ router.post('/post/save/:id', userAuth,  async (req, res) => {
     await newSave.save();  
 
     var user = await User.findById({_id:user})
+    
     user.saves.push(newSave)
     await user.save();
 
@@ -279,12 +278,13 @@ router.post('/post/like/:id', userAuth,  async (req, res) => {
   var id = processId(req.params.id);
   var user = processId(req.data.id);
   try {
-    var likeExistente = await Like.findOne({post:id, user:user});
-    if (likeExistente != null) {
-      await Like.deleteOne({post:id, user:user});
+    var likeExistente = await LikeService.FindLike(id, user)
 
-      var post = await Post.findById({_id:id})
-  
+    if (likeExistente != null) {
+      await LikeService.DeleteLike(id, user)
+
+      var post = await PostService.FindById(id)
+ 
       post.likes = post.likes.filter(value => value != `${likeExistente._id}`)
       await post.save();
   
@@ -295,10 +295,9 @@ router.post('/post/like/:id', userAuth,  async (req, res) => {
   }
 
   try {
-    var newLike = new Like({post:id, user:user});
-    await newLike.save();  
+    var newLike = await LikeService.Create(id, user)
+    var post = await PostService.FindById(id)
 
-    var post = await Post.findById({_id:id})
     post.likes.push(newLike)
     await post.save();
 
@@ -335,7 +334,7 @@ router.delete('/post/:id', userAuth, async (req, res) => {
   var id = processId(req.params.id)
 
   try {
-    var resDelete = await Post.deleteOne({_id:id})
+    var resDelete = await PostService.DeleteById(id)
     if (resDelete.deletedCount == 1) {
       res.sendStatus(200)
     } else {
@@ -350,7 +349,7 @@ router.get('/posts/user/:id', userAuth, async (req, res) => {
   let user = processId(req.params.id)
   let userCall = processId(req.data.id)
   if ( user == undefined ) { return res.sendStatus(400) }
-
+ 
   try {
     let userItem = await User.findById({_id:user}).populate('following')
     let ids = DataUsers.Build(userItem).followingIds;

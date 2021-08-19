@@ -1,15 +1,14 @@
 const express = require('express');
-const User = require('../models/User');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 const userAuth = require('../middlewares/userAuth');
 const router = express.Router()
-const DataUsers = require('../factories/dataUsers');
 const multerImage = require('../middlewares/multerImage');
-const ItemBio = require('../models/ItemBio');
+const ItemBioService = require('../services/ItemBio')
 require('dotenv/config');
 const jwtSecret = process.env.JWT_SECRET
 const { processId } = require('../util/textProcess');
+const userService = require('../services/User');
 
 
 router.post('/userLoadFile', userAuth, multerImage.single('image'), async(req, res) => {
@@ -43,7 +42,7 @@ router.post('/user', async (req, res) => {
   }
 
   try {
-    let user = await User.findOne({email:req.body.email})
+    let user = await userService.UserExistsByEmail(req.body.email)
     if (user != undefined) {
       res.statusCode = 400;
       res.json({error: 'E-mail já cadastrado!'})
@@ -53,8 +52,7 @@ router.post('/user', async (req, res) => {
     let salt = await bcrypt.genSalt(10);
     let hash = await bcrypt.hash(password, salt)
 
-    let newUser = new User({name, email, username, password:hash, img})
-    await newUser.save()  
+    let newUser = await userService.Create({name, email, username, hash, img})
 
     jwt.sign({email: newUser.email, name:newUser.name, id: newUser._id}, jwtSecret, {expiresIn: '24h'}, (error, token) => {
       if (error) {
@@ -73,7 +71,9 @@ router.post('/user', async (req, res) => {
 
 router.post('/auth', async (req, res) => {
   let {email, password} = req.body;
-  let user = await User.findOne({email});
+
+  let user = await userService.FindUserByEmail(email)
+
   if(user == undefined) {
     res.sendStatus(404)
     return;
@@ -98,32 +98,24 @@ router.post('/auth', async (req, res) => {
 
 
 router.get('/users', userAuth,  async (req, res) => { 
-  let users = await User.find().populate('itemBio following followers')
-  let userFactories = []
-  users.forEach(user => {
-    userFactories.push(DataUsers.Build(user))
-  })
-  return res.json(userFactories);
+  let users = await userService.FindAllUsers()
+  return res.json(users);
 })
 
 
 router.get('/user/:id', userAuth,  async (req, res) => { 
-  let users;
+  let user;
   try {
-    users = await User.find({_id: req.params.id}).populate('itemBio following followers')
+    user = await userService.FindById(req.params.id)
   } catch(error) {
     return res.sendStatus(500)
   }
 
-  if (users.length == 0) {
+  if (user == undefined) {
     return res.sendStatus(404)
   }
 
-  let userFactories = []
-  users.forEach(user => {
-    userFactories.push(DataUsers.Build(user))
-  })
-  return res.json(userFactories);
+  return res.json([user]);
 })
  
 
@@ -187,17 +179,17 @@ router.put('/user/:id', userAuth, async (req, res) => {
       // Loop para adicionar os novos itens
       for (let i = 0; i < itemBio.length; i++) {
         // Relaciona os itens com o usuário
-        let item = await new ItemBio({typeItem: itemBio[i][0], text: itemBio[i][1], user: id});
-        await item.save()
+        
+        let item = await ItemBioService.Create(itemBio[i][0], itemBio[i][1], id)
         await update.itemBio.push(item._id)
       }
     }
 
     // Atualiza o perfil do usuário
-    await User.findOneAndUpdate({_id:id}, {$set:update})
-
+    await userService.FindByIdAndUpdate(id, update)
+    
     // retorna os dados atualizados!
-    let userNew = await User.findOne({_id:id}).populate('itemBio following followers');
+    let userNew = await userService.FindById(id)
 
     if (userNew == null) {
       return res.sendStatus(404)      
@@ -220,8 +212,8 @@ router.post('/user/follow/:id', userAuth, async (req, res) => {
  
   try {
     // Encontra o usuário que quer seguir e o usuário que será seguido
-    let userFollow = await User.findById({_id:idUserFollow});
-    let user = await User.findById({_id:idUserToken});
+    let userFollow = await userService.FindByIdNotPopulate(idUserFollow)
+    let user = await userService.FindByIdNotPopulate(idUserToken)
 
     // Algum usuário não encontrado
     if (userFollow == '' || user == '' || userFollow == null || user == null){
@@ -263,18 +255,14 @@ router.post('/user/follow/:id', userAuth, async (req, res) => {
 router.get('/me', userAuth,  async (req, res) => { 
   id = processId(req.data.id)
 
-  let users = await User.find({_id: id}).populate('itemBio following followers');
+  let user =  await userService.FindById(id)
 
-  if (users.length == 0) {
-    res.statusCode =404
+  if (user == undefined) {
+    res.statusCode = 404
     return res.json({msg: 'Identificador do usuário não encontrado'})
   }
 
-  let userFactories = []
-  users.forEach(user => {
-    userFactories.push(DataUsers.Build(user))
-  })
-  return res.json(userFactories);
+  return res.json([user]);
 })
 
 module.exports = router;

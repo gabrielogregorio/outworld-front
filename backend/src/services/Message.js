@@ -1,5 +1,4 @@
 const Message = require('../models/Message');
-const User = require('../models/User');
 const dataUser = require('../factories/dataUsers');
 const UserService = require('./User');
 
@@ -11,8 +10,7 @@ class MessageService {
   }
 
   async FindAllMessages(id) {
-    let messages = await Message.find({$or: [{to:id}, {from: id}]}).populate('from to')
-    return messages;
+    return await Message.find({$or: [{to:id}, {from: id}]}).populate('from to')
   }
 
   async FindAllMessagesInUsers(id1, id2) {
