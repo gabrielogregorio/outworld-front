@@ -56,7 +56,8 @@ const router = createRouter({
   {
     path: '/Messages',
     name: 'Messages',
-    component: () => import ('../views/Messages.vue')
+    component: () => import ('../views/Messages.vue'),
+    beforeEnter: authUser,
   },
   {
     path: '/EditProfile',
@@ -82,7 +83,6 @@ const router = createRouter({
     beforeEnter: authUser,
   }
 ]})
-
 
 
 export default router

@@ -55,8 +55,8 @@ README EM CONSTRUÇÃO, Vou separar tudo em tópicos ainda
 ### Tela inicial
 ![Interface](images/a.png)
 
-### Sistema de comentários - beta
-![Interface](images/b.png)
+### Sistema de comentários
+![Interface](images/q.png)
 
 ### Conta do usuário
 ![Interface](images/c.png)
