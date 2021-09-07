@@ -1,8 +1,8 @@
 const Comment = require('../models/Comment');
 
 class CommentService {
-  async Create({post, user, text, replie}) {
-    let create = {post, user, text}
+  async Create({post, user, text, replie, base=false}) {
+    let create = {post, user, text, base}
     if (replie != undefined) {create.replie = replie} 
 
     var newComment = new Comment(create);
@@ -19,7 +19,7 @@ class CommentService {
   }
 
   async FindByPosts(post) {
-    return await Comment.find({post})
+    return await Comment.find({post, base:true})
   }
 
   async FindOneAndUpdate(_id, user, update) {

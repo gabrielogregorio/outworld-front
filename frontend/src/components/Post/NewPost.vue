@@ -67,7 +67,7 @@ export default {
         return;
       }
       axios.post(`${hostServer}/post`, { img: this.imgSrc, body: this.body}, getHeader(), ).then(() => {
-        this.$emit("updatePostsEvent", "");
+        this.$emit("updatePosts", "");
         this.body = ''
         this.imgSrc = ''
 

@@ -20,13 +20,9 @@
       :postImg="post.sharePost.img" :postBody="post.sharePost.body" v-bind:share="true"/>
  
     <div class="options-post">
-      
       <button :class=" post.likedByUser == true ? 'active-like': ''" @click="sendLike(post._id)"><i class="fas fa-thumbs-up"></i> {{post.likes}} </button>
-
       <button :class="showComment == true ? 'showComment' : ''" @click="toogleComment()"><i class="fas fa-comment-dots"></i></button>
-
       <button :class="post.savedByUser == true ? 'active-share' : ''" @click="sendSave(post._id)"><i class="fas fa-archive" aria-hidden="true"></i> </button>
-
       <button v-if="post.sharePost != undefined" @click="sharePostNow(post.sharePost._id)"><i class="fas fa-share-alt"></i> </button>
       <button v-else @click="sharePostNow(post._id)"><i class="fas fa-share-alt"></i> </button>
     </div><!-- options-post -->
@@ -65,16 +61,10 @@ export default {
       hostServer:hostServer,
       showComment: false,
       postShared: false,
-      postImg: this.post.img,
-      comments: []
+      postImg: this.post.img
     }
   },
   created() {      
-    axios.get(`${hostServer}/post/comments/${this.post._id}`, getHeader()).then(res => {
-      this.comments = res.data;
-    }).catch(error => {
-      console.log(error)
-    })
   },  
   props: {
     post: Object,
@@ -82,6 +72,7 @@ export default {
     img: String,
     imgProfile: String
   },
+
   methods: {
     toogleComment() {
       this.showComment = !this.showComment
@@ -92,23 +83,28 @@ export default {
         query: {id}
       })    
     },
+
     updatePosts() {
       this.$emit("updatePosts", "")
     },
+
     sharePostNow(id) {
       axios.post(`${hostServer}/post/share/${id}`, {}, getHeader()).then(() => {
         this.$emit("updatePosts", "")
       })
     },
+
     newComment(){
       this.$emit("updatePosts", "")
     },
+
     sendSave(postId) {
-      console.log(postId)
       axios.post(`${hostServer}/post/save/${postId}`, {}, getHeader()).then(() => {
         this.$emit("updatePosts", "")
+
       })
     },
+
     sendLike(postId) {
       axios.post(`${hostServer}/post/like/${postId}`, {}, getHeader()).then(() => {
         this.$emit("updatePosts", "")

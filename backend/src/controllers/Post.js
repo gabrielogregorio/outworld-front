@@ -77,7 +77,7 @@ router.get('/posts', userAuth, async (req, res) => {
   res.statusCode = 200
   res.json(postFactories) 
 })
-
+ 
 
 router.get('/post/:id', userAuth, async (req, res) => {
   var user = processId(req.data.id)
@@ -133,14 +133,13 @@ router.put('/post/:id', userAuth,  async (req, res) => {
 })
 
 
-//precisa de testes mais aprimorados. -> Sistema de comentários como um todo precisa
-// de uma atualização geral
+
+// Sistema de comentários
 router.get('/post/comments/:id', userAuth,  async (req, res) => { 
   var id = processId(req.params.id);
-  var comments = CommentService.FindByPosts(id)
+  var comments = await CommentService.FindByPosts(id)
   return res.json(comments);
 })
-
 
 router.post('/post/comment/:id', userAuth,  async (req, res) => { 
   var id = processId(req.params.id);
@@ -151,7 +150,6 @@ router.post('/post/comment/:id', userAuth,  async (req, res) => {
   if (text == '' || id == '' || user == '' || id == undefined || user == undefined || text == undefined) {
     return res.sendStatus(400)
   }
-
   try {
     if (replie  != undefined) {
       var newComment = await CommentService.Create({post: id, user, text, replie})
@@ -162,7 +160,7 @@ router.post('/post/comment/:id', userAuth,  async (req, res) => {
   
       return res.json({id:newComment.id, replie:originalComment._id})  
     } else {
-      var newComment = await CommentService.Create({post: id, user, text})
+      var newComment = await CommentService.Create({post: id, user, text, base: true})
   
       var post = await PostService.FindById(id)
       post.comments.push(newComment)
@@ -213,6 +211,8 @@ router.put('/post/comment/:idComment', userAuth,  async (req, res) => {
     return res.sendStatus(500)
   }
 })
+
+/* Fim do sistema de comentário*/
 
 
 router.post('/post/save/:id', userAuth,  async (req, res) => { 

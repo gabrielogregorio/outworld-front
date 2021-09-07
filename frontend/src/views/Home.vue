@@ -1,7 +1,7 @@
 <template> 
   <div class="container">
     <Navbar /> 
-    <NewPost @updatePostsEvent="updatePosts()" :img="img" />
+    <NewPost @updatePosts="updatePosts()" :img="img" />
     <div v-for="(post, index) in posts" :key="post._id + index">
       <Post v-bind:post="post" v-bind:myId="myId" v-bind:imgProfile="img" @updatePosts="updatePosts()" />      
     </div>
@@ -42,7 +42,8 @@ export default {
     this.posts = []
 
    this.updatePosts()
-  },  
+  },
+
   methods: {
     async updatePosts() {
       let novosPosts = []

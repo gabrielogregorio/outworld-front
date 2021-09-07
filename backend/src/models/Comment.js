@@ -1,22 +1,41 @@
 let mongoose = require('mongoose');
 
-// Essa parte precisa de um rework, preciso investigar o motivo que populate não funciona
-// em busca por profundidade, desta forma, o sistema de comentário só permite atualmente um 
-// nível de profundidade
-
 let commentSchema = new mongoose.Schema({
+
+  // Texto do comentário
   text: { type: String },
-  replie: this, // está respondendo outro comentário
-  replies: [this], // Respostas que o comentário recebeu
-  post: { // post a qual ele pertence
+
+  // está respondendo outro comentário
+  replie: this,
+
+  // Respostas que o comentário recebeu
+  replies: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}],
+
+  // Resposta está na camada 1 dos posts
+  base: {type: Boolean, default: false},
+
+  // post a qual ele pertence
+  post: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Post'
   },
-  user: { // usuário que comentou
+
+  // usuário que comentou
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }
 })
+
+// Exibe de forma recursiva as respostas
+var autoPopulateChildren = function(next) {
+  this.populate('replies');
+  next();
+};
+
+commentSchema
+  .pre('findOne', autoPopulateChildren)
+  .pre('find', autoPopulateChildren)
 
 let Comment = mongoose.model('Comment', commentSchema);
 module.exports = Comment;

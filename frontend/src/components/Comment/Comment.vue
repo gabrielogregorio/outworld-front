@@ -28,7 +28,7 @@
         <MakeComment v-if="showComment == true" :postId="postId" :commentId="commentId" @newComment="newComment()" :imgProfile="imgProfile"/>
 
         <div v-for="postComment in postComment.replies" :key="postComment.id" class="comments">
-          <Comment :postComment="postComment" @newComment="newComment()" :user="postComment.user" :text="postComment.text" :postId="postId" :commentId="commentId" :imgProfile="imgProfile"/>
+          <Comment :postComment="postComment" @newComment="newComment()" :user="postComment.user" :text="postComment.text" :postId="postId" :commentId="postComment._id" :imgProfile="imgProfile"/>
         </div><!-- comments -->
 
       </div><!-- options -->
