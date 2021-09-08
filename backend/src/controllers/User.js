@@ -9,9 +9,12 @@ require('dotenv/config');
 const jwtSecret = process.env.JWT_SECRET
 const { processId } = require('../util/textProcess');
 const userService = require('../services/User');
+const { body, validationResult } = require('express-validator');
+const logger = require('../logger');
 
 
 router.post('/userLoadFile', userAuth, multerImage.single('image'), async(req, res) => {
+  logger.debug('Load image user')
   user = processId(req.data.id)
 
   if (user == undefined) {
@@ -27,40 +30,39 @@ router.post('/userLoadFile', userAuth, multerImage.single('image'), async(req, r
 })
 
 /* Cria um usuário */
-router.post('/user', async (req, res) => {
-  let {name, email, username, password, img} = req.body;
+router.post('/user', 
+    body('name').isLength({ min: 2, max:50 }),
+    body('username').isLength({ min: 2, max:50 }),
+    body('email').isEmail(),
+    body('password').isLength({ min: 5, max:50 }),
+    async (req, res) => {
 
-  if (
-    (name == '' || email == '' || password == '' || username == '') ||
-    (name == undefined || email == undefined || password == undefined || username == undefined) 
-    ){
-    return res.sendStatus(400);
-  }
+  logger.info(`try create user ${req.body.email}`)
+  let {name, email, username, password} = req.body;
 
-  if (img == undefined) {
-    img = ''
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
   }
 
   try {
     let user = await userService.UserExistsByEmail(req.body.email)
     if (user != undefined) {
       res.statusCode = 400;
-      res.json({error: 'E-mail já cadastrado!'})
-      return;
+      return res.json({error: 'E-mail já cadastrado!'})
     }
 
     let salt = await bcrypt.genSalt(10);
     let hash = await bcrypt.hash(password, salt)
 
-    let newUser = await userService.Create({name, email, username, hash, img})
+    let newUser = await userService.Create({name, email, username, hash})
 
     jwt.sign({email: newUser.email, name:newUser.name, id: newUser._id}, jwtSecret, {expiresIn: '24h'}, (error, token) => {
       if (error) {
-        res.sendStatus(500)
-        return;
+        return res.sendStatus(500)
       } else {  
-        res.json({token, email:email, id:newUser._id}); 
-        return;
+        return res.json({token, email:email, id:newUser._id}); 
+        
       }
     })
   } catch(error) {
@@ -75,24 +77,19 @@ router.post('/auth', async (req, res) => {
   let user = await userService.FindUserByEmail(email)
 
   if(user == undefined) {
-    res.sendStatus(404)
-    return;
+    return res.sendStatus(404)
   }
 
   let valid = await bcrypt.compare(password, user.password);
   if(!valid) {
-    res.sendStatus(403)
-    return;
+    return res.sendStatus(403)
   } 
 
   jwt.sign({email, name:user.name, id: user._id}, jwtSecret, {expiresIn: '24h'}, (error, token) => {
     if (error) {
-      res.sendStatus(500)
-      return;
-    } else {  
-      res.json({token, id: user._id})
-      return;
+      return res.sendStatus(500)
     }
+    return res.json({token, id: user._id})
   })
 })
 

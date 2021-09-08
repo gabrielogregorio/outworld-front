@@ -1,7 +1,10 @@
 const Comment = require('../models/Comment');
+const logger = require('../logger')
 
 class CommentService {
   async Create({post, user, text, replie, base=false}) {
+    logger.info('Criação de comentário')
+
     let create = {post, user, text, base}
     if (replie != undefined) {create.replie = replie} 
 

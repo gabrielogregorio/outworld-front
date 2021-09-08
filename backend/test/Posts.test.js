@@ -95,7 +95,7 @@ describe('Gerenciamento de posts', () => {
       .then(res => {
         expect(res.statusCode).toEqual(200)
         expect(res.body[0].body).toEqual(post.body)
-    }).catch(error => fail(error))
+    })
   })
   
   test('Para ver os posts, um usuario deve seguir o outro', () => {
@@ -104,7 +104,7 @@ describe('Gerenciamento de posts', () => {
       .then(res => {
         expect(res.statusCode).toEqual(200)
         expect(res.body.followed).toEqual(true)
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve retornar uma lista com todos os posts e suas imagens", () => {
@@ -113,7 +113,7 @@ describe('Gerenciamento de posts', () => {
       .then(res => {
         expect(res.statusCode).toEqual(200)
         expect(res.body[0].body).toEqual(post2.body)
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve compartilhar um post", () => {
@@ -132,7 +132,7 @@ describe('Gerenciamento de posts', () => {
         expect(res.statusCode).toEqual(200)
         expect(res.body[0].user.name).toBeDefined()
         expect(res.body[0].body).toBeDefined()
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve retornar erro 500 para um parametro invalido", () => {
@@ -140,7 +140,7 @@ describe('Gerenciamento de posts', () => {
       .set(tokenValido)
       .then(res => {
         expect(res.statusCode).toEqual(500)
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve retornar erro 404 ao não encontrar o post", () => {
@@ -148,7 +148,7 @@ describe('Gerenciamento de posts', () => {
       .set(tokenValido)
       .then(res => {
         expect(res.statusCode).toEqual(404)
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve retornar erro 400 ao tentar editar um post passando parametros incorretos", () => {
@@ -157,7 +157,7 @@ describe('Gerenciamento de posts', () => {
       .send({body: ''})
       .then(res => {
         expect(res.statusCode).toEqual(400)
-    }).catch(error => fail(error))
+    })
   })
   
   test("Deve permitir a edição de um post!", () => {
@@ -167,7 +167,7 @@ describe('Gerenciamento de posts', () => {
       .then(res => {
         expect(res.statusCode).toEqual(200)
         expect(res.body.body).toEqual('test1z')
-    }).catch(error => fail(error))
+    })
   })
 
   test("Não deve permitir a edição de um post por um usuário que não o postou", () => {
@@ -176,7 +176,7 @@ describe('Gerenciamento de posts', () => {
       .send({body: 'test1z'})
       .then(res => {
         expect(res.statusCode).toEqual(403)
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve enviar um like", () => {
@@ -185,7 +185,7 @@ describe('Gerenciamento de posts', () => {
       .then(res => {
         expect(res.statusCode).toEqual(200)
         expect(res.body.includeLike).toEqual(true)
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve desfazer um like", () => {
@@ -194,7 +194,7 @@ describe('Gerenciamento de posts', () => {
       .then(res => {
         expect(res.statusCode).toEqual(200)
         expect(res.body.includeLike).toEqual(false)
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve salvar um post", () => {
@@ -203,7 +203,7 @@ describe('Gerenciamento de posts', () => {
       .then(res => {
         expect(res.statusCode).toEqual(200)
         expect(res.body.includeSave).toEqual(true)
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve retornar o post salvo", () => {
@@ -221,7 +221,7 @@ describe('Gerenciamento de posts', () => {
       .then(res => {
         expect(res.statusCode).toEqual(200)
         expect(res.body.includeSave).toEqual(false)
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve retornar 500 quando um post inválido for enviado", () => {
@@ -229,7 +229,7 @@ describe('Gerenciamento de posts', () => {
       .set(tokenValido)
       .then(res => {
         expect(res.statusCode).toEqual(500)
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve retornar 400 com um comentário sem texto", () => {
@@ -238,7 +238,7 @@ describe('Gerenciamento de posts', () => {
     .set(tokenValido)
       .then(res => {
         expect(res.statusCode).toEqual(400)
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve retornar 500 quando um comentário inválido for enviado", () => {
@@ -247,7 +247,7 @@ describe('Gerenciamento de posts', () => {
       .send({text: 'Isso é um comentario'})
       .then(res => {
         expect(res.statusCode).toEqual(500)
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve enviar um comentario novo", () => {
@@ -258,7 +258,7 @@ describe('Gerenciamento de posts', () => {
         idComentarioValido = res.body.id;
         expect(res.statusCode).toEqual(200)
         expect(res.body.id).toBeDefined()
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve enviar um comentario como resposta", () => {
@@ -270,7 +270,7 @@ describe('Gerenciamento de posts', () => {
         expect(res.statusCode).toEqual(200)
         expect(res.body.id).toBeDefined()
         expect(res.body.replie).toBeDefined()
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve Editar um comentario", () => {
@@ -279,7 +279,7 @@ describe('Gerenciamento de posts', () => {
       .send({text: 'Novo texto do comentário'})
       .then(res => {
         expect(res.statusCode).toEqual(200)
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve retornar 404 para um comentário não encontrado", () => {
@@ -288,7 +288,7 @@ describe('Gerenciamento de posts', () => {
       .send({text: 'Novo texto do comentário'})
       .then(res => {
         expect(res.statusCode).toEqual(404)
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve desfazer um comentário", () => {
@@ -296,7 +296,7 @@ describe('Gerenciamento de posts', () => {
       .set(tokenValido)
       .then(res => {
         expect(res.statusCode).toEqual(200)
-    }).catch(error => fail(error))
+    })
   })
 
   test("Obter os posts de si mesmo", () => {
@@ -306,7 +306,7 @@ describe('Gerenciamento de posts', () => {
         expect(res.statusCode).toEqual(200)
         expect(res.body[0].body).toBeDefined()
 
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve Deletar um post!", () => {
@@ -314,7 +314,7 @@ describe('Gerenciamento de posts', () => {
       .set(tokenValido)
       .then(res => {
         expect(res.statusCode).toEqual(200)
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve retornar 404 ao tentar deletar um post que não existe", () => {
@@ -322,7 +322,7 @@ describe('Gerenciamento de posts', () => {
       .set(tokenValido)
       .then(res => {
         expect(res.statusCode).toEqual(404)
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve retornar 500 ao passar um parametro invalido", () => {
@@ -330,6 +330,6 @@ describe('Gerenciamento de posts', () => {
       .set(tokenValido)
       .then(res => {
         expect(res.statusCode).toEqual(500)
-    }).catch(error => fail(error))
+    })
   })
 })

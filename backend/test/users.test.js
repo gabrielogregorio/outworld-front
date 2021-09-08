@@ -9,7 +9,7 @@ let idUsuario2Valido = '';
 let user = {
   name:'sherek',
   username:'sherek',
-  email:'no-valid-email',
+  email:'no-valid-email@fakemail.com',
   itemBio: [
     ['school', 'Graduou em análise e desenvolvimento de Sistemas na Fatec Araçatuba'],
     ['status', 'Solteiro'],
@@ -22,23 +22,23 @@ let user = {
 }
 
 let user2 = {
-  name:'9d591724044b57d9b3607bbef285cbb9086b53edaf1cd1cedb47e6ad6855721c',
-  username:'9d591724044b57d9b3607bbef285cbb9086b53edaf1cd1cedb47e6ad6855721c',
-  email:'9d591724044b57d9b3607bbef285cbb9086b53edaf1cd1cedb47e6ad6855721c',
+  name:'TTTTTTT',
+  username:'TTTTTTTTT',
+  email:'TTTTT@mail.com',
   itemBio: [
-    ['school', '9d591724044b57d9b3607bbef285cbb9086b53edaf1cd1cedb47e6ad6855721c'],
-    ['status', '9d591724044b57d9b3607bbef285cbb9086b53edaf1cd1cedb47e6ad6855721c'],
-    ['work', '9d591724044b57d9b3607bbef285cbb9086b53edaf1cd1cedb47e6ad6855721c'],
-    ['film', '9d591724044b57d9b3607bbef285cbb9086b53edaf1cd1cedb47e6ad6855721c']
+    ['school', '9d591724044b57d9b3607bbef28'],
+    ['status', '9d591724044b57d9b3607bbef28'],
+    ['work', '9d591724044b57d9b3607bbef28'],
+    ['film', '9d591724044b57d9b3607bbef28']
   ],
-  bio: '🌻🏠\n\n@9d591724044b57d9b3607bbef285cbb9086b53edaf1cd1cedb47e6ad6855721c',
-  motivational: '9d591724044b57d9b3607bbef285cbb9086b53edaf1cd1cedb47e6ad6855721c',
-  password: '9d591724044b57d9b3607bbef285cbb9086b53edaf1cd1cedb47e6ad6855721c'
+  bio: '🌻🏠\n\n@9d591724044b57d9b3607bbef28',
+  motivational: '9d591724044b57d9b3607bbe',
+  password: '9d591724044b57d9b3607bbef285'
 }
 
 
 beforeAll(() => {
-  return request.post('/configure').then(() => {}).catch(error => fail(error))
+  return request.post('/configure').then(() => {})
 })
 // Upload de imagens não está incluso nos testes
 
@@ -62,7 +62,7 @@ describe('Cadastro e login de usuários', () => {
       expect(res.body.id).toBeDefined()
       expect(res.body.token).toBeDefined()
       idUsuarioValido = res.body.id;
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve cadastrar um segundo usuário com sucesso!", () => {
@@ -73,7 +73,7 @@ describe('Cadastro e login de usuários', () => {
       expect(res.body.token).toBeDefined()
       idUsuario2Valido = res.body.id;
       token2Valido = { authorization:"Bearer " + res.body.token}
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve acessar o sistema e receber um token válido para os outros testes", () => {
@@ -83,7 +83,7 @@ describe('Cadastro e login de usuários', () => {
         expect(res.body.token).toBeDefined()
         expect(res.statusCode).toEqual(200)
         tokenValido = { authorization:"Bearer " + res.body.token}
-    }).catch(error => fail(error))
+    })
   })
 })
 
@@ -97,7 +97,7 @@ describe("Testes gerais", () => {
         expect(res.body[0].name).toBeDefined()
         expect(res.body[0].email).toBeDefined()
         expect(res.body[0].username).toBeDefined()
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve retornar erro 500 para um parametro invalido", () => {
@@ -105,7 +105,7 @@ describe("Testes gerais", () => {
       .set(tokenValido)
       .then(res => {
         expect(res.statusCode).toEqual(500)
-    }).catch(error => fail(error))
+    })
   })
  
   test("Deve retornar erro 404 ao não encontrar o usuario", () => {
@@ -113,7 +113,7 @@ describe("Testes gerais", () => {
       .set(tokenValido)
       .then(res => {
         expect(res.statusCode).toEqual(404)
-    }).catch(error => fail(error))
+    })
   })
 
   test('Validar token de um usuário', () => {
@@ -122,7 +122,7 @@ describe("Testes gerais", () => {
         .set(tokenValido)
         .then(res2 => {
           expect(res2.statusCode).toEqual(200)
-      }).catch(error => fail(error))
+      })
     })
   })
 
@@ -132,7 +132,7 @@ describe("Testes gerais", () => {
       .then(res => {
         expect(res.statusCode).toEqual(200)
         expect(res.body.followed).toEqual(true)
-    }).catch(error => fail(error))
+    })
   })
 
   test("Obter os dados de si mesmo e verificar que está seguindo o usuario 2", () => {
@@ -144,7 +144,7 @@ describe("Testes gerais", () => {
         expect(res.body[0].email).toEqual(user.email)
         expect(res.body[0].username).toEqual(user.username)
         expect(res.body[0].following[0]._id).toEqual(idUsuario2Valido)
-    }).catch(error => fail(error))
+    })
   })
 
   test("Obter os dados de si mesmo e verificar que está sendo seguido pelo usuario 1", () => {
@@ -156,7 +156,7 @@ describe("Testes gerais", () => {
         expect(res.body[0].email).toEqual(user2.email)
         expect(res.body[0].username).toEqual(user2.username)
         expect(res.body[0].followers[0]._id).toEqual(idUsuarioValido)
-    }).catch(error => fail(error))
+    })
   })
 
   test('Usuário 1 deve remover o seguir do usuário 2', () => {
@@ -165,7 +165,7 @@ describe("Testes gerais", () => {
       .then(res => {
         expect(res.statusCode).toEqual(200)
         expect(res.body.followed).toEqual(false)
-    }).catch(error => fail(error))
+    })
   })
 
   test("Obter os dados de si mesmo e verificar que DEIXOU de seguir o usuario 2", () => {
@@ -177,7 +177,7 @@ describe("Testes gerais", () => {
         expect(res.body[0].email).toEqual(user.email)
         expect(res.body[0].username).toEqual(user.username)
         expect(res.body[0].following).toEqual([])
-    }).catch(error => fail(error))
+    })
   })
 
   test("Obter os dados de si mesmo e verificar que DEIXOU de ser seguido pelo usuario 1", () => {
@@ -189,7 +189,7 @@ describe("Testes gerais", () => {
         expect(res.body[0].email).toEqual(user2.email)
         expect(res.body[0].username).toEqual(user2.username)
         expect(res.body[0].followers).toEqual([])
-    }).catch(error => fail(error))
+    })
   })
 
   test('Usuário não pode seguir a si mesmo', () => {
@@ -198,7 +198,7 @@ describe("Testes gerais", () => {
       .then(res => {
         expect(res.statusCode).toEqual(400)
         expect(res.body.msg).toEqual('Usuário não pode seguir a si mesmo!')
-    }).catch(error => fail(error))
+    })
   })
 
   test('Impedir acesso com token invalido', () => {
@@ -206,21 +206,38 @@ describe("Testes gerais", () => {
       { authorization:"Bearer aaaaaaaaaaaaaaaaa"}
     ).then(res2 => {
       expect(res2.statusCode).toEqual(403)
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve impedir cadastro com dados vazios", () => {
     let user = {name: '', email:'', password: ''};
     return request.post('/user').send(user).then(res => {
       expect(res.statusCode).toEqual(400) // bad request
-    }).catch(error => fail(error))
+    })
   })
+
+  test("Deve impedir cadastro com e-mail invalido", () => {
+    let user = {name: 'Usuario Valido', email:'Email invalido', password: 'Senha valida!'};
+    return request.post('/user').send(user).then(res => {
+      expect(res.statusCode).toEqual(400) // bad request
+      expect(res.body.errors[1].param).toEqual('email') // bad request
+    })
+  })
+
+  test("Deve impedir cadastro com senha invalido", () => {
+    let user = {name: 'Usuario Valido', email:'emailvalido@email.com', password: '123'};
+    return request.post('/user').send(user).then(res => {
+      expect(res.statusCode).toEqual(400) // bad request
+      expect(res.body.errors[1].param).toEqual('password') // bad request
+    })
+  })
+
 
   test("Deve impedir um cadastro com e-mail repetido", () => {
     return request.post('/user').send(user).then(res => {
       expect(res.statusCode).toEqual(400)
       expect(res.body.error).toEqual('E-mail já cadastrado!')
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve retornar erro 400 ao tentar editar um usuário passando parametros faltantes", () => {
@@ -229,7 +246,7 @@ describe("Testes gerais", () => {
       .send({name: ''})
       .then(res => {
         expect(res.statusCode).toEqual(400)
-    }).catch(error => fail(error))
+    })
   })
   
   test("Deve permitir a edição de um usuario!", () => {
@@ -250,7 +267,7 @@ describe("Testes gerais", () => {
         expect(res.body.bio).toEqual(user.bio)
         expect(res.body.motivational).toEqual(user.motivational)
         expect(res.body.itemBio[0].text).toEqual(user.itemBio[0][1])
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve permitir a edição de um usuario novamente!", () => {
@@ -260,7 +277,7 @@ describe("Testes gerais", () => {
       .then(res => {
         expect(res.statusCode).toEqual(200)
         expect(res.body.name).toEqual(user.name)
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve impedir um usuário editar outro!", () => {
@@ -269,7 +286,7 @@ describe("Testes gerais", () => {
       .send({name: 'alterado', password: 'alterado', username:'teste2'})
       .then(res => {
         expect(res.statusCode).toEqual(403)
-    }).catch(error => fail(error))
+    })
   })
 
   test("Deve impedir o login de um usuário não cadastrado", () => {
@@ -296,6 +313,6 @@ describe("Testes gerais", () => {
     .then(res => {
       expect(res.statusCode).toEqual(200)
       expect(res.body.length).toBeGreaterThan(0)
-    }).catch(error => fail(error))
+    })
   })
 })

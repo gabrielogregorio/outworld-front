@@ -4,11 +4,16 @@ const mongoose = require('mongoose');
 const Post = require('./models/Post');
 const User = require('./models/User');
 const UserController = require('./controllers/User');
+const PostCommentController = require('./controllers/PostComment');
 const PostController = require('./controllers/Post');
 const MessageController = require('./controllers/Message');
+const PostLikeController = require('./controllers/PostLike');
+const PostShareController = require('./controllers/PostShare');
 const userAuth = require('../src/middlewares/userAuth');
 const cors = require('cors');
 const bcrypt = require('bcrypt')
+const logger = require('./logger');
+
 require('dotenv/config');
 
 const port = process.env.DB_PORT;
@@ -21,9 +26,13 @@ app.use(express.urlencoded({extended: false}))
 app.use(express.json())
 app.use(express.static('public'))
 app.use(cors())
+
 app.use('/', UserController)
 app.use('/', PostController)
 app.use('/', MessageController)
+app.use('/', PostCommentController)
+app.use('/', PostShareController)
+app.use('/', PostLikeController)
 
 mongoose.set('useFindAndModify', false)
 mongoose.connect(`mongodb://localhost:${port}/${dbname}`,
