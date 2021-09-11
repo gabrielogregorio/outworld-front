@@ -9,12 +9,16 @@
         <router-link to="/EditProfile">
           <i v-if="idUser == myId" class="fas fa-cog"></i>
         </router-link>
+
+        <router-link to="/Login">
+          <i class="fas fa-sign-out-alt"></i>
+        </router-link>
       </div>
       
       <div class="statistics">
-        <!--<a>174 publicações </a>
-        <a>820 seguidores </a>
-        <a>721 seguindo </a>-->
+        <!--<p>174 publicações </p>
+        <p>820 seguidores </p>
+        <p>721 seguindo </p>-->
       </div>
 
       <div class="citation">

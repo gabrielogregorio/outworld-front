@@ -8,8 +8,8 @@
 
       <label for="password">Password: </label>
       <input type="password" name="password" id="password" placeholder="your password" v-model="password">
-
-      <a href="/Cadastro">Fazer cadastro</a>
+      
+      <router-link to="/Cadastro">Fazer cadastro</router-link>
       <button @click="login()">Login</button><br>
     </div>
   </section>
@@ -28,6 +28,11 @@ export default {
       password: '',
       token:''
     }
+  },
+  created() {
+    try {
+      localStorage.removeItem('token')
+    } catch(error) {console.log(error)}
   },
   methods: {
     login(){ 
