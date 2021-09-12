@@ -19,7 +19,7 @@
         <div class="input"><textarea type="text" name="motivational" id="motivational" placeholder="Uma frase que te motica" v-model="motivational"></textarea></div>
 
         <div class="body-image">
-        <img v-if="imgSrc != ''" :src='`${hostServer}/images/clients/${imgSrc}`' alt="">
+        <img v-if="imgSrc != ''" :src='`${imgSrc}`' alt="">
         </div><!-- body-image -->
 
         <label class="custom-file-upload">

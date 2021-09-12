@@ -5,7 +5,7 @@
     <div class="form">
       <label for="body">Seu post</label>
       <div class="input"><textarea name="body" v-model="body" id="body" cols="15" rows="2" placeholder="O que você quer polemizar?"></textarea></div>
-      <img v-if="imgSrc != '' || imgSrc == undefined" :src='`${hostServer}/images/posts/${imgSrc}`' alt="">
+      <img v-if="imgSrc != '' || imgSrc == undefined" :src='`${imgSrc}`' alt="">
 
       <label class="custom-file-upload">
         <input type="file" name="image" id="image" @change="loadImage()"/>
@@ -71,8 +71,7 @@ export default {
          img: this.imgSrc,
          user: this.user,
          body: this.body
-      }, getHeader()).then(res => {
-        console.log(res)
+      }, getHeader()).then(() => {
         this.$router.push({name: 'Home'})
       }).catch(error => {
         console.log(`Erro ao registrar dados: ${error}`);

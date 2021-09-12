@@ -2,14 +2,13 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
 const app = createApp(App)
-const {hostServer} = require('./connections');
 
 app.config.globalProperties.$filters = {
   processImg(value) {
     if(value == '' || value == undefined) {
       return "/user.webp"
     }
-    return `${hostServer}/images/clients/${value}`
+    return `${value}`
   },
   processUsername: (value) => {
     if (value == '') {

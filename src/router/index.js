@@ -11,8 +11,7 @@ function authUser(to, from, next) {
   } else {
     axios.post(`${hostServer}/validate`, {}, getHeader()).then(() => {
       next();
-    }).catch(error => {
-      console.log(error);
+    }).catch(() => {
       return next('/login')
     })
   }

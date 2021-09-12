@@ -4,7 +4,7 @@
     <div class="body-image">
       <img
         v-if="postImg != '' && postImg != undefined"
-        :src='`${hostServer}/images/posts/${postImg}`'
+        :src='`${postImg}`'
         alt=""
         @load="loadImage()">
     </div>
@@ -28,7 +28,6 @@ export default {
   },
   methods: {
     loadImage() {
-      console.log('LOADAAAAAAAAA')
       this.$emit('loadImageLoading', "")
     }
   },
