@@ -72,9 +72,10 @@
           :postComment="postComment"
           @newComment="newComment()"
           :user="postComment.user"
-          :text="postComment.text"
-          :postId="post._id"
-          :commentId="postComment._id"
+          :myId="myId"
+          v-bind:text="postComment.text"
+          v-bind:postId="post._id"
+          v-bind:commentId="postComment._id"
           :imgProfile="imgProfile"/>
       </div><!-- comments -->
     </div>

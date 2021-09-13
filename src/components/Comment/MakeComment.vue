@@ -37,9 +37,8 @@ export default {
       if (this.commentId != "") {
         data.replie = this.commentId
       }
-
+      this.comment = '';
       axios.post(`${hostServer}/post/comment/${this.postId}`,data,  getHeader()).then(res => {
-        this.comment = '';
         this.$emit('newComment', res.data.id)
       })
     },
