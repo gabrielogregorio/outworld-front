@@ -54,7 +54,7 @@
     </div> 
 
     <NewPost v-if="idUser === myId && user.name !== undefined" @updatePostsEvent="updatePosts()" :img="user.img"/>
-    <BasicLoaderVue v-bind:activated="posts.length === 0"/>
+    <BasicLoaderVue v-bind:activated="loader"/>
     <div class="container-post" v-for="(post, index) in posts" :key="post._id + index">
       <Post v-bind:post="post" v-bind:myId="myId" v-bind:imgProfile="img" @updatePosts="updatePosts()" />      
     </div>
@@ -88,7 +88,8 @@ export default {
       idUser: '',
       img: '',
       user: '',
-      newText: '' 
+      newText: '',
+      loader: true
     }
   },
   async created() {
@@ -146,6 +147,7 @@ export default {
         novosPosts.push(posts.data[i])
       }
       this.posts = novosPosts;
+      this.loader = false
     }
   }
 }

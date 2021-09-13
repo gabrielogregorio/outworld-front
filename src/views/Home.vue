@@ -2,7 +2,7 @@
   <div class="container">
     <Navbar /> 
     <NewPost @updatePosts="updatePosts()" :img="img" />
-    <BasicLoaderVue v-bind:activated="posts.length === 0"/>
+    <BasicLoaderVue v-bind:activated="loader"/>
     <div v-for="(post, index) in posts" :key="post._id + index">
       <Post v-bind:post="post" v-bind:myId="myId" v-bind:imgProfile="img" @updatePosts="updatePosts()" />      
     </div>
@@ -31,7 +31,8 @@ export default {
     return {
       posts: [],
       myId: '',
-      img: ''
+      img: '',
+      loader: true
     }
   },
   watch:{
@@ -45,6 +46,7 @@ export default {
       this.img = me.data[0].img;
       this.posts = []
       this.updatePosts()
+      this.loader = false
     })
 
   },

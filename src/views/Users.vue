@@ -2,7 +2,7 @@
   <div class="container">
     <Navbar />
     <section>
-      <BasicLoaderVue v-bind:activated="users.length === 0"/>
+      <BasicLoaderVue v-bind:activated="loader"/>
       <div v-for="user in users" :key="user.id">
         <User v-if="user._id != userMe._id" :user="user" :listFollow="userMe.followingIds" @updateUsers="updateUsers()"/>
       </div>
@@ -32,7 +32,8 @@ export default {
       userMe: [],
       myid: '',
       listaUsersFollow:[],
-      usersTemp: []
+      usersTemp: [],
+      loader: true
     }
   },
    async created() {
@@ -44,6 +45,7 @@ export default {
         this.userMe = userMe.data[0];
         axios.get(`${hostServer}/users`, getHeader()).then(users => {
           this.users = users.data;
+          this.loader = false
         })
       })
     }
