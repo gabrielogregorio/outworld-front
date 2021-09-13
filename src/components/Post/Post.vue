@@ -38,6 +38,7 @@
         :class="showComment === true ? 'showComment' : ''"
         @click="toogleComment()">
           <i class="fas fa-comment-dots"></i>
+          {{countComments !== 0 ? countComments : null }}
       </button>
 
       <button
@@ -105,7 +106,8 @@ export default {
       postShared: false,
       postImg: this.post.img,
       likedByUser: false,
-      savedByUser: false
+      savedByUser: false,
+      countComments: 0
     }
   },
   props: {
@@ -117,9 +119,34 @@ export default {
   created() {   
     this.likedByUser = this.post.likedByUser
     this.savedByUser = this.post.savedByUser
+
+    this.countComments = this.counterBase(this.post.comments)
   },  
 
   methods: {
+
+    /* Funções recursivas que fiz para contar os posts*/
+    counterDeepth(comments, counter=0) {
+      if(comments === undefined || comments?.['replies'] === undefined) {
+        return counter
+      }
+      counter = counter + 1
+
+      for(let i = 0; i < comments['replies'].length; i++) {
+        counter = this.counterDeepth(comments['replies'][i], counter)
+      }
+
+      return counter  
+    },
+
+    counterBase(post_comments) {
+      let counter = 0;
+
+      for(let i = 0; i < post_comments.length; i++) {
+        counter = this.counterDeepth(post_comments[i], counter)
+      }
+      return counter
+    },
 
     loadImage() {
       this.loaded = true
