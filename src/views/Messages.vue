@@ -56,17 +56,9 @@ export default {
     }
   },
   mounted() {
-    //this.socket.on('MESSAGE', (data) => {
-    //    console.log([...this.messages, data], 'xxxxxx')
-    //});
   },
   methods: {
     sendMessage(){
-
-      //this.socket.emit('SEND_MESSAGE', {
-      //  message: this.message
-      //});
-
       if (this.message != '') {
         axios.post(`${hostServer}/message`, {
           to: this.idSendMesssage,
@@ -96,13 +88,11 @@ export default {
       })
     }
   },
-  created() { 
-    //this.socket = io(this.hostServer)
+  async created() { 
     axios.get(`${hostServer}/me`, getHeader()).then(res => {
       this.myId = res.data[0]._id
+      this.updateMessages()
     })
-
-    this.updateMessages()
   }
 }
 </script>

@@ -61,7 +61,7 @@ export default {
   components: {
     Navbar
   },
-  created() {
+  async created() {
     axios.get(`${hostServer}/me`, getHeader()).then(res => {
       this.name = res.data[0].name
       this.username = res.data[0].username

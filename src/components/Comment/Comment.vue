@@ -1,39 +1,48 @@
 <template> 
-  <div class="coments">
-    <div class="profile">
-      <img :src='$filters.processImg(userData.img)' alt=''>
-    </div><!-- profile -->
+  <div>
 
-    <div class="msg-options">
-      <div class="msg">
-        <div class="msg-name-options">
-          <p><pre>{{userData.name}} </pre></p>
-          <p><pre>{{$filters.processUsername(userData.username)}} </pre></p>
-          <!--<p><pre>Há 10 horas</pre></p> -->
-        </div><!-- msg-name-options -->
+  <BasicLoaderPurple :activated="userData.length === 0 || loader" />
 
-        <div class="msg-data">
-          <!-- <p>Economista</p>-->
-        </div><!-- msg-data -->
+    <div v-if="userData.length !== 0 || !loader" class="coments">
+      <div class="profile">
+        <img :src='$filters.processImg(userData.img)' alt=''>
+      </div><!-- profile -->
 
-        <div class="msg-body">
-          <p>{{text}}</p>
-        </div><!-- msg-body -->
-      </div><!-- msg -->
+      <div class="msg-options">
+        <div class="msg">
+          <div class="msg-name-options">
+            <p><pre>{{userData.name}} </pre></p>
+            <p><pre>{{$filters.processUsername(userData.username)}} </pre></p>
+            <!--<p><pre>Há 10 horas</pre></p> -->
+          </div><!-- msg-name-options -->
 
-      <div class="options">
-        <button><!--Curtir (10)--></button>
-        <button @click="replyComment()">Responder</button>
-        <!-- commentId, postId -->
-        <MakeComment v-if="showComment == true" :postId="postId" :commentId="commentId" @newComment="newComment()" :imgProfile="imgProfile"/>
+          <div class="msg-data">
+            <!-- <p>Economista</p>-->
+          </div><!-- msg-data -->
 
-        <div v-for="postComment in postComment.replies" :key="postComment.id" class="comments">
-          <Comment :postComment="postComment" @newComment="newComment()" :user="postComment.user" :text="postComment.text" :postId="postId" :commentId="postComment._id" :imgProfile="imgProfile"/>
-        </div><!-- comments -->
+          <div class="msg-body">
+            <p>{{text}}</p>
+          </div><!-- msg-body -->
+        </div><!-- msg -->
 
-      </div><!-- options -->
-    </div><!-- msg-options -->
-  </div><!-- coments -->
+        <div class="options">
+          <button><!--Curtir (10)--></button>
+          <button @click="replyComment()">Responder</button>
+          <!-- commentId, postId -->
+          <MakeComment v-if="showComment === true" :postId="postId" :commentId="commentId" @newComment="newComment()" :imgProfile="imgProfile"/>
+          <button v-if="counter !== 0" @click="showRepliesComments()" >Respostas {{counter}}</button>
+          <div v-if="showReplies === true" >
+            <div v-for="postComment in postComment.replies" :key="postComment.id" class="comments">
+              <Comment :postComment="postComment" @newComment="newComment()" :user="postComment.user" :text="postComment.text" :postId="postId" :commentId="postComment._id" :imgProfile="imgProfile"/>
+            </div><!-- comments -->
+          </div>
+
+        </div><!-- options -->
+      </div><!-- msg-options -->
+    </div><!-- coments -->
+
+  </div>
+
 </template>
 
 
@@ -42,23 +51,28 @@ import { hostServer } from '../../connections';
 import axios from 'axios';
 import getHeader from '../../getToken';
 import MakeComment from '../Comment/MakeComment.vue';
-
+import BasicLoaderPurple from '../Loader/BasicLoaderPurple.vue';
 export default {
   name: 'Comment',
   data(){
     return {
       hostServer: hostServer,
-      userData: '',
+      userData: [],
       showComment: false,
+      loader: true,
+      counter: 0,
+      showReplies: false
     } 
-  },
+  }, 
   components: {
-    MakeComment
-    
+    MakeComment,
+    BasicLoaderPurple
   },
-  created() {
+  async created() {
+    this.counter = this.counterDeepth(this.postComment)
     axios.get(`${this.hostServer}/user/${this.user}`, getHeader()).then(userData => {
       this.userData = userData.data[0]
+      this.loader = false
     })
   },
   props: {
@@ -71,6 +85,22 @@ export default {
   },
 
   methods:{
+        counterDeepth(comments, counter=-1) { // ignorar o proprio comentario
+          if(comments === undefined || comments?.['replies'] === undefined) {
+            return counter
+          }
+          counter = counter + 1
+
+          for(let i = 0; i < comments['replies'].length; i++) {
+            counter = this.counterDeepth(comments['replies'][i], counter)
+          }
+
+      return counter  
+    },
+
+    showRepliesComments() {
+      this.showReplies = !this.showReplies
+    },
     newComment() {
       this.$emit("newComment", "")
     },

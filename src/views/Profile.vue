@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <Navbar />
-    <div class="my-profile">
+
+    <BasicLoaderVue :activated="user.name === undefined" />
+
+    <div v-if="user.name !== undefined" class="my-profile">
       <img :src="$filters.processImg(user.img)" alt="">
 
       <div class="name-config">
@@ -41,16 +44,16 @@
             <p v-if="item.typeItem == 'work'"><i class="fas fa-heart"></i> {{item.text}}</p>
             <p v-if="item.typeItem == 'film'"><i class="fas fa-film"></i> {{item.text}}</p>
           </div>
-        </div>
+        </div><!-- work -->
       </div>
 
       <div class="menu-items">
         <button>posts</button> 
         <!--<button>amigos</button>-->
-      </div>
-    </div>
+      </div><!-- menu-items -->
+    </div> 
 
-   <NewPost v-if="idUser == myId" @updatePostsEvent="updatePosts()" :img="user.img"/>
+    <NewPost v-if="idUser === myId && user.name !== undefined" @updatePostsEvent="updatePosts()" :img="user.img"/>
     <BasicLoaderVue v-bind:activated="posts.length === 0"/>
     <div class="container-post" v-for="(post, index) in posts" :key="post._id + index">
       <Post v-bind:post="post" v-bind:myId="myId" v-bind:imgProfile="img" @updatePosts="updatePosts()" />      
@@ -68,7 +71,6 @@ import NewPost from '../components/Post/NewPost.vue';
 import Post from '../components/Post/Post.vue';
 import { hostServer } from '../connections';
 import BasicLoaderVue from '../components/Loader/BasicLoader.vue';
-
 
 export default {
   name: 'MyPosts',
@@ -89,6 +91,9 @@ export default {
       newText: '' 
     }
   },
+  async created() {
+    this.updateProfile()
+  }, 
    computed: {
     userBio() {
       if (this.user.bio != undefined) {
@@ -97,9 +102,6 @@ export default {
       return ''
     }
   },
-  created() {
-    this.updateProfile()
-  }, 
   watch:{
     $route(){
       this.updateProfile()

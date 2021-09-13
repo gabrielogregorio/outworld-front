@@ -35,7 +35,9 @@ export default {
       usersTemp: []
     }
   },
-
+   async created() {
+     this.updateUsers()
+  },
   methods: {
     updateUsers() {
       axios.get(`${hostServer}/me`, getHeader()).then(userMe => {
@@ -45,9 +47,7 @@ export default {
         })
       })
     }
-  },
-   created() {
-     this.updateUsers()
   }
+
 }
 </script>

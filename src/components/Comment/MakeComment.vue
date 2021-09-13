@@ -5,8 +5,8 @@
     </div><!-- profile -->
 
     <div class="comment">
-      <textarea type="text" name="comment" id="" v-model="comment"></textarea>
-      <button @click="sendComment()">sendComment</button>
+      <input type="text" name="comment" id="" v-model="comment"/>
+      <button @click="sendComment()"><i class="far fa-paper-plane"></i></button>
     </div><!-- comment -->
   </div><!-- new-comment -->
 </template>
@@ -73,29 +73,32 @@ export default {
   width: 100%;
   display: flex;
   justify-content: center;
+  padding: 0;
+  border: 0;
 }
 
-.comment textarea {
+.comment input {
+  padding: 2px 10px;
   width: 100%;
-  padding:  0rem 10px;
-  padding-top: 10px;
   font-size: 1rem;
-  height: auto;
   resize:none;
   background: transparent;
   outline: none;
   overflow: hidden;
-  border-radius: 20px 0 0 20px;
+  border-radius: 20px;
   border: var(--border);
 }
 
 button {
-  border-radius: 0px 20px 20px 0;
-  background: var(--primary-blue-color);
   padding: 10px 10px;
   border: none;
+  cursor: pointer;
+  background: transparent;
+  }
+button i {
+  font-size: 1.5rem;
   font-weight: 700;
   color: var(--primary-text-color);
-  cursor: pointer;
-  }
+}
+
 </style>

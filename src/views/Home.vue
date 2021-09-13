@@ -39,7 +39,7 @@ export default {
       this.updatePosts()
     }
   }, 
-  created() {
+  async created() {
     axios.get(`${hostServer}/me`, getHeader()).then(me => {
       this.myId = me.data[0]._id;
       this.img = me.data[0].img;

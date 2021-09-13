@@ -66,8 +66,8 @@
         :postId="post._id"
         @newComment="newComment()"
         :imgProfile="imgProfile"/>
-
-      <div v-for="postComment in post.comments" :key="postComment.id" class="comments">
+ 
+      <div v-for="postComment in post.comments" :key="postComment.id" class="comments"> 
         <Comment
           :postComment="postComment"
           @newComment="newComment()"
@@ -98,6 +98,7 @@ export default {
     PostProfile,
     PostBody
   },
+
   data() {
     return {
       loaded: false,
@@ -110,21 +111,21 @@ export default {
       countComments: 0
     }
   },
+
   props: {
     post: Object,
     myId: String,
     img: String,
     imgProfile: String
   },
+
   created() {   
     this.likedByUser = this.post.likedByUser
     this.savedByUser = this.post.savedByUser
-
     this.countComments = this.counterBase(this.post.comments)
   },  
 
   methods: {
-
     /* Funções recursivas que fiz para contar os posts*/
     counterDeepth(comments, counter=0) {
       if(comments === undefined || comments?.['replies'] === undefined) {
@@ -151,9 +152,11 @@ export default {
     loadImage() {
       this.loaded = true
     },
+
     toogleComment() {
       this.showComment = !this.showComment
     },
+
     openProfile(id){
       this.$router.push({
         name:"Profile",
