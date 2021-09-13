@@ -23,6 +23,20 @@
 <h3>Informações gerais</h3>
 
 
+## Ambiente de desenvolvimento vs Produção
+```
+Database
+# Ambiente local/desenvolvimento
+http://localhost:3000
+
+# Ambiente de produção
+https://api.producao.com
+
+Endereço da API
+```
+
+
+
 #### Frontend
 Para executar o frontend é preciso ter o vuecli, instalar as dependências com o comando 'yarn install' e executar o comando 'yarn serve' para colocar a aplicação no ar.
 
