@@ -14,7 +14,7 @@
         </router-link>
 
         <router-link to="/Login">
-          <i class="fas fa-sign-out-alt"></i>
+          <i v-if="idUser == myId" class="fas fa-sign-out-alt"></i>
         </router-link>
       </div>
       

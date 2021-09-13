@@ -8,7 +8,7 @@
       <div class="info-user-perfil">
         <div class="info-user-superior">
           <h2 @click="openProfile(user._id)" >{{user.name}}</h2>
-          <p @click="openProfile(user._id)" class="info-username">@user</p>
+          <p @click="openProfile(user._id)" class="info-username">@{{user.username}}</p>
           <button class="buttonDefault activeButtonDefault" v-if="listFollow.includes(user._id) == true" @click="followPerson()">Seguindo</button>
           <button class="buttonDefault" v-else @click="followPerson()">Seguir</button>
         </div><!-- info-user-superior -->
@@ -38,7 +38,7 @@ export default {
     },
     openProfile(id) {
       this.$router.push({
-        path:"/Profile",
+        path:"/ProfileUser",
         query: {id}
       })    
     }

@@ -2,12 +2,14 @@
   <section>
     <div class="form container">
       <h1>Fazer login</h1>
+
+      <span v-if="errorMsg !== ''" >{{errorMsg}}</span>
  
       <label for="email">E-mail: </label>
-      <input type="email" name="email" id="email" placeholder="your email" v-model="email">
+      <input type="email" name="email" id="email" placeholder="Digite seu e-mail" v-model="email">
 
       <label for="password">Password: </label>
-      <input type="password" name="password" id="password" placeholder="your password" v-model="password">
+      <input type="password" name="password" id="password" placeholder="Digite sua senha" v-model="password">
       
       <router-link to="/Cadastro">Fazer cadastro</router-link>
       <button @click="login()">Login</button><br>
@@ -26,7 +28,8 @@ export default {
     return {
       email: '',
       password: '',
-      token:''
+      token:'',
+      errorMsg: ''
     }
   },
   created() {
@@ -43,10 +46,27 @@ export default {
         localStorage.setItem('token', res.data.token)
         this.$router.push({name: 'Home'})
       }).catch(error =>{
-        console.log(error)
-        alert(error)
+        if(error.response.status === 404) {
+          this.errorMsg = 'Usuário não cadastrado no sistema'
+        }else if(error.response.status === 403) {
+          this.errorMsg = 'Senha Inválida'
+        } else {
+          this.errorMsg = 'Pane no sistema! Alguém me desconfigurou!'
+        }
       })
     }
   }
 }
 </script>
+
+
+<style scoped>
+span {
+  margin-top: 10px;
+  padding: 10px;
+  background: #470c8a;
+  color:white;
+  border-radius: 5px;
+  text-align: center;
+}
+</style>

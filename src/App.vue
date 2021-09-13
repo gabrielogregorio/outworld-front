@@ -12,13 +12,13 @@
   --primary-purple-color: rgb(137, 29, 199);
   --primary-orange-color: rgb(252, 148, 50);
   --primary-nigth-color: #3a3b3c;
-  --primary-danger-color: rgba(255, 255, 255, 0.966);
+  --primary-danger-color: rgba(255, 255, 255, 255);
   --background-body: #470c8a;
   --background-body-transparent: #ffffff;
   --primary-background: #008a7e;
   --secundary-background: #009c8f;
   --primary-text-color: #ffffff;
-  --secundary-text-color: rgb(212, 212, 212);
+  --secundary-text-color: rgb(240, 240, 240);
 }
 
 * {

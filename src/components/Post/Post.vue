@@ -160,7 +160,7 @@ export default {
 
     openProfile(id){
       this.$router.push({
-        name:"Profile",
+        name:"ProfileUser",
         query: {id}
       })    
     },
