@@ -121,6 +121,8 @@ export default {
   },
 
   created() {   
+
+    console.log(this.img, this.imgProfile)
     this.likedByUser = this.post.likedByUser
     this.savedByUser = this.post.savedByUser
     this.countComments = this.counterBase(this.post.comments)
@@ -160,7 +162,7 @@ export default {
 
     openProfile(id){
       this.$router.push({
-        name:"ProfileUser",
+        name:"Profile",
         query: {id}
       })    
     },

@@ -130,11 +130,12 @@ export default {
       if (this.$route.query.id != undefined) { idUrl = this.$route.query.id }
       let posts = await axios.get(`${hostServer}/posts/user/${idUrl}`, getHeader())
       for (let i=0; i<posts.data.length; i++) {
-          
         if (posts.data[i].sharePost != undefined) {
+
           try {
             var data = await axios.get(`${hostServer}/post/${posts.data[i].sharePost}`, getHeader())
             posts.data[i].sharePost = data.data[0]
+
           } catch(error) {
             if (error.message == 'Request failed with status code 404') {
               // Post original excluido!

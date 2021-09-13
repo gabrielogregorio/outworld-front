@@ -38,7 +38,7 @@ export default {
     },
     openProfile(id) {
       this.$router.push({
-        path:"/ProfileUser",
+        path:"/Profile",
         query: {id}
       })    
     }

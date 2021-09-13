@@ -56,16 +56,16 @@ export default {
       let rota = '/posts';
       if (this.$route.query.archive == 'true') {rota = '/post/list/save/'}
       let posts = await axios.get(`${hostServer}${rota}`, getHeader())
+
       for (let i=0; i<posts.data.length; i++) {
-          
         if (posts.data[i].sharePost != undefined) {
           try {
             let data = await axios.get(`${hostServer}/post/${posts.data[i].sharePost}`, getHeader())
             posts.data[i].sharePost = data.data[0]
-          } catch(error) {
-            if (error.message == 'Request failed with status code 404') {
-              // Post original excluido!
+          } catch(error) { 
+            if(error.response.status === 404) {
               posts.data[i].sharePost = undefined
+
             }
           }
         }
