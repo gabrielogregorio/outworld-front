@@ -80,11 +80,11 @@ span {
 
 @keyframes viewError {
   0%{
-      background: #470c8a11;
+    background: #470c8a11;
   }
 
   100% {
-  background: #470c8aff;
+    background: #470c8aff;
   }
 }
 

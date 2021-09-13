@@ -27,6 +27,7 @@ export default {
         text: ''
     }
   },
+
   methods: {
     cancelModal() {
       this.$emit('cancelModel', '')
@@ -35,9 +36,11 @@ export default {
       this.$emit('updateModel', {})
     }
   },
+
   created() {
     this.text = this.textModal;
   },
+
   props: {
     titleModal:String,
     textModal: String
@@ -69,7 +72,7 @@ export default {
   width: 100%;
 }
 
-.modal-item-title p{
+.modal-item-title p {
   font-size: 2rem;
   width: 100%;
   font-weight: 700;
