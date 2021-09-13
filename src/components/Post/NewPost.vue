@@ -9,8 +9,8 @@
         <div class="info-post-perfil">
           <textarea class="body-post" name="body" v-model="body" id="bod" cols="15" rows="2" placeholder="Sobre o que você quer conversar?"></textarea>
           <div class="body-image">
-            <div v-id="loadingImage === true">Loading</div>
-            <img v-if="imgSrc != ''" :src='`${imgSrc}`' alt="">
+            <div v-if="loadingImage === true">Loading</div>
+            <img v-if="imgSrc !== '' && imgSrc !== undefined" :src='`${imgSrc}`' alt="">
           </div><!-- body-image -->
 
           <div class="botao-postar">
