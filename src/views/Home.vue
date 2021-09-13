@@ -2,12 +2,12 @@
   <div class="container">
     <Navbar /> 
     <NewPost @updatePosts="updatePosts()" :img="img" />
+    <BasicLoaderVue v-bind:activated="posts.length === 0"/>
     <div v-for="(post, index) in posts" :key="post._id + index">
       <Post v-bind:post="post" v-bind:myId="myId" v-bind:imgProfile="img" @updatePosts="updatePosts()" />      
     </div>
   </div>
 </template>
-
 <script>
 import axios from 'axios';
 import getHeader from '../getToken';
@@ -15,12 +15,16 @@ import NewPost from '../components/Post/NewPost.vue';
 import Navbar from '../components/Navbar.vue';
 import Post from '../components/Post/Post.vue';
 import { hostServer } from '../connections';
+import BasicLoaderVue from '../components/Loader/BasicLoader.vue';
+
+
 
 export default {
   name: 'Home',
   components: {
     NewPost,
     Post,
+    BasicLoaderVue,
     Navbar
   },
   data() {
@@ -35,13 +39,14 @@ export default {
       this.updatePosts()
     }
   }, 
-  async created() {
-    let me = await axios.get(`${hostServer}/me`, getHeader())
-    this.myId = me.data[0]._id;
-    this.img = me.data[0].img;
-    this.posts = []
+  created() {
+    axios.get(`${hostServer}/me`, getHeader()).then(me => {
+      this.myId = me.data[0]._id;
+      this.img = me.data[0].img;
+      this.posts = []
+      this.updatePosts()
+    })
 
-   this.updatePosts()
   },
 
   methods: {
@@ -73,5 +78,3 @@ export default {
 </script>
 
 
-<style scoped>
-</style>

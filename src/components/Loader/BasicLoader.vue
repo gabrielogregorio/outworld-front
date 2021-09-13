@@ -1,39 +1,49 @@
 <template> 
-  <div class="loader"></div>
+  <div v-if="activated === true" class="loading-posts">
+    <div></div>
+  </div>
 </template>
 
 <script>
-
 export default {
   name: 'BasicLoader',
-  data() {
-  },
+  components: {},
   props: {
-    width: Number,
-    minWidth: Number,
-    height: Number,
-    minHeight: Number
-  },
-  create() {},
-  methods: {
+    activated: Boolean
   }
 }
 </script>
 
 
 <style scoped>
-.loader {
-  display: block;
-  min-height: 100px;
-  min-width: 100px;
+.loading-posts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 900px;
   width: 100%;
-  height: 100%;
-  box-shadow: inset 0 0 7px 2px #00000055;
-  animation: loader alternate 1s ease-in-out infinite;
+  min-height: 50px;
+  margin: 0;
+  border: 0;
+  padding: 10px 0;
 }
 
-@keyframes loader {
-  0% {background-color: #00000022;}
-  100% {background-color: #00000099;}
+.loading-posts div {
+  border: 5px solid transparent;
+  border-top: 5px solid var(--primary-background);
+  border-left: 5px solid var(--primary-background);
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  animation: loading 1s linear infinite;
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

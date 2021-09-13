@@ -51,7 +51,7 @@
     </div>
 
    <NewPost v-if="idUser == myId" @updatePostsEvent="updatePosts()" :img="user.img"/>
-
+    <BasicLoaderVue v-bind:activated="posts.length === 0"/>
     <div class="container-post" v-for="(post, index) in posts" :key="post._id + index">
       <Post v-bind:post="post" v-bind:myId="myId" v-bind:imgProfile="img" @updatePosts="updatePosts()" />      
     </div>
@@ -67,12 +67,14 @@ import getHeader from '../getToken';
 import NewPost from '../components/Post/NewPost.vue';
 import Post from '../components/Post/Post.vue';
 import { hostServer } from '../connections';
+import BasicLoaderVue from '../components/Loader/BasicLoader.vue';
 
 
 export default {
   name: 'MyPosts',
   components: {
     NewPost,
+    BasicLoaderVue,
     Post,
     Navbar
   },

@@ -2,6 +2,7 @@
   <div class="container">
     <Navbar />
     <section>
+      <BasicLoaderVue v-bind:activated="users.length === 0"/>
       <div v-for="user in users" :key="user.id">
         <User v-if="user._id != userMe._id" :user="user" :listFollow="userMe.followingIds" @updateUsers="updateUsers()"/>
       </div>
@@ -15,12 +16,14 @@ import Navbar from '../components/Navbar.vue';
 import getHeader from '../getToken';
 import User from '../components/User/User.vue'
 import { hostServer } from '../connections';
+import BasicLoaderVue from '../components/Loader/BasicLoader.vue';
 
 
 export default {
   name: 'Users',
   components: {
     Navbar,
+    BasicLoaderVue,
     User
   },
   data() {
