@@ -1,6 +1,7 @@
 <template>
+<div class="login-cadastro">
   <section>
-   <div v-if="activated === true"  class="form container">
+   <div v-if="activated === true"  class="form container-500">
      <h1>Criando a conta</h1>
      <div class="loading-posts">
        <div></div>
@@ -8,27 +9,29 @@
    </div>
 
 
-   <div v-if="activated === false"  class="form container">
+   <div v-if="activated === false"  class="form container-500">
       <h1>Criar conta</h1>
+      <h2>Está preparado para experimentar uma nova experiência?</h2>
 
       <span v-if="errorMsg !== ''" >{{errorMsg}}</span>
 
-      <label for="name">Seu nome </label>
+      <label for="name">Seu nome e sobrenome</label>
       <input type="name" name="name" id="name" placeholder="Seu nome" v-model="name">
 
-      <label for="email">E-mail: </label>
+      <label for="email">Seu e-mail: </label>
       <input type="email" name="email" id="email" placeholder="Seu e-mail" v-model="email">
 
-      <label for="username">Username:</label>
+      <label for="username">Um nome de usuário:</label>
       <input type="text" name="username" id="username" placeholder="Um nome de usuario" v-model="username">
 
-      <label for="password">Password: </label>
+      <label for="password">Uma senha: </label>
       <input type="password" name="password" id="password" placeholder="Uma senha" v-model="password">
   
-      <router-link to="/Login">Fazer login</router-link>
+      <router-link to="/Login">Ja tenho uma conta, fazer login</router-link>
       <button @click="cadastrar()">Cadastrar</button><br>
     </div>
   </section>
+  </div>
 </template>
 
 <script>

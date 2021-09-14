@@ -31,6 +31,4 @@ export default {
     color: var(--background-body)
   }
 }
-
-
 </style>

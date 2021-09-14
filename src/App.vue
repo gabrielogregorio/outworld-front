@@ -32,7 +32,7 @@
   font-size: 16px;
   font-weight: 500;
   color: var(--primary-text-color);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', Verdana, Arial , Tahoma, sans-serif;
 }
 
 /* Solução para remover a cor que o Google chrome coloca nos campos após serem preenchidos com o autocomplete
@@ -76,6 +76,21 @@ section {
   margin: 0 auto;
 }
 
+.container-500 {
+    box-shadow: 0px 0px 19px -1px var(--primary-nigth-shadow);
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.login-cadastro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 50px 0;
+}
+
 .message-container {
   height: 100vh;
   box-shadow: 0px 0px 19px -1px var(--primary-nigth-shadow);
@@ -116,7 +131,6 @@ img {
 .form { 
   display: flex;
   flex-direction: column;
-  max-width: 900px;
   width: 100%;
   padding: 50px;
   margin: 0 auto;
@@ -143,7 +157,15 @@ form .novo-post-imagem img {
 
 .form h1 {
   font-weight: 700;
-  font-size: 24px;
+  font-size: 2rem;
+  text-align: center;
+  padding: 10px 0;
+  color: var(--primary-text-color);
+}
+
+.form h2 {
+  font-weight: 400;
+  font-size: 18px;
   text-align: center;
   color: var(--primary-text-color);
 }
@@ -151,8 +173,8 @@ form .novo-post-imagem img {
 .form a {
   display: block;
   color: var(--primary-text-color);
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .form label {

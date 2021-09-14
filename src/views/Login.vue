@@ -1,14 +1,16 @@
 <template>
+<div class="login-cadastro">
   <section>
-   <div v-if="activated === true"  class="form container">
+   <div v-if="activated === true"  class="form container-500">
      <h1>Fazendo Login</h1>
      <div class="loading-posts">
        <div></div>
      </div>
    </div> 
 
-   <div v-if="activated === false"  class="form container">
+   <div v-if="activated === false" class="form container-500">
       <h1>Fazer login</h1>
+      <h2>Uma rede social diferente</h2>
         <span v-if="errorMsg !== ''" >{{errorMsg}}</span>
 
         <label for="email">E-mail: </label>
@@ -16,11 +18,13 @@
 
         <label for="password">Password: </label>
         <input type="password" name="password" id="password" placeholder="Digite sua senha" v-model="password">
-        
-        <router-link to="/Cadastro">Fazer cadastro</router-link>
+
+        <router-link to="/Cadastro">Criar uma conta</router-link>
+
         <button @click="login()">Login</button><br>
       </div>
   </section>
+</div>
 </template>
 
 
@@ -70,6 +74,7 @@ export default {
 
 
 <style scoped>
+
 span {
   margin-top: 10px;
   padding: 10px;

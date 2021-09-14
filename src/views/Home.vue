@@ -2,7 +2,6 @@
   <div class="container">
     <Navbar /> 
     <Posts v-bind:myId="myId" v-bind:img="img" />
-
   </div>
 </template>
 <script>
