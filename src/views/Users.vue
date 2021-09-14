@@ -37,16 +37,16 @@ export default {
     }
   },
    async created() {
-     this.updateUsers()
+      axios.get(`${hostServer}/me`, getHeader()).then(userMe => {
+        this.userMe = userMe.data[0];
+        this.updateUsers()
+      })
   },
   methods: {
     updateUsers() {
-      axios.get(`${hostServer}/me`, getHeader()).then(userMe => {
-        this.userMe = userMe.data[0];
-        axios.get(`${hostServer}/users`, getHeader()).then(users => {
-          this.users = users.data;
-          this.loader = false
-        })
+      axios.get(`${hostServer}/users`, getHeader()).then(users => {
+        this.users = users.data;
+        this.loader = false
       })
     }
   }
