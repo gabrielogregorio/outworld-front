@@ -43,11 +43,9 @@ nav {
   padding: 0 30px;
 }
 
-
 nav div a{
   color: var(--secundary-text-color);
   text-transform: uppercase;
-
 }
 
 nav div i{

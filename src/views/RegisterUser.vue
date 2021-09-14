@@ -71,8 +71,8 @@ export default {
 span {
   margin-top: 10px;
   padding: 10px;
-  background: #470c8a;
-  color:white;
+  background: var(--border-color);
+  color:var(--primary-text-color);
   border-radius: 5px;
   text-align: center;
   animation: viewError 1s ease-out;
@@ -80,11 +80,11 @@ span {
 
 @keyframes viewError {
   0%{
-    background: #470c8a11;
+    background: var(--border-color);
   }
 
   100% {
-    background: #470c8aff;
+    background: var(--border-color-opacity);
   }
 }
 

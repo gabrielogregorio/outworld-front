@@ -46,7 +46,6 @@ export default {
       this.img = me.data[0].img;
       this.posts = []
       this.updatePosts()
-      this.loader = false
     })
 
   },
@@ -74,6 +73,7 @@ export default {
         novosPosts.push(posts.data[i])
       }
       this.posts = novosPosts;
+      this.loader = false
     }
   }
 }

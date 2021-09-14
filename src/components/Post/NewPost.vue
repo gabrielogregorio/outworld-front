@@ -9,7 +9,7 @@
         <div class="info-post-perfil">
           <textarea class="body-post" name="body" v-model="body" id="bod" cols="15" rows="2" placeholder="Sobre o que você quer conversar?"></textarea>
           <div class="body-image">
-            <div v-if="loadingImage === true">Loading</div>
+            <BasicLoadingImage v-bind:activated="loadingImage"/>
             <img v-if="imgSrc !== '' && imgSrc !== undefined" :src='`${imgSrc}`' alt="">
           </div><!-- body-image -->
 
@@ -31,10 +31,14 @@
 import axios from 'axios'
 import getHeader from '../../getToken';
 import { hostServer } from '../../connections';
+import BasicLoadingImage from '../Loader/BasicLoadingImage.vue';
 
 
 export default {
   name: 'NewPost',
+  components: {
+    BasicLoadingImage
+  },
   data() {
     return {
       body: '',
@@ -61,8 +65,9 @@ export default {
       }
       axios.post(`${hostServer}/postLoadFile`, formData, { headers }, ).then(res => {
         this.imgSrc = res.data.file;
-      }).catch(error => {
-        console.log(`Erro ao registrar dados: ${error}`);
+        this.loadingImage = false
+      }).catch(() => {
+        this.loadingImage = false
       })
     },
     createPost() {
@@ -86,6 +91,7 @@ export default {
 
 
 <style scoped>
+
 div.container-post {
   display: flex;
   max-width: 900px;

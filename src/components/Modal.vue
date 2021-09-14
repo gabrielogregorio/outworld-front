@@ -51,7 +51,7 @@ export default {
 <style scoped>
 .modal {
   position: fixed;
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--border-color-opacity);
   width: 100%;
   height: 100%;
   top: 0;
@@ -65,7 +65,7 @@ export default {
   background: var(--primary-background);
   padding: 40px;
   border-radius: 10px;
-  box-shadow: 0 0 5px 1px #111;
+  box-shadow: 0 0 5px 1px var(--primary-nigth-color);
 }
 
 .modal-item-title {
@@ -77,7 +77,7 @@ export default {
   width: 100%;
   font-weight: 700;
   text-align: left;
-  color: white;
+  color: var(--primary-text-color);
 }
 
 .modal-item textarea {
@@ -85,7 +85,7 @@ export default {
   width: 100%;
   padding: 10px;
   font-size: 1.1rem;
-  color: white;
+  color: var(--primary-text-color);
   outline: none;
   margin: 10px 0;
   resize: none;
@@ -107,13 +107,13 @@ export default {
 
 .modal-item-button button:nth-child(1) {
   background: var(--primary-background);
-  color: white;
+  color: var(--primary-text-color);
   border: var(--border);
 }
 
 .modal-item-button button:nth-child(2) {
   background: var(--primary-blue-color);
   border: var(--border);
-  color: white;
+  color: var(--primary-text-color);
 }
 </style>

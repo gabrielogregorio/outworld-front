@@ -5,21 +5,27 @@
 </template>
 
 <style>
+
 :root { 
   --border-color: #470c8a;
+  --border-color-opacity: #470c8a11;
   --border: 1px solid var(--border-color);
   --primary-blue-color: rgb(0, 89, 161);
   --primary-purple-color: rgb(137, 29, 199);
   --primary-orange-color: rgb(252, 148, 50);
   --primary-nigth-color: #3a3b3c;
+  --primary-nigth-shadow: rgba(0,0,0,0.3);
   --primary-danger-color: rgba(255, 255, 255, 255);
   --background-body: #470c8a;
+  --background-body-button: #470c8a;
   --background-body-transparent: #ffffff;
   --primary-background: #008a7e;
   --secundary-background: #009c8f;
   --primary-text-color: #ffffff;
-  --secundary-text-color: rgb(240, 240, 240);
+  --secundary-text-color: #ffffffaa;
 }
+
+
 
 * {
   margin: 0;
@@ -55,6 +61,7 @@ body {
   overflow-y: scroll;
   height: 100%;
   display: flex;
+  align-content: center;
   flex-direction: column;
 }
 
@@ -65,7 +72,7 @@ section {
 }
 
 .container {
-  box-shadow: 0px 0px 19px -1px rgba(0,0,0,0.3);
+  box-shadow: 0px 0px 19px -1px var(--primary-nigth-shadow);
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
@@ -73,14 +80,13 @@ section {
 
 .message-container {
   height: 100vh;
-  box-shadow: 0px 0px 19px -1px rgba(0,0,0,0.3);
+  box-shadow: 0px 0px 19px -1px var(--primary-nigth-shadow);
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: red;
 }
 
 .novo-post-imagem img{
@@ -99,12 +105,12 @@ section {
 }
 
 .activeButtonDefault {
-  background: var(--background-body);
+  background: var(--background-body-button);
   border: 1px solid transparent;
 }
 
 img {
-  box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 1px 1px var(--primary-nigth-shadow);
 }
 /* Fim layout geral e itens */
 
@@ -180,7 +186,7 @@ form .novo-post-imagem img {
   margin: 10px 0;
   padding: 10px 0;
   cursor: pointer;
-  background-color: var(--background-body);
+  background-color: var(--background-body-button);
   border: none;
   color: var(--primary-text-color);
   transition: 0.2s;
@@ -216,13 +222,10 @@ input[type="file"] {
  
 .input {
   width: 100%;
-  background: linear-gradient(45deg, #470c8a, rgb(137, 29, 199));
+  background: linear-gradient(45deg, var(--border-color), var(--primary-purple-color));
   width: 100%;
   height: 100%;
   padding: 1px;
-}
-.input::placeholder {
-  color: var(--secundary-text-color);
 }
 
 .input input {
@@ -237,10 +240,14 @@ input[type="file"] {
   border: 3px solid transparent;
 }
 
-.form textarea::placeholder {
+
+.input input::placeholder {
   color: var(--secundary-text-color);
 }
 
+.form textarea::placeholder {
+  color: var(--secundary-text-color);
+}
 /* Layout dos formulários */
 
 /* Configurações de perfil */

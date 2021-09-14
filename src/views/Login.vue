@@ -1,19 +1,25 @@
 <template>
   <section>
-    <div class="form container">
+   <div v-if="activated === true"  class="form container">
+     <h1>Fazendo Login</h1>
+     <div class="loading-posts">
+       <div></div>
+     </div>
+   </div>
+
+   <div v-if="activated === false"  class="form container">
       <h1>Fazer login</h1>
+        <span v-if="errorMsg !== ''" >{{errorMsg}}</span>
 
-      <span v-if="errorMsg !== ''" >{{errorMsg}}</span>
- 
-      <label for="email">E-mail: </label>
-      <input type="email" name="email" id="email" placeholder="Digite seu e-mail" v-model="email">
+        <label for="email">E-mail: </label>
+        <input type="email" name="email" id="email" placeholder="Digite seu e-mail" v-model="email">
 
-      <label for="password">Password: </label>
-      <input type="password" name="password" id="password" placeholder="Digite sua senha" v-model="password">
-      
-      <router-link to="/Cadastro">Fazer cadastro</router-link>
-      <button @click="login()">Login</button><br>
-    </div>
+        <label for="password">Password: </label>
+        <input type="password" name="password" id="password" placeholder="Digite sua senha" v-model="password">
+        
+        <router-link to="/Cadastro">Fazer cadastro</router-link>
+        <button @click="login()">Login</button><br>
+      </div>
   </section>
 </template>
 
@@ -29,7 +35,8 @@ export default {
       email: '',
       password: '',
       token:'',
-      errorMsg: ''
+      errorMsg: '',
+      activated: false
     }
   },
   created() {
@@ -39,6 +46,7 @@ export default {
   },
   methods: {
     login(){ 
+      this.activated = true
       axios.post(`${hostServer}/auth`, {
         email: this.email,
         password: this.password
@@ -46,6 +54,7 @@ export default {
         localStorage.setItem('token', res.data.token)
         this.$router.push({name: 'Home'})
       }).catch(error =>{
+        this.activated = false
         if(error.response.status === 404) {
           this.errorMsg = 'Usuário não cadastrado no sistema'
         }else if(error.response.status === 403) {
@@ -64,9 +73,46 @@ export default {
 span {
   margin-top: 10px;
   padding: 10px;
-  background: #470c8a;
-  color:white;
+  background: var(--border-color);
+  color:var(--primary-text-color);
   border-radius: 5px;
   text-align: center;
+}
+
+
+
+
+
+
+
+.loading-posts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 900px;
+  width: 100%;
+  min-height: 50px;
+  margin: 0;
+  border: 0;
+  padding: 10px 0; 
+}
+ 
+.loading-posts div {
+  border: 5px solid transparent;
+  border-top: 5px solid var(--background-body);
+  border-left: 5px solid var(--background-body);
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  animation: loading 1s linear infinite;
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

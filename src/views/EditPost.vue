@@ -66,7 +66,6 @@ export default {
       })
     },
     updateItens() {
-
       axios.put(`${hostServer}/post/${this.$route.query.id}`, {
          img: this.imgSrc,
          user: this.user,

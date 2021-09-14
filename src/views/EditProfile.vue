@@ -19,7 +19,8 @@
         <div class="input"><textarea type="text" name="motivational" id="motivational" placeholder="Uma frase que te motica" v-model="motivational"></textarea></div>
 
         <div class="body-image">
-        <img v-if="imgSrc != ''" :src='`${imgSrc}`' alt="">
+          <BasicLoadingImage v-bind:activated="loadingImage"/>
+          <img v-if="imgSrc != ''" :src='`${imgSrc}`' alt="">
         </div><!-- body-image -->
 
         <label class="custom-file-upload">
@@ -42,9 +43,11 @@ import axios from 'axios'
 import getHeader from '../getToken';
 import Navbar from '../components/Navbar.vue';
 import { hostServer } from '../connections';
+import BasicLoadingImage from '../components/Loader/BasicLoadingImage.vue';
  
 export default {
   name: "EditProfile",
+  
   data() {
     return {
       imgSrc: '',
@@ -55,11 +58,13 @@ export default {
       id: '',
       bio: '',
       motivational: '',
-      hostServer:hostServer
+      hostServer:hostServer,
+      loadingImage:false
     }
   },
   components: {
-    Navbar
+    Navbar,
+    BasicLoadingImage
   },
   async created() {
     axios.get(`${hostServer}/me`, getHeader()).then(res => {
@@ -75,20 +80,22 @@ export default {
   },
   methods: {
      loadImage() {
-      let formData = new FormData();
-      let image = document.querySelector("#image");
+        this.loadingImage = true
+        let formData = new FormData();
+        let image = document.querySelector("#image");
 
-      formData.append("image", image.files[0]);
+        formData.append("image", image.files[0]);
 
-      let headers  = {
-        "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
-        Authorization:getHeader().headers.Authorization
-      }
-      axios.post(`${hostServer}/userLoadFile`, formData, { headers }, ).then(res => {
-        this.imgSrc = res.data.file;
-      }).catch(error => {
-        console.log(`Erro ao registrar dados: ${error}`);
-      })
+        let headers  = {
+          "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+          Authorization:getHeader().headers.Authorization
+        }
+        axios.post(`${hostServer}/userLoadFile`, formData, { headers }, ).then(res => {
+          this.imgSrc = res.data.file;
+          this.loadingImage = false
+        }).catch(() => {
+          this.loadingImage = false
+        })
     },
 
     updateItens() {
@@ -122,6 +129,4 @@ export default {
   object-fit: cover;
   cursor: pointer;
 }
-
-
 </style>

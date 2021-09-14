@@ -17,7 +17,6 @@ function authUser(to, from, next) {
   }
 }
 
-
 const router = createRouter({
   history: createWebHistory(),
 	routes: [
@@ -32,14 +31,12 @@ const router = createRouter({
     component: Home,
     beforeEnter: authUser,
   },
-
   {
     path: '/Save',
     name: 'Save',
     component: Home,
     beforeEnter: authUser,
   },
-  
   {
     path: '/',
     name: 'Redirect',
@@ -82,6 +79,5 @@ const router = createRouter({
     beforeEnter: authUser,
   }
 ]})
-
 
 export default router

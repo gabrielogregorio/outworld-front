@@ -121,8 +121,6 @@ export default {
   },
 
   created() {   
-
-    console.log(this.img, this.imgProfile)
     this.likedByUser = this.post.likedByUser
     this.savedByUser = this.post.savedByUser
     this.countComments = this.counterBase(this.post.comments)
@@ -216,6 +214,7 @@ div.container-post {
 div.hidden {
   display: none;
 }
+
 .options-post {
   margin: 10px 0;
   display: flex;
@@ -265,7 +264,7 @@ div.hidden {
 }
 
 .body-border-share {
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 1px solid var(--border-color-opacity);
   width: 100%;
   padding-bottom: 20px;
 }
