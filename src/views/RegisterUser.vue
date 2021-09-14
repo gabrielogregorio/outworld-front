@@ -1,6 +1,14 @@
 <template>
   <section>
-    <div class="form container">
+   <div v-if="activated === true"  class="form container">
+     <h1>Criando a conta</h1>
+     <div class="loading-posts">
+       <div></div>
+     </div>
+   </div>
+
+
+   <div v-if="activated === false"  class="form container">
       <h1>Criar conta</h1>
 
       <span v-if="errorMsg !== ''" >{{errorMsg}}</span>
@@ -36,12 +44,14 @@ export default {
       email: '',
       password: '',
       username: '',
-      errorMsg: ''
+      errorMsg: '',
+      activated: false
     }
   },
 
   methods: {
     cadastrar() {
+      this.activated = true
       let data = {
         name: this.name,
         email: this.email,
@@ -53,6 +63,7 @@ export default {
         localStorage.setItem('token', res.data.token)
         this.$router.push({name: 'Home'})
       }).catch(error => {
+        this.activated = false
         if(error.response.status === 400) {
           this.errorMsg = 'Você precisa preencher todos os campos'
         } else if(error.response.status === 409) {
@@ -68,6 +79,7 @@ export default {
 
 
 <style scoped>
+
 span {
   margin-top: 10px;
   padding: 10px;
@@ -75,20 +87,36 @@ span {
   color:var(--primary-text-color);
   border-radius: 5px;
   text-align: center;
-  animation: viewError 1s ease-out;
 }
 
-@keyframes viewError {
-  0%{
-    background: var(--border-color);
-  }
+.loading-posts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 900px;
+  width: 100%;
+  min-height: 50px;
+  margin: 0;
+  border: 0;
+  padding: 10px 0; 
+}
+ 
+.loading-posts div {
+  border: 5px solid transparent;
+  border-top: 5px solid var(--background-body);
+  border-left: 5px solid var(--background-body);
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  animation: loading 1s linear infinite;
+}
 
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
   100% {
-    background: var(--border-color-opacity);
+    transform: rotate(360deg);
   }
 }
-
-
-
-
 </style>

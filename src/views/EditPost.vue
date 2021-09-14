@@ -40,7 +40,7 @@ export default {
   components: {
     Navbar
   },
-  async created() {
+  created() {
     axios.get(`${hostServer}/post/${this.$route.query.id}`, getHeader()).then(res => {
       this.body = res.data[0].body
       this.img = res.data[0].img

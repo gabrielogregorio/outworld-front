@@ -5,7 +5,7 @@
      <div class="loading-posts">
        <div></div>
      </div>
-   </div>
+   </div> 
 
    <div v-if="activated === false"  class="form container">
       <h1>Fazer login</h1>
@@ -78,12 +78,6 @@ span {
   border-radius: 5px;
   text-align: center;
 }
-
-
-
-
-
-
 
 .loading-posts {
   display: flex;

@@ -53,11 +53,7 @@
       </div><!-- menu-items -->
     </div> 
 
-    <NewPost v-if="idUser === myId && user.name !== undefined" @updatePostsEvent="updatePosts()" :img="user.img"/>
-    <BasicLoaderVue v-bind:activated="loader"/>
-    <div class="container-post" v-for="(post, index) in posts" :key="post._id + index">
-      <Post v-bind:post="post" v-bind:myId="myId" v-bind:imgProfile="img" @updatePosts="updatePosts()" />      
-    </div>
+    <Posts v-bind:myId="myId" v-bind:img="img" />
 
   </div>
 </template>
@@ -67,29 +63,25 @@
 import axios from 'axios';
 import Navbar from '../components/Navbar.vue';
 import getHeader from '../getToken';
-import NewPost from '../components/Post/NewPost.vue';
-import Post from '../components/Post/Post.vue';
 import { hostServer } from '../connections';
 import BasicLoaderVue from '../components/Loader/BasicLoader.vue';
+import Posts from './Posts.vue';
+
 
 export default {
   name: 'MyPosts',
   components: {
-    NewPost,
     BasicLoaderVue,
-    Post,
+    Posts,
     Navbar
   },
   data() {
     return {
-      posts: [],
-      hostServer:hostServer,
+      hostServer,
       myId: '',
       idUser: '',
       img: '',
-      user: '',
-      newText: '',
-      loader: true
+      user: ''
     }
   },
   async created() {
@@ -122,32 +114,6 @@ export default {
         this.idUser = me.data[0]._id
         this.user = me.data[0];
       }
-
-      this.updatePosts()
-    },
-    async updatePosts() { 
-      let novosPosts = []
-      var idUrl = this.myId;
-      if (this.$route.query.id != undefined) { idUrl = this.$route.query.id }
-      let posts = await axios.get(`${hostServer}/posts/user/${idUrl}`, getHeader())
-      for (let i=0; i<posts.data.length; i++) {
-        if (posts.data[i].sharePost != undefined) {
-
-          try {
-            var data = await axios.get(`${hostServer}/post/${posts.data[i].sharePost}`, getHeader())
-            posts.data[i].sharePost = data.data[0]
-
-          } catch(error) {
-            if (error.message == 'Request failed with status code 404') {
-              // Post original excluido!
-              posts.data[i].sharePost = undefined
-            }
-          }
-        }
-        novosPosts.push(posts.data[i])
-      }
-      this.posts = novosPosts;
-      this.loader = false
     }
   }
 }

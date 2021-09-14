@@ -22,7 +22,7 @@
         </div><!-- message -->
  
         <div class="send-messages">
-          <input class="input" v-model="message" type="text" name="" id="" placeholder="Sua mensagem">
+          <div class="input"><input v-model="message" type="text" placeholder="Sua mensagem"></div>
           <button  @click="sendMessage()">Enviar <i class="fas fa-paper-plane"></i></button>
         </div><!-- send-messages -->
       </div><!-- messages -->
@@ -102,7 +102,7 @@ export default {
 .users-message {
   display: flex;
   flex: 1;
-  background: var(--primary-background);;
+  background: var(--primary-background);
 }
 
 .users {}
@@ -177,15 +177,7 @@ export default {
   padding: 5px;
 }
 
-.send-messages input {
-  width: 100%;
-  outline: none;
-  padding: 0 10px;
-  background: transparent;
-  border: var(--border);
-  margin-right: 5px;
-  border-radius: 10px;
-}
+
 
 .send-messages button {
   display: flex;  

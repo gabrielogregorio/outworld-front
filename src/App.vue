@@ -25,8 +25,6 @@
   --secundary-text-color: #ffffffaa;
 }
 
-
-
 * {
   margin: 0;
   padding: 0;
@@ -229,6 +227,9 @@ input[type="file"] {
 }
 
 .input input {
+  height: 100%;
+  outline: none;
+  color: var(--primary-text-color);
   background: var(--primary-background);
   width: 100%;
   border: 3px solid transparent;
