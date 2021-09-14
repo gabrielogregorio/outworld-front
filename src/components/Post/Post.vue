@@ -271,7 +271,7 @@ div.hidden {
 
 @media screen and (max-width: 600px){
  div.container-post {
-   padding: 2%;
+   padding: 0;
  }
 }
 </style>

@@ -7,7 +7,7 @@
 
       <div class="info-post">
         <div class="info-post-perfil">
-          <textarea class="body-post" name="body" v-model="body" id="bod" cols="15" rows="2" placeholder="Sobre o que você quer conversar?"></textarea>
+          <textarea class="body-post" name="body" v-model="body" id="bod" cols="15" rows="2" placeholder="Hoje eu ..."></textarea>
           <div class="body-image">
             <BasicLoadingImage v-bind:activated="loadingImage"/>
             <img v-if="imgSrc !== '' && imgSrc !== undefined" :src='`${imgSrc}`' alt="">
@@ -152,6 +152,7 @@ div.container-post {
   color: var(--primary-text-color);
   font-weight: 400;
   width: 100%;
+  font-size: 20px;
 }
 
 .body-image {

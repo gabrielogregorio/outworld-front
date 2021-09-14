@@ -48,7 +48,7 @@ input:-webkit-autofill:active
 
 input:-webkit-autofill
 {
- -webkit-text-fill-color: var(--secundary-text-color) !important;
+ -webkit-text-fill-color: var(--primary-text-color) !important;
 }
 /* Fim da solução */
 
@@ -68,6 +68,13 @@ section {
   margin: 0 auto;
   width: 100%;
 }
+.login-cadastro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 50px 2%;
+}
 
 .container {
   box-shadow: 0px 0px 19px -1px var(--primary-nigth-shadow);
@@ -83,13 +90,6 @@ section {
     margin: 0 auto;
 }
 
-.login-cadastro {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 50px 0;
-}
 
 .message-container {
   height: 100vh;
@@ -210,6 +210,7 @@ form .novo-post-imagem img {
   border: none;
   color: var(--primary-text-color);
   transition: 0.2s;
+  border-radius: 10px;
 }
 
 .form button:hover {
@@ -270,25 +271,31 @@ input[type="file"] {
 
 .form textarea::placeholder {
   color: var(--secundary-text-color);
-}
+} 
 /* Layout dos formulários */
 
 /* Configurações de perfil */
-.my-profile .name-config {
+.name-config {
   width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
+  margin: 0;
 }
 
-.my-profile .name-config h2 {
-  font-size: 1.4rem;
-  padding: 5px 0;
+.name-config h2 {
+  font-size: 2rem;
+  height: 100%;
+}
+
+.name-config a {
 }
 
 .my-profile .name-config i {
   font-size: 1.4rem;
-  padding: 5px 10px;
+  padding: 0 10px;
   cursor: pointer;
   transition: 0.2s;
 } 
@@ -304,7 +311,9 @@ input[type="file"] {
   grid-template-columns: 1fr 1fr;
 }
 
-.statistics {}
+.statistics {
+  
+}
 
 .citation {
   width: 100%;
@@ -358,6 +367,20 @@ input[type="file"] {
 } 
 
 @media screen and (max-width: 600px){
+
+  .login-cadastro {
+    align-items: flex-start;
+    padding: 0;
+  }
+
+  .container {
+}
+
+.container-500 {
+  min-height: 100vh;
+}
+
+
   .form {
     padding: 50px 2%;
   }
@@ -367,8 +390,8 @@ input[type="file"] {
   }
 
   .form a {
-    font-size: 1.2rem;
-    padding: 10px 0;
+    font-size: 1.4rem;
+    padding: 15px 0;
   }
 
   .form label {
@@ -381,6 +404,7 @@ input[type="file"] {
   }
 
  .form button {
+   font-size: 1.3rem;
    padding: 20px 0;
  }
 
@@ -408,12 +432,12 @@ input[type="file"] {
   }
 
   .my-profile .name-config h2 {
-    font-size: 2rem;
+    font-size: 1.6rem;
     padding: 15px 0;
   }
 
   .my-profile .name-config i {
-    font-size: 2rem;
+    font-size: 1.6rem;
   } 
 
   .statistics p {

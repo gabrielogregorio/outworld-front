@@ -7,10 +7,14 @@
     <div class="info-user">
       <div class="info-user-perfil">
         <div class="info-user-superior">
-          <h2 @click="openProfile(user._id)" >{{user.name}}</h2>
-          <p @click="openProfile(user._id)" class="info-username">@{{user.username}}</p>
-          <button class="buttonDefault activeButtonDefault" v-if="listFollow.includes(user._id) == true" @click="followPerson()">Seguindo</button>
-          <button class="buttonDefault" v-else @click="followPerson()">Seguir</button>
+          <div>
+            <h2 @click="openProfile(user._id)" >{{user.name}}</h2>
+            <p @click="openProfile(user._id)">@{{user.username}}</p>
+          </div>
+          <div>
+            <button class="buttonDefault activeButtonDefault" v-if="listFollow.includes(user._id) == true" @click="followPerson()">Seguindo</button>
+            <button class="buttonDefault" v-else @click="followPerson()">Seguir</button>
+          </div>
         </div><!-- info-user-superior -->
       </div><!-- info-user-perfil -->
     </div><!-- info-user -->
@@ -95,19 +99,29 @@ div.container-user {
 }
 
 .info-user-superior h2 {
-  font-weight: 700;
-  color: var(--primary-text-color);
-  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
+  color: var(--primary-text-color);
+  font-size: 16px;
+  text-overflow: ellipsis;
+  overflow: hidden; 
+  width: 30vw; 
+  height: 1.2em; 
+  white-space: nowrap;
 }
 
-.info-user-superior .info-username {
-  font-weight: 700;
-  flex: 1;
-  margin-left: 5px;
-  font-size: 1rem;
+.info-user-superior p {
   cursor: pointer;
+  font-weight: 500;
+  margin-left: 5px;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  overflow: hidden; 
+  width: 30vw; 
+  height: 1.2em; 
+  white-space: nowrap;
 }
+
 
 .buttonDefault {
   width: 110px;

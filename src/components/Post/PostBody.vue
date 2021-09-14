@@ -42,6 +42,7 @@ export default {
 
 <style scoped>
 .content-post {
+  padding: 2%;
   color: var(--primary-text-color);
   font-weight: 400;
   width: 100%;
@@ -62,5 +63,25 @@ export default {
 
 .body-padding {
   padding-left: 50px;
+}
+
+
+@media screen and (max-width: 600px){
+.body-image > img{
+  padding-left: 0;
+  padding-right: 0;
+  border-radius: 0;
+  width: 100%;
+  height: 100%;
+  max-height: 100vh;
+  border: 0;
+}
+
+.body-image {
+  padding-left: 0;
+  padding-right: 0;
+  height: 100%;
+  max-height: 100vh;
+}
 }
 </style>

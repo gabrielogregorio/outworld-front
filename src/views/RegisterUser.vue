@@ -27,7 +27,7 @@
       <label for="password">Uma senha: </label>
       <input type="password" name="password" id="password" placeholder="Uma senha" v-model="password">
   
-      <router-link to="/Login">Ja tenho uma conta, fazer login</router-link>
+      <router-link to="/Login">Fazer login</router-link>
       <button @click="cadastrar()">Cadastrar</button><br>
     </div>
   </section>

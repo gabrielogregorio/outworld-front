@@ -6,8 +6,9 @@
     </router-link>
 
     <div class="info-post-superior">
-      <router-link :to="{ path: 'Profile', query: { id: userId }}">{{postName}}</router-link>
-      <router-link :to="{ path: 'Profile', query: { id: userId }}">{{$filters.processUsername(postUsername)}}</router-link>
+      <!--<router-link :to="{ path: 'Profile', query: { id: userId }}">{{postName}}</router-link> -->
+      <!--<router-link :to="{ path: 'Profile', query: { id: userId }}">{{$filters.processUsername(postUsername)}}</router-link>-->
+      <router-link :to="{ path: 'Profile', query: { id: userId }}">{{postUsername}}</router-link>
       <!--<p>· 16h</p>-->
       <div class="delete-post">
         <div v-if="myId == userId">
@@ -55,12 +56,16 @@ export default {
 
 <style scoped>
 .row-info-profile {
+  padding: 2%;
   width: 100%;
   display: flex;
 }
 
 .img-post-perfil {
   margin-right: 15px;
+  display: flex;
+  align-items: center;
+ justify-content: center;
 }
 
 .img-post-perfil img {
@@ -73,11 +78,13 @@ export default {
 
 .info-post-superior {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
   width: 100%;
 }
 
 .info-post-superior a {
+  font-size: 16px;
   text-decoration: none;
 }
 
@@ -114,5 +121,13 @@ export default {
 .body-padding {
   padding-left: 50px;
 } 
+
+
+@media screen and (max-width: 600px){
+  .delete-post button i, .delete-post a i{
+    font-size: 1.4rem;
+  }
+
+}
 
 </style>
