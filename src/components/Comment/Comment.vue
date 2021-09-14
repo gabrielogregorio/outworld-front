@@ -12,9 +12,11 @@
       <div class="msg-options ">
         <div :class="deleteThisComment === true ? 'msg delete-coment' : 'msg'">
           <div class="msg-name-options">
-            <p><pre>{{userData.name}} </pre></p>
-            <p><pre>{{$filters.processUsername(userData.username)}} </pre></p>
-
+            <div class="profile-user">
+              <p><pre>{{userData.name}} </pre></p>
+              <p><pre>{{$filters.processUsername(userData.username)}} </pre></p>             
+            </div>
+ 
             <div  class="delete-comment" >
               <i v-if="myId === userData._id" @click="deleteComment(commentId)" class="far fa-trash-alt"></i>
             </div>
@@ -34,11 +36,11 @@
         <div class="options">
           <button><!--Curtir (10)--></button>
           <button @click="replyComment()">Responder</button>
-          <!-- commentId, postId -->
+          <!-- commentId, postId --> 
           <button v-if="counter !== 0" @click="showRepliesComments()" >Respostas {{counter}}</button>
-          <MakeComment v-if="showComment === true" :postId="postId" :commentId="commentId" @newComment="newComment()" :imgProfile="imgProfile"/>
+
           <div v-if="showReplies === true" >
-            <div v-for="postComment in postComment.replies" :key="postComment._id" class="comments">
+            <div v-for="postComment in postComment.replies" :key="postComment._id">
               <Comment
                 v-bind:postComment="postComment"
                 @newComment="newComment()"
@@ -48,9 +50,15 @@
                 :postId="postId"
                 :commentId="postComment._id"
                 :imgProfile="imgProfile"/>
-            </div><!-- comments -->
+            </div>
           </div>
 
+          <MakeComment
+            v-if="showComment === true"
+            :postId="postId"
+            :commentId="commentId"
+            @newComment="newComment()"
+            :imgProfile="imgProfile"/>
         </div><!-- options -->
       </div><!-- msg-options -->
     </div><!-- coments -->
@@ -137,15 +145,13 @@ export default {
   }
 }
 </script>
-
+ 
 
 <style scoped>
 .coments {
   display: flex;
   margin-bottom: 9px;
 }
-
-
 
 .profile {
   margin-right: 15px;
@@ -154,12 +160,11 @@ export default {
 }
 
 .profile img {
-  width: 100%;
-  height: 100%;
+  width: 50px;
+  height: 50px;
   object-fit: cover;
   border-radius: 50%;
 }
-
 
 .msg-options {
   width: 100%;
@@ -183,9 +188,7 @@ export default {
 
   100% {
     filter: opacity(0.3);
-
   }
-  
 }
 
 .msg-name-options {
@@ -198,16 +201,22 @@ export default {
   justify-content: flex-end;
   flex: 1;
 }
+
 .msg-name-options .delete-comment i {
   cursor: pointer;
   padding: 5px;
 }
+.msg-name-options .profile-user {
+  padding-bottom: 5px;
+}
 
-.msg-name-options p:nth-child(1) pre{
+.msg-name-options .profile-user p:nth-child(1) pre{
+  font-size: 16px;
   font-weight: 700;
 }
 
-.msg-name-options p:nth-child(2) pre{
+.msg-name-options .profile-user p:nth-child(2) pre{
+  font-size: 14px;
   font-weight: 500;
 }
 

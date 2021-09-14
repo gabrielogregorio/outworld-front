@@ -65,7 +65,7 @@ export default {
   margin-right: 15px;
   display: flex;
   align-items: center;
- justify-content: center;
+  justify-content: center;
 }
 
 .img-post-perfil img {
@@ -122,12 +122,10 @@ export default {
   padding-left: 50px;
 } 
 
-
 @media screen and (max-width: 600px){
   .delete-post button i, .delete-post a i{
     font-size: 1.4rem;
   }
-
 }
 
 </style>

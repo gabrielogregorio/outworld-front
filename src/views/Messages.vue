@@ -36,7 +36,7 @@ import axios from 'axios';
 import Navbar from '../components/Navbar.vue';
 import getHeader from '../getToken';
 import { hostServer } from '../connections';
-// import io from 'socket.io-client';
+
 
 export default {
   name: 'Users',
@@ -52,7 +52,6 @@ export default {
       myId: '',
       message: '',
       idSendMesssage: ''
-      //socket: ''
     }
   },
   mounted() {
@@ -105,7 +104,9 @@ export default {
   background: var(--primary-background);
 }
 
-.users {}
+.users {
+
+}
 
 .user  {
   display: flex;
@@ -119,7 +120,9 @@ export default {
   background: var(--secundary-background);
 }
 
-.user-img {}
+.user-img {
+
+}
 
 .user-img img {
   width: 50px;
@@ -129,8 +132,13 @@ export default {
   margin-right: 5px;
 }
 
-.user-info {}
-.user-info p {}
+.user-info {
+
+}
+
+.user-info p {
+
+}
 
 .messages {
   background: var(--primary-background);
@@ -148,7 +156,9 @@ export default {
   overflow-y: auto;
 }
 
-.message-item {}
+.message-item {
+
+}
 
 .message-item > p {
   width: 100%;
@@ -177,8 +187,6 @@ export default {
   padding: 5px;
 }
 
-
-
 .send-messages button {
   display: flex;  
   background: var(--primary-blue-color);
@@ -198,6 +206,5 @@ export default {
   .user-info {
     display: none;
   }
-
 }
 </style>
