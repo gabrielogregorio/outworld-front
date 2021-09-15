@@ -25,6 +25,8 @@
   --primary-background: #008a7e;
   --primary-background-transparent: #008a7eee;
   --secundary-background: #009c8f;
+
+
   --primary-text-color: #ffffff;
   --secundary-text-color: #ffffffaa;
 }

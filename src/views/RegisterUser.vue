@@ -67,11 +67,12 @@ export default {
         this.$router.push({name: 'Home'})
       }).catch(error => {
         this.activated = false
-        if(error.response.status === 400) {
+        if(error.response?.status === 400) {
           this.errorMsg = 'Você precisa preencher todos os campos'
-        } else if(error.response.status === 409) {
+        } else if(error.response?.status === 409) {
           this.errorMsg = 'Este e-mail já está registrado, tente outro'
         } else {
+          this.errorMsg = 'Por favor, verifique sua conexão com a internet'
           console.log(error)
         }
       })

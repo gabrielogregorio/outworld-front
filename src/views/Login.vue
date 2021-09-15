@@ -58,13 +58,15 @@ export default {
         localStorage.setItem('token', res.data.token)
         this.$router.push({name: 'Home'})
       }).catch(error =>{
+        console.log('erro')
         this.activated = false
-        if(error.response.status === 404) {
+        if(error.response?.status === 404) {
           this.errorMsg = 'Usuário não cadastrado no sistema'
-        }else if(error.response.status === 403) {
+        }else if(error.response?.status === 403) {
           this.errorMsg = 'Senha Inválida'
         } else {
-          this.errorMsg = 'Pane no sistema! Alguém me desconfigurou!'
+          //this.errorMsg = 'Pane no sistema! Alguém me desconfigurou!'
+          this.errorMsg = 'Por favor, verifique sua conexão com a internet'
         }
       })
     }

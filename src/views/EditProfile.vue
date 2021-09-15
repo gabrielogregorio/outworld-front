@@ -3,8 +3,10 @@
     <Navbar />
     <section>
       <div class="form form-logged">
-        <label for="email">E-mail (Não alterável): </label>
-        <div class="input"><input type="email" name="email" id="email" placeholder="your email" v-model="email" disabled></div>
+
+        <p>{{msgError}}</p>
+        <label for="email">E-mail: </label>
+        <div class="input"><input type="email" name="email" id="email" :placeholder="email" v-model="emailInput"></div>
 
         <label for="name">Nome: </label>
         <div class="input"><input type="name" name="name" id="name" placeholder="Seu nome" v-model="name"></div>
@@ -31,7 +33,10 @@
         <label for="password">Senha: </label>
         <div class="input"><input type="password" name="password" id="password" placeholder="your password" v-model="password"></div>
 
-        <button @click="updateItens">Salvar Alteracoes</button>
+        <button class="delete-account" @click="showModalDelete()">Deletar Conta</button>
+        <button class="" @click="updateItens">Salvar Alteracoes</button>
+
+        <ModalDelete @cancelModel="cancelModel()" @updateModel="updateModel()" :show="showModal"/>
       </div>
     </section>
   </div>
@@ -44,6 +49,7 @@ import getHeader from '../getToken';
 import Navbar from '../components/Navbar.vue';
 import { hostServer } from '../connections';
 import BasicLoadingImage from '../components/Loader/BasicLoadingImage.vue';
+import ModalDelete from '../components/ModalDelete.vue';
  
 export default {
   name: "EditProfile",
@@ -53,17 +59,21 @@ export default {
       imgSrc: '',
       name: '',
       email: '',
+      emailInput: '',
       password: '',
       username: '',
       id: '',
       bio: '',
       motivational: '',
+      showModal: false,
       hostServer:hostServer,
-      loadingImage:false
+      loadingImage:false,
+      msgError: ''
     }
   },
   components: {
     Navbar,
+    ModalDelete,
     BasicLoadingImage
   },
   async created() {
@@ -79,6 +89,22 @@ export default {
     }).catch(error => {console.log(error)})
   },
   methods: {
+    showModalDelete() {
+      this.showModal = true
+    },
+
+    cancelModel() {
+      this.showModal = false
+    },
+    
+    updateModel() {
+      axios.delete(`${hostServer}/user/`, getHeader()).then(() => {
+        this.$router.push({name: 'Login'})
+      }).catch(error => {
+        console.log(`Erro ao registrar dados: ${error}`);
+      })
+    },
+
      loadImage() {
         this.loadingImage = true
         let formData = new FormData();
@@ -101,6 +127,7 @@ export default {
     updateItens() {
       axios.put(`${hostServer}/user/${this.id}`, {
         name: this.name,
+        email: this.emailInput,
         password: this.password,
         username: this.username,
         bio: this.bio,
@@ -109,7 +136,10 @@ export default {
       }, getHeader()).then(() => {
         this.$router.push({name: 'Profile'})
       }).catch(error => {
+        this.msgError = 'Erro ainda em processamento, verifique as informações'
         console.log(`Erro ao registrar dados: ${error}`);
+        //console.log(`Erro ao registrar dados: ${error.response}`);
+        //console.log(`Erro ao registrar dados: ${error.response.data}`);
       })
     } 
   }
@@ -129,4 +159,17 @@ export default {
   object-fit: cover;
   cursor: pointer;
 }
+
+.delete-account {
+  padding: 0;
+  background: transparent;
+  text-align: left;
+  color: var(--primary-text-color);
+}
+
+.delete-account:hover {
+  background: transparent;
+  color: var(--background-body);
+}
+
 </style>
