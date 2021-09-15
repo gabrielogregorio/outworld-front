@@ -45,6 +45,10 @@
             <p v-if="item.typeItem == 'film'"><i class="fas fa-film"></i> {{item.text}}</p>
           </div>
         </div><!-- work -->
+
+        <div v-if="idUser == myId">
+          <p @click="() => {this.darkMode = !this.darkMode}">Trocar tema</p>
+        </div>
       </div>
 
       <div class="menu-items">
@@ -77,6 +81,7 @@ export default {
   },
   data() {
     return {
+      darkMode: false,
       hostServer,
       myId: '',
       idUser: '',
@@ -87,6 +92,19 @@ export default {
   async created() {
     this.updateProfile()
   }, 
+ mounted() {   
+    // check for active theme
+    let htmlElement = document.documentElement;
+    let theme = localStorage.getItem("theme");
+
+    if (theme === 'dark') {
+      htmlElement.setAttribute('theme', 'dark')
+      this.darkMode = true
+    } else {
+      htmlElement.setAttribute('theme', 'light');
+      this.darkMode = false
+    }
+  },  
    computed: {
     userBio() {
       if (this.user.bio != undefined) {
@@ -98,7 +116,19 @@ export default {
   watch:{
     $route(){
       this.updateProfile()
-    }
+    },
+    darkMode() {
+        // add/remove class to/from html tag
+        let htmlElement = document.documentElement;
+
+        if (this.darkMode) {
+            localStorage.setItem("theme", 'dark');
+            htmlElement.setAttribute('theme', 'dark');
+        } else {
+            localStorage.setItem("theme", 'light');
+            htmlElement.setAttribute('theme', 'light');
+        }
+    }    
   },
   methods: {
     async updateProfile() {

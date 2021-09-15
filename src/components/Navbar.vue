@@ -54,8 +54,8 @@ nav div i{
 }
 
 nav div a.router-link-exact-active i {
-  color: var(--background-body);
-  border-bottom: 2px solid var(--background-body);
+  color: var(--color-highlight-icones);
+  border-bottom: 2px solid var(--color-highlight-icones);
 }
 
 nav div.perfil {

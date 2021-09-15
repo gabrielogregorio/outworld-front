@@ -34,7 +34,7 @@
         <div class="input"><input type="password" name="password" id="password" placeholder="your password" v-model="password"></div>
 
         <button class="delete-account" @click="showModalDelete()">Deletar Conta</button>
-        <button class="" @click="updateItens">Salvar Alteracoes</button>
+        <button class="save-account" @click="updateItens">Salvar Alteracoes</button>
 
         <ModalDelete @cancelModel="cancelModel()" @updateModel="updateModel()" :show="showModal"/>
       </div>
@@ -169,7 +169,11 @@ export default {
 
 .delete-account:hover {
   background: transparent;
-  color: var(--background-body);
+  color: var(--color-highlight-icones);
+}
+
+.save-account {
+   background: var(--color-highlight-icones);
 }
 
 </style>

@@ -234,7 +234,7 @@ div.hidden {
 .options-post .active-like {
   display: block;
   border-radius: 10px;
-  color: var(--background-body);
+  color: var(--color-highlight-icones);
 }
 
 .options-post button > i{
@@ -242,7 +242,7 @@ div.hidden {
 }
 
 .options-post button.active-like  > i{
-  color: var(--background-body);
+  color: var(--color-highlight-icones);
 }
 
 .options-post .showComment {
@@ -251,7 +251,7 @@ div.hidden {
 }
 
 .options-post .showComment > i{
-  color: var(--background-body);
+  color: var(--color-highlight-icones);
 }
  
 .options-post button.active-share {
@@ -260,7 +260,7 @@ div.hidden {
 }
 
 .options-post button.active-share > i{
-  color: var(--background-body);
+  color: var(--color-highlight-icones);
 }
 
 .body-border-share {

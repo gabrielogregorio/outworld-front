@@ -32,3 +32,28 @@ export default {
   }
 }
 </script>
+
+
+<style scoped>
+/*
+* === COLORS ===
+*/
+:root {
+    --app-background-color: #FFFFFF;
+}
+
+[theme="dark"] {
+    --app-background-color: #091A28;
+}
+
+[theme="sepia"] {
+    --app-background-color: #F1E7D0;
+}
+
+/*
+* === STYLES ===
+*/
+.app-background {
+  background-color: var(--app-background-color);
+}
+</style>
