@@ -14,12 +14,16 @@
   --primary-purple-color: rgb(137, 29, 199);
   --primary-orange-color: rgb(252, 148, 50);
   --primary-nigth-color: #3a3b3c;
-  --primary-nigth-shadow: rgba(0,0,0,0.3);
+  --primary-nigth-color-transparent: #3a3b3cff;
+  --primary-nigth-color-hover: #5c5c5c;
+
+--primary-nigth-shadow: rgba(0,0,0,0.3);
   --primary-danger-color: rgba(255, 255, 255, 255);
   --background-body: #470c8a;
   --background-body-button: #470c8a;
   --background-body-transparent: #ffffff;
   --primary-background: #008a7e;
+  --primary-background-transparent: #008a7eee;
   --secundary-background: #009c8f;
   --primary-text-color: #ffffff;
   --secundary-text-color: #ffffffaa;

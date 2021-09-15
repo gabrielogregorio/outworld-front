@@ -10,10 +10,9 @@
       <!--<router-link :to="{ path: 'Profile', query: { id: userId }}">{{$filters.processUsername(postUsername)}}</router-link>-->
       <router-link :to="{ path: 'Profile', query: { id: userId }}">{{postUsername}}</router-link>
       <!--<p>· 16h</p>-->
-      <div class="delete-post">
-        <div v-if="myId == userId">
-          <button @click="deletePost(postId)" ><i class="far fa-trash-alt"></i></button>
-          <router-link :to="{ path: 'EditPost', query: { id: postId }}"><i class="fas fa-pencil-alt"></i></router-link>
+      <div class="config-post">
+        <div v-if="myId === userId">
+          <DropDown @editPostRedirect="editPostRedirect()" @deletePost="deletePost()" />
         </div>
       </div>
     </div>
@@ -24,7 +23,7 @@
 import getHeader from '../../getToken';
 import { hostServer } from '../../connections';
 import axios from 'axios'
-
+import DropDown from '../dropdow/DropDown.vue';
 
 export default {
   name: 'PostProfile',
@@ -32,6 +31,9 @@ export default {
     return {
       hostServer:hostServer
     }
+  },
+  components: {
+    DropDown
   },
   props: {
     userId: String,
@@ -43,10 +45,16 @@ export default {
     share: Boolean
   },
   methods: {
-    deletePost(id) {
-      axios.delete(`${hostServer}/post/${id}`, getHeader())
+    editPostRedirect() {
+      console.log(this.postId)
+      this.$router.push({name: 'EditPost', query: { id: this.postId }})
+    },
+
+    deletePost() { 
+      console.log(this.postId)
+      axios.delete(`${hostServer}/post/${this.postId}`, getHeader())
         .then(() => {
-          this.$emit("updatePosts", "")
+           this.$emit("updatePosts", "")
         }).catch(error => console.log(error))
     }
   }
@@ -55,6 +63,7 @@ export default {
 
 
 <style scoped>
+
 .row-info-profile {
   padding: 2%;
   width: 100%;
@@ -86,6 +95,7 @@ export default {
 .info-post-superior a {
   font-size: 16px;
   text-decoration: none;
+  flex: 1;
 }
 
 .info-post-superior a:nth-child(1) {
@@ -102,20 +112,7 @@ export default {
   cursor: pointer;
 }
 
-.delete-post {
-  flex: 1;
-  text-align: right;
-}
-.delete-post button, .delete-post a{
-  background-color: transparent;
-  outline: none;
-  border: 0;
-  font-weight: 700;
-  cursor: pointer;
-  padding: 2px 4px;
-}
-.delete-post button i, .delete-post a i{
-  color: var(--primary-danger-color)
+.config-post {
 }
 
 .body-padding {
@@ -123,9 +120,8 @@ export default {
 } 
 
 @media screen and (max-width: 600px){
-  .delete-post button i, .delete-post a i{
-    font-size: 1.4rem;
-  }
 }
+
+
 
 </style>

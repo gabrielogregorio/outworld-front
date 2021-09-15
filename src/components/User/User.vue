@@ -122,7 +122,6 @@ div.container-user {
   text-overflow: ellipsis;
   overflow: hidden; 
   width: 30vw; 
-  height: 1.2em; 
   white-space: nowrap;
 }
 
@@ -134,10 +133,8 @@ div.container-user {
   text-overflow: ellipsis;
   overflow: hidden; 
   width: 30vw; 
-  height: 1.2em; 
   white-space: nowrap;
 }
-
 
 .buttonDefault {
   width: 110px;

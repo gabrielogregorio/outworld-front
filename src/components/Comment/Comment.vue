@@ -17,8 +17,8 @@
               <p><pre>{{$filters.processUsername(userData.username)}} </pre></p>             
             </div>
  
-            <div  class="delete-comment" >
-              <i v-if="myId === userData._id" @click="deleteComment(commentId)" class="far fa-trash-alt"></i>
+            <div class="delete-comment" >
+              <DropDownComment v-if="myId === userData._id" @deleteComment="deleteComment()" />
             </div>
             <!--<p><pre>Há 10 horas</pre></p> -->
           </div><!-- msg-name-options -->
@@ -74,6 +74,8 @@ import axios from 'axios';
 import getHeader from '../../getToken';
 import MakeComment from '../Comment/MakeComment.vue';
 import BasicLoaderPurple from '../Loader/BasicLoaderPurple.vue';
+import DropDownComment from '../dropdow/DropDownComment.vue';
+
 export default {
   name: 'Comment',
   data(){
@@ -89,6 +91,7 @@ export default {
   }, 
   components: {
     MakeComment,
+    DropDownComment,
     BasicLoaderPurple
   },
   async created() {
@@ -113,9 +116,9 @@ export default {
     }
   },
   methods:{
-    deleteComment(id) { 
+    deleteComment() { 
       this.deleteThisComment = true
-       axios.delete(`${hostServer}/post/comment/${id}`, getHeader())
+       axios.delete(`${hostServer}/post/comment/${this.commentId}`, getHeader())
         .then(() => {
           this.$emit("newComment", "")
         })

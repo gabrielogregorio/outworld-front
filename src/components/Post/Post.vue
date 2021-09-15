@@ -67,7 +67,7 @@
         @newComment="newComment()"
         :imgProfile="imgProfile"/>
  
-      <div v-for="postComment in post.comments" :key="postComment.id" class="comments"> 
+      <div v-for="postComment in post.comments" :key="postComment._id" class="comments"> 
         <Comment
           :postComment="postComment"
           @newComment="newComment()"
