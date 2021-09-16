@@ -100,7 +100,7 @@ export default {
 
 .info-post-superior a:nth-child(1) {
   font-weight: 700;
-  color: var(--primary-text-color);
+  color: var(--color-4);
   font-size: 1rem;
   cursor: pointer;
 }

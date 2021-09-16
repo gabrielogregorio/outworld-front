@@ -49,7 +49,7 @@
         <div v-if="idUser == myId" class="themes">
           <div @click="() => {this.themeSeleted = 'dark'}" class="theme theme-dark"></div>
           <div @click="() => {this.themeSeleted = 'purple'}" class="theme theme-purple"></div>
-          <!--<div @click="() => {this.themeSeleted = 'light'}" class="theme theme-light"></div>-->
+          <div @click="() => {this.themeSeleted = 'light'}" class="theme theme-light"></div>
         </div>
       </div>
 
@@ -126,21 +126,19 @@ export default {
       this.updateProfile()
     },
     themeSeleted() {
-        // add/remove class to/from html tag
-        let htmlElement = document.documentElement;
+      // add/remove class to/from html tag
+      let htmlElement = document.documentElement;
 
-        if (this.themeSeleted === 'dark') {
-            localStorage.setItem("theme", 'dark');
-            htmlElement.setAttribute('theme', 'dark');
-        } else if (this.themeSeleted === 'purple'){
-            localStorage.setItem("theme", 'purple');
-            htmlElement.setAttribute('theme', 'purple');
-        } else if (this.themeSeleted === 'light'){
-            localStorage.setItem("theme", 'light');
-            htmlElement.setAttribute('theme', 'light');
-        }
-
-        
+      if (this.themeSeleted === 'dark') {
+          localStorage.setItem("theme", 'dark');
+          htmlElement.setAttribute('theme', 'dark');
+      } else if (this.themeSeleted === 'purple'){
+          localStorage.setItem("theme", 'purple');
+          htmlElement.setAttribute('theme', 'purple');
+      } else if (this.themeSeleted === 'light'){
+          localStorage.setItem("theme", 'light');
+          htmlElement.setAttribute('theme', 'light');
+      }
     }    
   },
   methods: {
@@ -177,7 +175,7 @@ export default {
   
   .theme-purple {
     background: #008a7e;
-        border: 2px solid #83fff5;
+    border: 2px solid #83fff5;
   }
 
   .theme-dark {

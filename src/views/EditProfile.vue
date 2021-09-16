@@ -164,16 +164,16 @@ export default {
   padding: 0;
   background: transparent;
   text-align: left;
-  color: var(--primary-text-color);
+  color: var(--color-4);
 }
 
 .delete-account:hover {
   background: transparent;
-  color: var(--color-highlight-icones);
+  color: var(--background-1);
 }
 
 .save-account {
-   background: var(--color-highlight-icones);
+   background: var(--background-1);
 }
 
 </style>

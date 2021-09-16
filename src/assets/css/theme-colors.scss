@@ -1,71 +1,75 @@
 :root {
-  --border-color: #353535;
-  --color-highlight-icones:rgb(28, 133, 182);
-  --border-color-opacity: #a8a8a811;
-  --border: 1px solid var(--border-color);
-  --primary-blue-color: rgb(0, 89, 161);
-  --primary-purple-color: rgb(45, 44, 46);
-  --primary-orange-color: rgb(252, 148, 50);
-  --primary-nigth-color: #3a3b3c;
-  --primary-nigth-color-transparent: #3a3b3cff;
-  --primary-nigth-color-hover: #5c5c5c;
-  --primary-nigth-shadow: rgba(0,0,0,0.3);
-  --primary-danger-color: rgba(255, 255, 255, 255);
-  --background-body: #18191A;
-  --background-body-button: #18191A;
-  --background-body-transparent: #ffffff;
-  --primary-background: #242526;
-  --primary-background-transparent: #242526ee;
-  --secundary-background: ##3A3B3C;
-  --primary-text-color: #ffffff;
-  --secundary-text-color: #ffffffaa;
+
+
+  --background-1: #18191A;
+  --background-2: #242526;
+  --background-0: #3A3B3C;
+  --background-3: #3A3B3C;
+  --background-4: #3A3B3C;
+  --background-5: rgba(100, 100, 100, 1);
+
+  --background-button-1: rgb(0, 113, 206);
+  --background-button-1-hover: rgb(0, 89, 161);
+
+  --color-1:#363636;
+  --color-2: rgb(137, 29, 199);
+  --color-3: rgb(0, 89, 161);
+  --color-4: #ffffff;
+  --color-5: #ffffffee;
+
+  --background-4-transparent: #3a3b3c22;
+  --background-5-transparent: #51525311;
+
+  --border: 1px solid var(--color-1);
 }
+
 
 [theme="purple"] {
-  --border-color: #470c8a;
-  --color-highlight-icones: #470c8a;
-  --border-color-opacity: #470c8a44;
-  --border: 1px solid var(--border-color);
-  --primary-blue-color: rgb(0, 89, 161);
-  --primary-purple-color: rgb(137, 29, 199);
-  --primary-orange-color: rgb(252, 148, 50);
-  --primary-nigth-color: #3a3b3c;
-  --primary-nigth-color-transparent: #3a3b3cff;
-  --primary-nigth-color-hover: #5c5c5c;
-  --primary-nigth-shadow: rgba(0,0,0,0.3);
-  --primary-danger-color: rgba(255, 255, 255, 255);
-  --background-body: #470c8a;
-  --background-body-button: #470c8a;
-  --background-body-transparent: #ffffff;
-  --primary-background: #008a7e;
-  --primary-background-transparent: #008a7eee;
-  --secundary-background: #009c8f;
-  --primary-text-color: #ffffff;
-  --secundary-text-color: #ffffffaa;
+  --background-0: #570faa;
+  --background-1: #470c8a;
+  --background-2: #008a7e;
+  --background-3: #009c8f;
+  --background-4: #3a3b3c;
+  --background-5: #515253;
+
+  --background-button-1: var(--background-1);
+  --background-button-1-hover: var(--background-0);
+
+  --color-1:#470c8a;
+  --color-2: rgb(137, 29, 199);
+  --color-3: rgb(0, 89, 161);
+  --color-4: #ffffff;
+  --color-5: #ffffffee;
+
+  --background-4-transparent: #3a3b3c22;
+  --background-5-transparent: #51525311;
+
+  --border: 1px solid var(--color-1);
 }
 
-
-
 [theme="light"] {
-  --border-color: #35353528;
-  --color-highlight-icones:rgb(77, 103, 255);
-  --border-color-opacity: #a8a8a811;
-  --border: 1px solid var(--border-color);
-  --primary-blue-color: rgb(77, 103, 255);
-  --primary-purple-color: rgb(45, 44, 46);
-  --primary-orange-color: rgb(252, 148, 50);
-  --primary-nigth-color: #3a3b3c;
-  --primary-nigth-color-transparent: #3a3b3cff;
-  --primary-nigth-color-hover: #5c5c5c;
-  --primary-nigth-shadow: rgba(0,0,0,0.1);
-  --primary-danger-color: rgba(255, 255, 255, 255);
-  --background-body: #ffffff;
-  --background-body-button: #ffffff;
-  --background-body-transparent: #ffffff;
-  --primary-background: #ffffff;
-  --primary-background-transparent: #dfdfdfee;
-  --secundary-background: #3A3B3C;
-  --primary-text-color: #666666;
-  --secundary-text-color: #474747aa;
+
+
+  
+  --background-1: #dfdfdf;
+  --background-2: #ffffff;
+  --background-0: #ffffff;
+  --background-3: #d7d7d7;
+  --background-4: #eceaea;
+  --background-5: #ffffff;
+
+  --background-button-1: rgb(6, 143, 255);
+  --background-button-1-hover: rgb(53, 164, 255);
+
+  --color-1:#cacaca;
+  --color-2: rgb(137, 29, 199);
+  --color-3: rgb(6, 143, 255);
+  --color-4: rgb(65, 65, 65);
+  --color-5: rgb(221, 221, 221);
+
+  --background-4-transparent: #3a3b3c22;
+  --background-5-transparent: #51525311;
+
+  --border: 1px solid var(--color-1);
 }
 

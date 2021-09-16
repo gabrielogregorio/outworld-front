@@ -88,7 +88,7 @@ span {
   margin-top: 10px;
   padding: 10px;
   background: var(--border-color);
-  color:var(--primary-text-color);
+  color:var(--color-4);
   border-radius: 5px;
   text-align: center;
 }
@@ -107,8 +107,8 @@ span {
  
 .loading-posts div {
   border: 5px solid transparent;
-  border-top: 5px solid var(--background-body);
-  border-left: 5px solid var(--background-body);
+  border-top: 5px solid var(--background-1);
+  border-left: 5px solid var(--background-1);
   height: 50px;
   width: 50px;
   border-radius: 50%;

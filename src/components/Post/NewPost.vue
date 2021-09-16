@@ -98,7 +98,7 @@ div.container-post {
   width: 100%;
   padding: 10px 30px;
   margin: 0 auto;
-  background-color: var(--primary-background);
+  background-color: var(--background-2);
   border: var(--border);
   border-top: 0;
   padding-bottom: 0;
@@ -133,7 +133,7 @@ div.container-post {
 
 .info-post-superior h2 {
   font-weight: 700;
-  color: var(--primary-text-color);
+  color: var(--color-4);
   font-size: 1rem;
 }
 
@@ -149,7 +149,7 @@ div.container-post {
 }
 
 .body-post {
-  color: var(--primary-text-color);
+  color: var(--color-4);
   font-weight: 400;
   width: 100%;
   font-size: 20px;
@@ -184,13 +184,12 @@ textarea {
   resize: none;
   overflow-y: hidden;
   font-size: 1.4rem;
-  color: var(--primary-text-color);
+  color: var(--color-4);
 }
 
 textarea::placeholder{
-  color: var(--secundary-text-color);
+  color: var(--color-5);
 }
-
 
 @media screen and (max-width: 600px){
  div.container-post {

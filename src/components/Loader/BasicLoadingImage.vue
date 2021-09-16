@@ -24,11 +24,11 @@ export default {
 
 @keyframes loading {
   0% {
-    color: var(--primary-blue-color)
+    color: var(--background-1)
   }
 
   100% {
-    color: var(--background-body)
+    color: var(--background-0)
   }
 }
 </style>

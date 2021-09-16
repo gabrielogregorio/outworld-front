@@ -35,7 +35,7 @@ export default {
 }
 
 nav {
-  background-color: var(--primary-background);
+  background-color: var(--background-2);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -44,7 +44,7 @@ nav {
 }
 
 nav div a{
-  color: var(--secundary-text-color);
+  color: var(--color-5);
   text-transform: uppercase;
 }
 
@@ -54,8 +54,8 @@ nav div i{
 }
 
 nav div a.router-link-exact-active i {
-  color: var(--color-highlight-icones);
-  border-bottom: 2px solid var(--color-highlight-icones);
+  color: var(--background-button-1);
+  border-bottom: 2px solid var(--background-button-1);
 }
 
 nav div.perfil {

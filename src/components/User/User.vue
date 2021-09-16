@@ -81,7 +81,7 @@ div.container-user {
   width: 100%;
   padding: 10px 30px;
   margin: 0 auto;
-  background-color: var(--primary-background);
+  background-color: var(--background-2);
   border: var(--border);
   border-top: 0;
 }
@@ -117,7 +117,7 @@ div.container-user {
 .info-user-superior h2 {
   font-weight: 500;
   cursor: pointer;
-  color: var(--primary-text-color);
+  color: var(--color-4);
   font-size: 16px;
   text-overflow: ellipsis;
   overflow: hidden; 

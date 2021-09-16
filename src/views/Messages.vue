@@ -101,7 +101,7 @@ export default {
 .users-message {
   display: flex;
   flex: 1;
-  background: var(--primary-background);
+  background: var(--background-2);
 }
 
 .users {
@@ -111,13 +111,13 @@ export default {
 .user  {
   display: flex;
   width: 100%;
-  background:  var(--primary-background);
+  background:  var(--background-2);
   padding: 5px 20px;
   cursor: pointer;
 }
 
 .user.selected {
-  background: var(--secundary-background);
+  background: var(--background-3);
 }
 
 .user-img {
@@ -141,7 +141,7 @@ export default {
 }
 
 .messages {
-  background: var(--primary-background);
+  background: var(--background-2);
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -152,7 +152,7 @@ export default {
   flex: 1;
   padding: 0 10px;
   width: 100%;
-  background: var(--secundary-background);
+  background: var(--background-3);
   overflow-y: auto;
 }
 
@@ -168,13 +168,13 @@ export default {
 }
 
 .message-item.this {
-  background: var(--primary-background);
+  background: var(--background-2);
   margin-left: 20px;
   border-radius: 10px 10px 0 10px;
 }
 
 .message-item.reply {
-  background: var(--primary-blue-color);
+  background: var(--background-1);
   margin-right: 20px;
   border-radius: 0px 10px 10px 10px;
 }
@@ -182,14 +182,14 @@ export default {
 .send-messages {
   height: 50px;
   width: 100%;
-  background: var(--primary-background);;
+  background: var(--background-2);
   display: flex;
   padding: 5px;
 }
 
 .send-messages button {
   display: flex;  
-  background: var(--primary-blue-color);
+  background: var(--background-1);
   border: 0;
   justify-content: center;
   align-items: center;

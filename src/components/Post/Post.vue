@@ -205,7 +205,7 @@ div.container-post {
   width: 100%;
   padding: 10px 30px;
   margin: 0 auto;
-  background-color: var(--primary-background);
+  background-color: var(--background-2);
   border: var(--border);
   border-top: 0;
   padding-bottom: 0;
@@ -227,14 +227,14 @@ div.hidden {
   border: 0;
   padding: 10px 15px;
   cursor: pointer;
-  color: var(--primary-text-color);
+  color: var(--color-4);
   cursor: pointer;
 }
 
 .options-post .active-like {
   display: block;
   border-radius: 10px;
-  color: var(--color-highlight-icones);
+  color: var(--background-button-1);
 }
 
 .options-post button > i{
@@ -242,7 +242,7 @@ div.hidden {
 }
 
 .options-post button.active-like  > i{
-  color: var(--color-highlight-icones);
+  color: var(--background-button-1);
 }
 
 .options-post .showComment {
@@ -251,7 +251,7 @@ div.hidden {
 }
 
 .options-post .showComment > i{
-  color: var(--color-highlight-icones);
+  color: var(--background-button-1);
 }
  
 .options-post button.active-share {
@@ -260,11 +260,11 @@ div.hidden {
 }
 
 .options-post button.active-share > i{
-  color: var(--color-highlight-icones);
+  color: var(--background-button-1);
 }
 
 .body-border-share {
-  border-top: 1px solid var(--border-color-opacity);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
   width: 100%;
   padding-bottom: 20px;
 }
