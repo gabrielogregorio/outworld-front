@@ -46,8 +46,10 @@
           </div>
         </div><!-- work -->
 
-        <div v-if="idUser == myId">
-          <p @click="() => {this.darkMode = !this.darkMode}">Trocar tema</p>
+        <div v-if="idUser == myId" class="themes">
+          <div @click="() => {this.themeSeleted = 'dark'}" class="theme theme-dark"></div>
+          <div @click="() => {this.themeSeleted = 'purple'}" class="theme theme-purple"></div>
+          <!--<div @click="() => {this.themeSeleted = 'light'}" class="theme theme-light"></div>-->
         </div>
       </div>
 
@@ -86,23 +88,29 @@ export default {
       myId: '',
       idUser: '',
       img: '',
-      user: ''
+      user: '',
+      themeSeleted: ''
     }
   },
   async created() {
     this.updateProfile()
-  }, 
- mounted() {   
+
     // check for active theme
     let htmlElement = document.documentElement;
     let theme = localStorage.getItem("theme");
 
-    if (theme === 'dark') {
-      htmlElement.setAttribute('theme', 'dark')
-      this.darkMode = true
+    if(theme === undefined) {
+      this.themeSeleted = 'dark'
     } else {
+      this.themeSeleted = theme
+    }
+
+    if (this.themeSeleted === 'dark') {
+      htmlElement.setAttribute('theme', 'dark')
+    } else if (this.themeSeleted === 'purple') {
+      htmlElement.setAttribute('theme', 'purple');
+    } else if(this.themeSeleted === 'light') {
       htmlElement.setAttribute('theme', 'light');
-      this.darkMode = false
     }
   },  
    computed: {
@@ -117,17 +125,22 @@ export default {
     $route(){
       this.updateProfile()
     },
-    darkMode() {
+    themeSeleted() {
         // add/remove class to/from html tag
         let htmlElement = document.documentElement;
 
-        if (this.darkMode) {
+        if (this.themeSeleted === 'dark') {
             localStorage.setItem("theme", 'dark');
             htmlElement.setAttribute('theme', 'dark');
-        } else {
+        } else if (this.themeSeleted === 'purple'){
+            localStorage.setItem("theme", 'purple');
+            htmlElement.setAttribute('theme', 'purple');
+        } else if (this.themeSeleted === 'light'){
             localStorage.setItem("theme", 'light');
             htmlElement.setAttribute('theme', 'light');
         }
+
+        
     }    
   },
   methods: {
@@ -149,3 +162,31 @@ export default {
 }
 </script>
 
+<style scoped>
+  .themes {
+    display: flex;
+  }
+
+  .theme {
+    cursor: pointer;
+    margin: 0 5px;
+    height: 30px;
+    width: 30px;
+    border-radius: 10px;
+  }
+  
+  .theme-purple {
+    background: #008a7e;
+        border: 2px solid #83fff5;
+  }
+
+  .theme-dark {
+    background: #242526;
+    border: 2px solid #8f8f8f;
+  }
+
+  .theme-light {
+    background: #ffffff;
+    border: 2px solid #8f8f8f;
+  }
+</style>
