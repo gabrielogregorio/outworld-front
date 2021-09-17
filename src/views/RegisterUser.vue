@@ -13,7 +13,7 @@
       <h1>Criar conta</h1>
       <h2>Está preparado para experimentar uma nova experiência?</h2>
 
-      <span v-if="errorMsg !== ''" >{{errorMsg}}</span>
+      <span class="msg-error" v-if="errorMsg !== ''" >{{errorMsg}}</span>
 
       <label for="name">Seu nome e sobrenome</label>
       <input type="name" name="name" id="name" placeholder="Seu nome" v-model="name">
@@ -84,7 +84,8 @@ export default {
 
 <style scoped>
 
-span {
+
+.msg-error {
   margin-top: 10px;
   padding: 10px;
   background: var(--border-color);

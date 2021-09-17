@@ -1,6 +1,4 @@
 :root {
-
-
   --background-1: #18191A;
   --background-2: #242526;
   --background-0: #3A3B3C;
@@ -20,6 +18,8 @@
   --background-4-transparent: #3a3b3c22;
   --background-5-transparent: #51525311;
 
+  --color-button-1: var(--color-5);
+
   --border: 1px solid var(--color-1);
 }
 
@@ -35,11 +35,14 @@
   --background-button-1: var(--background-1);
   --background-button-1-hover: var(--background-0);
 
+
   --color-1:#470c8a;
   --color-2: rgb(137, 29, 199);
   --color-3: rgb(0, 89, 161);
   --color-4: #ffffff;
   --color-5: #ffffffee;
+
+  --color-button-1: var(--color-5);
 
   --background-4-transparent: #3a3b3c22;
   --background-5-transparent: #51525311;
@@ -48,9 +51,6 @@
 }
 
 [theme="light"] {
-
-
-  
   --background-1: #dfdfdf;
   --background-2: #ffffff;
   --background-0: #ffffff;
@@ -66,6 +66,8 @@
   --color-3: rgb(6, 143, 255);
   --color-4: rgb(65, 65, 65);
   --color-5: rgb(221, 221, 221);
+
+  --color-button-1: #ffffff;
 
   --background-4-transparent: #3a3b3c22;
   --background-5-transparent: #51525311;
