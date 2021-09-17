@@ -60,12 +60,10 @@ export default {
   },
   methods: {
     editPostRedirect() {
-      console.log(this.postId)
       this.$router.push({name: 'EditPost', query: { id: this.postId }})
     },
 
     deletePost() { 
-      console.log(this.postId)
       axios.delete(`${hostServer}/post/${this.postId}`, getHeader())
         .then(() => {
            this.$emit("updatePosts", "")
