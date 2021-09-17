@@ -35,7 +35,7 @@
       </button>
 
       <button
-        :class="showComment === true ? 'showComment' : ''"
+        :class="showComment === true ? 'show-comment' : ''"
         @click="toogleComment()">
           <i class="fas fa-comment-dots"></i>
           {{countComments !== 0 ? countComments : null }}
@@ -245,12 +245,12 @@ div.hidden {
   color: var(--background-button-1);
 }
 
-.options-post .showComment {
+.options-post .show-comment {
   display: block;
   border-radius: 10px;
 }
 
-.options-post .showComment > i{
+.options-post .show-comment > i{
   color: var(--background-button-1);
 }
  

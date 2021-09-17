@@ -81,7 +81,7 @@ section {
   width: 100%;
 }
 
-.buttonDefault {
+.button-default {
   border-radius: 20px;
   background: transparent;
   padding: 10px 20px;
@@ -92,7 +92,7 @@ section {
   border: 1px solid var(--color-5);
 }
 
-.activeButtonDefault {
+.active-button-default {
   background: var(--background-button-1);
   border: 1px solid transparent;
 }
@@ -233,7 +233,6 @@ input[type="file"] {
   border: 3px solid transparent;
 }
 
-
 .input input::placeholder {
   color: var(--color-5);
 }
@@ -343,7 +342,7 @@ input[type="file"] {
   }
 
   .container {
-}
+  }
 
 .container-500 {
   min-height: 100vh;

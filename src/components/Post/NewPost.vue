@@ -18,7 +18,7 @@
               <input type="file" name="image" id="image" @change="loadImage()"/>
               <i class="fas fa-image"></i>
             </label><!-- custom-file-upload -->
-            <button class="buttonDefault activeButtonDefault" @click="createPost">Comentar</button>
+            <button class="button-default active-button-default" @click="createPost">Comentar</button>
           </div><!-- botao-postar -->
         </div><!-- info-post-perfil -->
       </div><!-- info-post -->
