@@ -12,8 +12,8 @@
             <p @click="openProfile(user._id)">@{{user.username}}</p>
           </div>
           <div>
-            <button class="buttonDefault activeButtonDefault" v-if="listFollowuUser.includes(user._id) == true" @click="followPerson(user._id)">Seguindo</button>
-            <button class="buttonDefault" v-else @click="followPerson(user._id)">Seguir</button>
+            <button class="button-default active-button-default" v-if="listFollowuUser.includes(user._id) == true" @click="followPerson(user._id)">Seguindo</button>
+            <button class="button-default" v-else @click="followPerson(user._id)">Seguir</button>
           </div>
         </div><!-- info-user-superior -->
       </div><!-- info-user-perfil -->
@@ -136,7 +136,7 @@ div.container-user {
   white-space: nowrap; 
 }
 
-.buttonDefault {
+.button-default {
   width: 110px;
   transition: 0.5s;
 }

@@ -12,7 +12,7 @@
         <i class="fas fa-image"></i>
       </label> 
 
-      <button class="buttonDefault activeButtonDefault" @click="updateItens">Salvar post</button>
+      <button class="button-default active-button-default" @click="updateItens">Salvar post</button>
     </div>
     
   </section>
