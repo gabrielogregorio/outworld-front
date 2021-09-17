@@ -2,9 +2,15 @@
 
   <div :class=" !loaded ? 'container-post hidden' : ' container-post'">
     <PostProfile 
-      :userId="post.user._id" :postId="post._id"
-      :postName="post.user.name" :postUsername="post.user.username"
-      :userImg="post.user.img" :myId="myId"
+      :userId="post.user._id"
+      :postId="post._id"
+      :createdAt="post.createdAt"
+      :updatedAt="post.updatedAt"
+      :postName="post.user.name"
+      :postUsername="post.user.username"
+      :userImg="post.user.img"
+      :myId="myId"
+      :edited="post.edited"
       @updatePosts="updatePosts()"/>
 
     <PostBody
@@ -15,9 +21,15 @@
     <div v-if="post.sharePost != undefined" class="body-border-share"></div>
 
     <PostProfile  v-if="post.sharePost != undefined"
-      :userId="post.sharePost.user._id" :postId="post.sharePost._id"
-      :postName="post.sharePost.user.name" :postUsername="post.sharePost.user.username"
-      :userImg="post.sharePost.user.img" :myId="myId"
+      :userId="post.sharePost.user._id"
+      :postId="post.sharePost._id"
+      :postName="post.sharePost.user.name"
+      :createdAt="post.createdAt"
+      :updatedAt="post.updatedAt"
+      :postUsername="post.sharePost.user.username"
+      :userImg="post.sharePost.user.img"
+      :myId="myId"
+      :edited="post.edited"
       v-bind:share="true" @updatePosts="updatePosts()"/>
  
     <PostBody v-if="post.sharePost != undefined"

@@ -39,6 +39,8 @@
           <!-- commentId, postId --> 
           <button v-if="counter !== 0" @click="showRepliesComments()" >Respostas {{counter}}</button>
 
+          {{postComment.createdAt}} aa 
+          {{postComment.updatedAt}} aa
           <div v-if="showReplies === true" >
             <div v-for="postComment in postComment.replies" :key="postComment._id">
               <Comment
