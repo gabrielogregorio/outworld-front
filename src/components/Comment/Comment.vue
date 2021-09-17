@@ -14,7 +14,7 @@
           <div class="msg-name-options">
             <div class="profile-user">
               <p><pre>{{userData.name}} </pre></p>
-              <p><pre>{{$filters.processUsername(userData.username)}} </pre></p>             
+              <p><pre>{{$filters.processDate(postComment.createdAt) }}  </pre></p>
             </div>
  
             <div class="delete-comment" >
@@ -38,9 +38,6 @@
           <button @click="replyComment()">Responder</button>
           <!-- commentId, postId --> 
           <button v-if="counter !== 0" @click="showRepliesComments()" >Respostas {{counter}}</button>
-
-          {{postComment.createdAt}} aa 
-          {{postComment.updatedAt}} aa
           <div v-if="showReplies === true" >
             <div v-for="postComment in postComment.replies" :key="postComment._id">
               <Comment
@@ -213,15 +210,15 @@ export default {
 }
 .msg-name-options .profile-user {
   padding-bottom: 5px;
+  font-size: 0.8rem;
 }
 
 .msg-name-options .profile-user p:nth-child(1) pre{
-  font-size: 16px;
   font-weight: 700;
 }
 
 .msg-name-options .profile-user p:nth-child(2) pre{
-  font-size: 14px;
+  font-size: 0.8rem;
   font-weight: 500;
 }
 
