@@ -4,11 +4,9 @@
   </div> 
 </template>
 
-
 <script>
 
 export default {
-
   created() {
     // check for active theme
     let htmlElement = document.documentElement;
@@ -29,5 +27,4 @@ export default {
     }
   }
 }
-
 </script>

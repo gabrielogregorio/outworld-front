@@ -97,7 +97,7 @@ button {
 button i {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--primary-text-color);
+  color: var(--color-4);
 }
 
 </style>

@@ -43,7 +43,7 @@ export default {
 <style scoped>
 .content-post {
   padding: 2%;
-  color: var(--primary-text-color);
+  color: var(--color-4);
   font-weight: 400;
   width: 100%;
 }

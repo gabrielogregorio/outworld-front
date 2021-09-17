@@ -174,7 +174,7 @@ export default {
 }
 
 .msg {
-  background: var(--primary-nigth-color);
+  background: var(--background-4);
   padding: 10px;
   width: 100%;
   border-radius: 0 5px 5px 5px;
@@ -225,7 +225,7 @@ export default {
 
 .msg-data p {
   font-size: 0.9rem;
-  color: var(--primary-text-color);
+  color: var(--color-4);
 }
 
 .msg-body p {
@@ -246,6 +246,6 @@ export default {
 }
 
 .options button:hover {
-  color: var(--primary-blue-color);
+  color: var(--background-button-1);
 } 
 </style>

@@ -10,9 +10,9 @@
       <label class="custom-file-upload">
         <input type="file" name="image" id="image" @change="loadImage()"/>
         <i class="fas fa-image"></i>
-      </label>
+      </label> 
 
-      <button class="red" @click="updateItens">Salvar post</button>
+      <button class="buttonDefault activeButtonDefault" @click="updateItens">Salvar post</button>
     </div>
     
   </section>

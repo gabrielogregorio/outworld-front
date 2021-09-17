@@ -36,7 +36,7 @@ export default {
 
 .dropbtn {
   background-color: transparent;
-  color: var(--primary-text-color);
+  color: var(--color-4);
   padding: 16px;
   font-size: 16px;
   border: none;
@@ -47,7 +47,7 @@ export default {
 
 .dropbtn:hover, .dropbtn:focus {
   background-color: transparent;
-  color: var(--primary-text-color);
+  color: var(--color-4);
 }
 
 .dropdown-content {
@@ -55,18 +55,18 @@ export default {
   position: absolute;
   left: -50px;
   overflow: auto;
-  box-shadow: 0px 8px 16px 0px var(--primary-nigth-shadow);
+  box-shadow: 0px 8px 16px 0px var(--background-5-transparent);
   z-index: 1;
 }
 
 .dropdown-content button { 
-  background-color: var(--primary-nigth-color-transparent);
+  background-color: var(--background-5);
   width: 100%;
   height: 100%;
   outline: none;
   cursor: pointer;
   border: 0;
-  color: white;
+  color: var(--color-4);
   padding: 8px 20px;
   text-align: left;
   text-decoration: none;
@@ -74,7 +74,7 @@ export default {
 }
 
 .dropdown-content button:hover, .dropdown-content a:hover  {
-  background-color: var(--primary-nigth-color-hover);
+  background-color: var(--background-5);
 }
 
 .show {

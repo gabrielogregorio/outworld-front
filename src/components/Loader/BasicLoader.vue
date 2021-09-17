@@ -30,8 +30,8 @@ export default {
 
 .loading-posts div {
   border: 5px solid transparent;
-  border-top: 5px solid var(--primary-background);
-  border-left: 5px solid var(--primary-background);
+  border-top: 5px solid var(--background-2);
+  border-left: 5px solid var(--background-2);
   height: 50px;
   width: 50px;
   border-radius: 50%;
