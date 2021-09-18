@@ -1,0 +1,91 @@
+.modal {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  @extend .ext-flex;
+  .modal-item {
+    max-width: 400px;
+    background: var(--background-2);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px 1px var(--background-4);
+  }
+
+  .modal-item-title {
+    width: 100%;
+    p {
+      padding-bottom: 10px;
+      font-size: 1.7rem;
+      width: 100%;
+      text-align: center;
+      font-weight: 700;
+      color: var(--color-4);
+    }
+  }
+
+
+  .modal-item-textarea p {
+    background: transparent;
+    width: 100%;
+    padding: 10px;
+    font-size: 1.1rem;
+    color: var(--color-4);
+    outline: none;
+    margin: 10px 0;
+    resize: none;
+  }
+
+  .modal-item-button {
+    width: 100%;
+    @extend .ext-flex;
+
+    button {
+      padding: 10px 30px;
+      border-radius: 40px;
+      margin-bottom: 20px;
+      cursor: pointer;
+      &:nth-child(1) {
+        background: var(--background-1);
+        color: var(--color-4);
+        border: var(--border);
+      }
+      &:nth-child(2) {
+        background: var(--background-2);
+        color: var(--color-4);
+      }
+    }
+  }
+}
+
+
+
+@media screen and (max-width: 600px) {
+  .modal {
+    padding: 5px;
+    .modal-item {
+      margin: 0 10px;
+      padding: 5px;
+      width: 100%;
+      max-width: 100%;
+    }
+    .modal-item-title p {
+      padding: 0;
+      margin: 0;
+      padding-top: 20px;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .modal-item-textarea p {
+      font-size: 1rem;
+      font-weight: 500;
+    }
+  
+    .modal-item-button button {
+      font-size: 1rem;
+    }
+  }
+}

@@ -159,32 +159,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-  .themes {
-    display: flex;
-  }
-
-  .theme {
-    cursor: pointer;
-    margin: 0 5px;
-    height: 30px;
-    width: 30px;
-    border-radius: 10px;
-  }
-  
-  .theme-purple {
-    background: #008a7e;
-    border: 2px solid #83fff5;
-  }
-
-  .theme-dark {
-    background: #242526;
-    border: 2px solid #8f8f8f;
-  }
-
-  .theme-light {
-    background: #ffffff;
-    border: 2px solid #8f8f8f;
-  }
-</style>

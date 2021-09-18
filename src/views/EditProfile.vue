@@ -145,35 +145,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.body-image {
-  padding: 10px;
-}
-
-.body-image > img{
-  width: 100%;
-  border: var(--border);
-  border-radius: 20px;
-  max-height: 900px;
-  object-fit: cover;
-  cursor: pointer;
-}
-
-.delete-account {
-  padding: 0;
-  background: transparent;
-  text-align: left;
-  color: var(--color-4);
-}
-
-.delete-account:hover {
-  background: transparent;
-  color: var(--background-1);
-}
-
-.save-account {
-   background: var(--background-1);
-}
-
-</style>

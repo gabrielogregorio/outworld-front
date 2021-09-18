@@ -9,7 +9,7 @@
         <img :src='$filters.processImg(userData.img)' alt=''>
       </div><!-- profile -->
 
-      <div class="msg-options ">
+      <div class="msg-options">
         <div :class="deleteThisComment === true ? 'msg delete-coment' : 'msg'">
           <div class="msg-name-options">
             <div class="profile-user">
@@ -27,7 +27,7 @@
             <!-- <p>Economista</p>-->
           </div><!-- msg-data -->
 
-          <div class="msg-body">
+          <div class="msg-body"> 
             <p>{{text}}</p>
           </div><!-- msg-body -->
 
@@ -147,104 +147,3 @@ export default {
   }
 }
 </script>
- 
-
-<style scoped>
-.coments {
-  display: flex;
-  margin-bottom: 9px;
-}
-
-.profile {
-  margin-right: 15px;
-  max-width: 50px;
-  max-height: 50px;
-}
-
-.profile img {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-.msg-options {
-  width: 100%;
-}
-
-.msg {
-  background: var(--background-4);
-  padding: 10px;
-  width: 100%;
-  border-radius: 0 5px 5px 5px;
-}
-
-.delete-coment {
-  animation: deleting 2s linear infinite alternate;
-}
-
-@keyframes deleting {
-  0% {
-    filter: opacity(0.6);
-  }
-
-  100% {
-    filter: opacity(0.3);
-  }
-}
-
-.msg-name-options {
-  display: flex;
-  justify-content: space-between;
-}
-
-.msg-name-options .delete-comment {
-  display: flex;
-  justify-content: flex-end;
-  flex: 1;
-}
-
-.msg-name-options .delete-comment i {
-  cursor: pointer;
-  padding: 5px;
-}
-.msg-name-options .profile-user {
-  padding-bottom: 5px;
-  font-size: 0.8rem;
-}
-
-.msg-name-options .profile-user p:nth-child(1) pre{
-  font-weight: 700;
-}
-
-.msg-name-options .profile-user p:nth-child(2) pre{
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.msg-data p {
-  font-size: 0.9rem;
-  color: var(--color-4);
-}
-
-.msg-body p {
-  padding: 5px 0;
-  word-break: break-all;
-}
-
-.options {
-  width: 100%;
-}
-
-.options button {
-  background: transparent;
-  padding: 2px;
-  border: 0;
-  outline: none;
-  cursor: pointer;
-}
-
-.options button:hover {
-  color: var(--background-button-1);
-} 
-</style>

@@ -19,11 +19,6 @@
         <pre>{{ $filters.processEdited(edited)}}</pre>
       </div>
     </div>
-
-
-
-
-
   </div>
 </template>
 
@@ -72,89 +67,3 @@ export default {
   }
 }
 </script>
-
-
-<style scoped>
-
-.row-info-profile {
-  padding: 2%;
-  width: 100%;
-  display: flex;
-}
-
-.img-post-perfil {
-  margin-right: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.img-post-perfil img {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  cursor: pointer;
-  border-radius: 50%;
-}
-
-.info-post-superior {
-  padding: 0;
-  margin: 0;
-  display: block;
-  width: 100%;
-}
-
-.info-post-superior-base {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-}
-
-.info-post-superior-base a {
-  font-size: 16px;
-  text-decoration: none;
-  flex: 1;
-}
-
-.info-post-superior-base a:nth-child(1) {
-  font-weight: 700;
-  color: var(--color-4);
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-.info-post-superior-base a:nth-child(2) {
-  font-weight: 700;
-  margin-left: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-.info-post-superior-baixo {
-  display: flex;
-  width: 100%;
-}
-
-.info-post-superior-baixo  a {
-  font-size: 0.8rem;
-  font-weight: 500;
-  text-decoration: none;  
-}
-
-.info-post-superior-baixo p, .info-post-superior-baixo pre {
-  font-size: 0.8rem;
-}
-
-.config-post {
-}
-
-.body-padding {
-  padding-left: 50px;
-} 
-
-@media screen and (max-width: 600px){
-}
-</style>

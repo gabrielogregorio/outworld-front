@@ -1,56 +1,35 @@
 @import 'theme-colors';
+@import 'extends';
+@import 'base';
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--color-4);
-  font-family: 'Segoe UI', Verdana, Arial , Tahoma, sans-serif;
-}
+@import 'form';
 
-/* Solução para remover a cor que o Google chrome coloca nos campos após serem preenchidos com o autocomplete
-> https://stackoverflow.com/questions/2781549/removing-input-background-colour-for-chrome-autocomplete
-*/
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active
-{
- -webkit-box-shadow: 0 0 0 30px var(--background-2) inset !important;
-}
+@import 'post/post';
+@import 'post/post-profile';
+@import 'post/post-body';
+@import 'post/new-post';
 
-input:-webkit-autofill
-{
- -webkit-text-fill-color: var(--color-4) !important;
-}
-/* Fim da solução */
+@import 'comment/make-comment';
+@import 'comment/comment';
 
-/* Configurações de layout e itens globais */
-body {
-  min-height: 100vh;
-  background-color: var(--background-1);
-  overflow-y: scroll;
-  height: 100%;
-  display: flex;
-  align-content: center;
-  flex-direction: column;
-}
+@import 'loading/loading';
+@import 'loading/loading-basic';
+@import 'loading/loading-purple';
 
-section {
-  max-width: 1280px;
-  margin: 0 auto;
-  width: 100%;
-}
+@import 'modal/modal';
+@import 'modal/modal-delete';
 
-.login-cadastro {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 50px 2%;
-}
+@import 'dropdown/drop-down';
+@import 'dropdown/drop-down-post';
+@import 'register-user';
+@import 'messages';
+@import 'navbar';
+@import 'user';
+
+@import 'profile';
+@import 'login';
+@import 'edit-profile/edit-profile';
+
 
 .container {
   box-shadow: 0px 0px 19px -1px var(--background-4-transparent);
@@ -64,17 +43,6 @@ section {
     width: 100%;
     max-width: 500px;
     margin: 0 auto;
-}
-
-.message-container {
-  height: 100vh;
-  box-shadow: 0px 0px 19px -1px var(--background-4-transparent);
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 .novo-post-imagem img{
@@ -97,179 +65,79 @@ section {
   border: 1px solid transparent;
 }
 
-img {
-  box-shadow: 0px 0px 1px 1px var(--background-4-transparent);
-}
+ 
 /* Fim layout geral e itens */
-
-/* Layout dos formulários */
-.form { 
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding: 50px;
-  margin: 0 auto;
-  background-color: var(--background-2);
-  border: var(--border);
-  border-top:0;
-}
-
-.form textarea {
-  margin-bottom: 10px;
-  padding: 10px;
-  width: 100%;
-  background: transparent;
-  outline: none;
-  resize: vertical;
-  overflow-y: hidden;
-  border: 1px solid var(--color-4);
-}
-
-form .novo-post-imagem img {
-  width: 100%;
-}
-
-.form h1 {
-  font-weight: 700;
-  font-size: 2rem;
-  text-align: center;
-  padding: 10px 0;
-  color: var(--color-4);
-}
-
-.form h2 {
-  font-weight: 400;
-  font-size: 18px;
-  text-align: center;
-  color: var(--color-4);
-}
-
-.form a {
-  display: block;
-  color: var(--color-4);
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
-.form label {
-  display: block;
-  color: var(--color-4);
-  padding-top: 20px;
-  padding-bottom: 5px;
-}
-
-.form input {
-  color: var(--color-4);
-  padding: 10px;
-  background: transparent;
-  outline: none;
-  border: 1px solid var(--color-4);
-}
-
-.form input::placeholder {
-  color: var(--color-5);
-  background: transparent;
-}
-
-.form input:slotted {
-  background: transparent;
-}
-
-.form button {
-  display: block;
-  margin: 10px 0;
-  padding: 10px 0;
-  cursor: pointer;
-  background-color: var(--background-button-1);
-  border: none;
-  color: var(--color-button-1);
-  transition: 0.2s;
-  border-radius: 10px;
-}
-
-.form button:hover {
-  background-color: var(--background-button-1-hover);
-}
-
-.form-logged {
-  margin: 0 auto;
-}
-
-input[type="file"] {
-  display: none;
-}
 
 .custom-file-upload {
   display: block;
   cursor: pointer;
+
+  input[type="file"] {
+    display: none;
+  }
+  
+  i {
+    display: block;
+    cursor: pointer;
+    font-size: 1.3rem;
+  }
 }
 
-.custom-file-upload i {
-  display: block;
-  cursor: pointer;
-  font-size: 1.3rem;
-}
- 
 .input { 
   width: 100%;
   background: linear-gradient(45deg, var(--background-0), var(--background-1));
   width: 100%;
   height: 100%;
   padding: 1px;
+
+  input {
+    height: 100%;
+    outline: none;
+    color: var(--color-4);
+    background: var(--background-2);
+    width: 100%;
+    border: 3px solid transparent;
+  }
+
+  textarea {
+    background: var(--background-2);
+    width: 100%;
+    border: 3px solid transparent;
+  }
+
+  input::placeholder {
+    color: var(--color-5);
+  }
+
+  textarea::placeholder {
+    color: var(--color-5);
+  } 
 }
 
-.input input {
-  height: 100%;
-  outline: none;
-  color: var(--color-4);
-  background: var(--background-2);
-  width: 100%;
-  border: 3px solid transparent;
-}
-
-.input textarea {
-  background: var(--background-2);
-  width: 100%;
-  border: 3px solid transparent;
-}
-
-.input input::placeholder {
-  color: var(--color-5);
-}
-
-.form textarea::placeholder {
-  color: var(--color-5);
-} 
 /* Layout dos formulários */
 
 /* Configurações de perfil */
 .name-config {
-  width: 100%;
+  @extend .ext-flex;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   padding: 0;
   margin: 0;
+  h2 {
+    font-size: 2rem;
+    height: 100%;
+  }
+  a > i:hover {
+    color: var(--color-1);
+  }
 }
 
-.name-config h2 {
-  font-size: 2rem;
-  height: 100%;
-}
-
-.name-config a {
-}
-
-.my-profile .name-config i {
-  font-size: 1.4rem;
-  padding: 0 10px;
-  cursor: pointer;
-  transition: 0.2s;
-} 
-
-.name-config  > a > i:hover {
-  color: var(--color-1);
+.my-profile  {
+  .name-config i {
+    font-size: 1.4rem;
+    padding: 0 10px;
+    cursor: pointer;
+    transition: 0.2s;
+  } 
 }
 
 .bio-and-work {
@@ -277,10 +145,6 @@ input[type="file"] {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
-}
-
-.statistics {
-  
 }
 
 .citation {
@@ -291,9 +155,7 @@ input[type="file"] {
 
 /* Perfil de imagem */
 .my-profile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  @extend .ext-flex-column;
   max-width: 900px;
   width: 100%;
   padding: 10px 30px;
@@ -317,97 +179,83 @@ input[type="file"] {
   width: 100%;
   display: flex;
   padding-top: 20px;
-}
 
-.menu-items button {
-  display: block;
-  flex: 1;
-  background: transparent;
-  border: none;
-  padding: 5px;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-}
+  button {
+    display: block;
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
 
-.menu-items button:hover {
-  font-weight: 700;
-  border-bottom: 2px solid var(--background-button-1-hover);
-} 
+    &:hover {
+      font-weight: 700;
+      border-bottom: 2px solid var(--background-button-1-hover);
+    } 
+  }
+}
 
 @media screen and (max-width: 600px){
-
   .login-cadastro {
     align-items: flex-start;
     padding: 0;
   }
 
-  .container {
+  .container-500 {
+    min-height: 100vh;
   }
-
-.container-500 {
-  min-height: 100vh;
-}
-
 
   .form {
     padding: 50px 2%;
-  }
+    h1 {
+      font-size: 2.5rem;
+    }
+    a {
+      font-size: 1.4rem;
+      padding: 15px 0;
+    }
 
-  .form h1 {
-    font-size: 2.5rem;
-  }
+    label {
+      font-size: 1.2rem;
+    }
 
-  .form a {
-    font-size: 1.4rem;
-    padding: 15px 0;
-  }
+    input {
+      font-size: 1.2rem;
+      padding: 20px inherit;
+    }
 
-  .form label {
-    font-size: 1.2rem;
+    button {
+      font-size: 1.3rem;
+      padding: 20px 0;
+    }
   }
-
-  .form input {
-    font-size: 1.2rem;
-    padding: 20px inherit;
-  }
-
- .form button {
-   font-size: 1.3rem;
-   padding: 20px 0;
- }
 
   /* Perfil de imagem */
   .my-profile {
     padding: 30px 2%;
-  }
 
-  .my-profile img {
-    display: block;
-    width: 90vw;
-    height: 90vw;
-    object-fit: cover;
-    border-radius: 50%;
+    img {
+      display: block;
+      width: 90vw;
+      height: 90vw;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .name-config h2 {
+      font-size: 1.6rem;
+      padding: 15px 0;
+    }
+
+    .name-config i {
+      font-size: 1.6rem;
+    }
   }
 
   /* Fim de imagem */
   
   /* Configurações de perfil */
-  .my-profile .name-config {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .my-profile .name-config h2 {
-    font-size: 1.6rem;
-    padding: 15px 0;
-  }
-
-  .my-profile .name-config i {
-    font-size: 1.6rem;
-  } 
-
   .statistics p {
     font-size: 1.2rem;
   }

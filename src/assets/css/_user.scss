@@ -1,0 +1,72 @@
+.container-user {
+  @extend .ext-flex;
+  max-width: 900px;
+  width: 100%;
+  padding: 10px 30px;
+  margin: 0 auto;
+  background-color: var(--background-2);
+  border: var(--border);
+  border-top: 0;
+
+  .img-user-perfil {
+    margin-right: 15px;
+    width: 50px;
+    height: 50px;
+    img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+    }
+  }
+
+  .info-user {
+    width: 100%;
+  }
+
+  .info-user-perfil {
+    width: 100%;
+  }
+
+  .info-user-superior {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  
+    h2 {
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--color-4);
+      font-size: 16px;
+      text-overflow: ellipsis;
+      overflow: hidden; 
+      width: 30vw; 
+      white-space: nowrap;
+    }
+
+    p {
+      cursor: pointer;
+      font-weight: 500;
+      margin-left: 5px;
+      font-size: 14px;
+      text-overflow: ellipsis;
+      overflow: hidden; 
+      width: 30vw; 
+      white-space: nowrap; 
+    }
+  }
+
+  .button-default {
+    width: 110px;
+    transition: 0.5s;
+  }
+}
+
+
+
+@media screen and (max-width: 600px){
+  .container-user {
+    padding: 2%;
+  }
+}

@@ -1,5 +1,5 @@
 <template>
-<div class="login-cadastro">
+<div class="login-register">
   <section>
    <div v-if="activated === true"  class="form container-500">
      <h1>Fazendo Login</h1>
@@ -73,47 +73,3 @@ export default {
   }
 }
 </script>
-
-
-<style scoped>
-
-span {
-  margin-top: 10px;
-  padding: 10px;
-  background: var(--background-1);
-  color:var(--color-4);
-  border-radius: 5px;
-  text-align: center;
-}
-
-.loading-posts {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 900px;
-  width: 100%;
-  min-height: 50px;
-  margin: 0;
-  border: 0;
-  padding: 10px 0; 
-}
- 
-.loading-posts div {
-  border: 5px solid transparent;
-  border-top: 5px solid var(--background-1);
-  border-left: 5px solid var(--background-1);
-  height: 50px;
-  width: 50px;
-  border-radius: 50%;
-  animation: loading 1s linear infinite;
-}
-
-@keyframes loading {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-</style>
