@@ -15,20 +15,3 @@ export default {
   }
 }
 </script>
-
-
-<style scoped>
-.loading {
-  animation: loading 2s infinite alternate;
-}
-
-@keyframes loading {
-  0% {
-    color: var(--background-1)
-  }
-
-  100% {
-    color: var(--background-0)
-  }
-}
-</style>
