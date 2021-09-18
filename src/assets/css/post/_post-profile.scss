@@ -9,9 +9,7 @@
 
   .img-post-perfil {
     margin-right: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @extend .ext-flex;
     img {
       width: 50px;
       height: 50px;
@@ -29,9 +27,7 @@
   }
 
   .info-post-superior-base {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @extend .ext-flex;
     width: 100%;
     padding: 0;
     margin: 0;

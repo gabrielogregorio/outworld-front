@@ -5,10 +5,7 @@
   height: 100%;
   top: 0;
   left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
+  @extend .ext-flex;
   .modal-item {
     max-width: 400px;
     background: var(--background-2);
@@ -43,9 +40,7 @@
 
   .modal-item-button {
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @extend .ext-flex;
 
     button {
       padding: 10px 30px;

@@ -1,5 +1,5 @@
 .container-user {
-  display: flex;
+  @extend .ext-flex;
   max-width: 900px;
   width: 100%;
   padding: 10px 30px;

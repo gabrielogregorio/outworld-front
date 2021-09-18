@@ -10,9 +10,7 @@
 
  nav {
   background-color: var(--background-2);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  @extend .ext-flex;
   height: auto;
   padding: 0 30px;
   div a{
@@ -35,5 +33,4 @@
       text-align: right;
     }    
   }
-  
 }

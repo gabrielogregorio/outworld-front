@@ -1,0 +1,12 @@
+.ext-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ext-flex-column {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
