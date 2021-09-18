@@ -1,6 +1,6 @@
 <template> 
   <section>
-    <div class="container-post">
+    <div class="container-post-new-post">
       <div class="img-post-perfil">
         <img :src="$filters.processImg(img)" alt="">
       </div><!-- img-post-perfil -->

@@ -2,30 +2,33 @@
 @import 'base';
 
 @import 'form';
-@import 'post';
-@import 'post-profile';
-@import 'post-body';
-@import 'new-post';
-@import 'loading';
-@import 'loading-basic';
-@import 'make-comment';
-@import 'comment';
-@import 'drop-down';
-@import 'loading-purple';
+
+@import 'post/post';
+@import 'post/post-profile';
+@import 'post/post-body';
+@import 'post/new-post';
+
+@import 'comment/make-comment';
+@import 'comment/comment';
+
+@import 'loading/loading';
+@import 'loading/loading-basic';
+@import 'loading/loading-purple';
+
+@import 'modal/modal';
+@import 'modal/modal-delete';
+
+@import 'dropdown/drop-down';
+@import 'dropdown/drop-down-post';
 @import 'register-user';
 @import 'messages';
 @import 'navbar';
 @import 'user';
-@import 'modal';
-@import 'modal-delete';
 
-.login-cadastro {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 50px 2%;
-}
+@import 'profile';
+@import 'login';
+@import 'edit-profile/edit-profile';
+
 
 .container {
   box-shadow: 0px 0px 19px -1px var(--background-4-transparent);
@@ -39,17 +42,6 @@
     width: 100%;
     max-width: 500px;
     margin: 0 auto;
-}
-
-.message-container {
-  height: 100vh;
-  box-shadow: 0px 0px 19px -1px var(--background-4-transparent);
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 .novo-post-imagem img{
@@ -72,106 +64,8 @@
   border: 1px solid transparent;
 }
 
-img {
-  box-shadow: 0px 0px 1px 1px var(--background-4-transparent);
-}
+ 
 /* Fim layout geral e itens */
-
-/* Layout dos formulários */
-.form { 
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding: 50px;
-  margin: 0 auto;
-  background-color: var(--background-2);
-  border: var(--border);
-  border-top:0;
-
-  textarea {
-    margin-bottom: 10px;
-    padding: 10px;
-    width: 100%;
-    background: transparent;
-    outline: none;
-    resize: vertical;
-    overflow-y: hidden;
-    border: 1px solid var(--color-4);
-  }
-
-  h1 {
-    font-weight: 700;
-    font-size: 2rem;
-    text-align: center;
-    padding: 10px 0;
-    color: var(--color-4);
-  }
-
-  h2 {
-    font-weight: 400;
-    font-size: 18px;
-    text-align: center;
-    color: var(--color-4);
-  }
-
-  a {
-    display: block;
-    color: var(--color-4);
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
-
-  .novo-post-imagem img {
-    width: 100%;
-  }
-
-  label {
-    display: block;
-    color: var(--color-4);
-    padding-top: 20px;
-    padding-bottom: 5px;
-  }
-
-  input {
-    color: var(--color-4);
-    padding: 10px;
-    background: transparent;
-    outline: none;
-    border: 1px solid var(--color-4);
-  }
-  
-  input::placeholder {
-    color: var(--color-5);
-    background: transparent;
-  }
-
-  input:slotted {
-    background: transparent;
-  }
-  button {
-    display: block;
-    margin: 10px 0;
-    padding: 10px 0;
-    cursor: pointer;
-    background-color: var(--background-button-1);
-    border: none;
-    color: var(--color-button-1);
-    transition: 0.2s;
-    border-radius: 10px;
-  }
-  button:hover {
-    background-color: var(--background-button-1-hover);
-  }
-  
-}
-
-
-
-
-.form-logged {
-  margin: 0 auto;
-}
-
 
 .custom-file-upload {
   display: block;

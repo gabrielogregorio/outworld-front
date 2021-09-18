@@ -8,16 +8,15 @@
   margin: 0;
   border: 0;
   padding: 10px 0;
-}
-
-.loading-post-basic div {
-  border: 5px solid transparent;
-  border-top: 5px solid var(--background-2);
-  border-left: 5px solid var(--background-2);
-  height: 50px;
-  width: 50px;
-  border-radius: 50%;
-  animation: loading-basic 1s linear infinite;
+  div {
+    border: 5px solid transparent;
+    border-top: 5px solid var(--background-2);
+    border-left: 5px solid var(--background-2);
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    animation: loading-basic 1s linear infinite;
+  }
 }
 
 @keyframes loading-basic {

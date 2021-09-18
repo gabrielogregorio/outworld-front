@@ -1,5 +1,5 @@
 <template>
-  <div class="dropdown">
+  <div class="dropdown-item">
     <button @click="myFunction()" class="dropbtn">...</button>
     <div id="myDropdown" :class="showDrop ? 'dropdown-content show' : 'dropdown-content'">
       <button @click="deleteComment()" >Excluir</button>

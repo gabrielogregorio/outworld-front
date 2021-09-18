@@ -9,7 +9,7 @@
         <img :src='$filters.processImg(userData.img)' alt=''>
       </div><!-- profile -->
 
-      <div class="msg-options ">
+      <div class="msg-options">
         <div :class="deleteThisComment === true ? 'msg delete-coment' : 'msg'">
           <div class="msg-name-options">
             <div class="profile-user">
@@ -27,7 +27,7 @@
             <!-- <p>Economista</p>-->
           </div><!-- msg-data -->
 
-          <div class="msg-body">
+          <div class="msg-body"> 
             <p>{{text}}</p>
           </div><!-- msg-body -->
 

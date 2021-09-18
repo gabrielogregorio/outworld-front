@@ -1,5 +1,5 @@
 <template>
-<div class="login-cadastro">
+<div class="login-register">
   <section>
    <div v-if="activated === true"  class="form container-500">
      <h1>Criando a conta</h1>

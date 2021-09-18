@@ -1,8 +1,8 @@
 .loading {
-  animation: loading 2s infinite alternate;
+  animation: loading-default 2s infinite alternate;
 }
 
-@keyframes loading {
+@keyframes loading-default {
   0% {
     color: var(--background-1)
   }

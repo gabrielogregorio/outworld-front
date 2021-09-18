@@ -1,6 +1,6 @@
 
 
-.menu-principal {
+.menu-principal { 
   max-width: 900px;
   width: 100%;
   margin: 0 auto;
@@ -8,31 +8,32 @@
   border-top: 0;
 }
 
-nav {
+ nav {
   background-color: var(--background-2);
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: auto;
   padding: 0 30px;
-}
+  div a{
+    color: var(--color-5);
+    text-transform: uppercase;
+  }
+  div {
+    a.router-link-exact-active i {
+      color: var(--background-button-1);
+      border-bottom: 2px solid var(--background-button-1);
+    }
 
-nav div a{
-  color: var(--color-5);
-  text-transform: uppercase;
-}
+    i{
+      font-size: 1.3rem;
+      padding: 15px;
+    }
 
-nav div i{
-  font-size: 1.3rem;
-    padding: 15px;
-}
-
-nav div a.router-link-exact-active i {
-  color: var(--background-button-1);
-  border-bottom: 2px solid var(--background-button-1);
-}
-
-nav div.perfil {
-  flex: 1;
-  text-align: right;
+    &.perfil {
+      flex: 1;
+      text-align: right;
+    }    
+  }
+  
 }
