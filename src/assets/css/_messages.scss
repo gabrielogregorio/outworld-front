@@ -1,0 +1,110 @@
+
+.message-container .users-message {
+  display: flex;
+  flex: 1;
+  background: var(--background-2);
+}
+
+.message-container .users {
+
+}
+
+.message-container .user  {
+  display: flex;
+  width: 100%;
+  background:  var(--background-2);
+  padding: 5px 20px;
+  cursor: pointer;
+}
+
+.message-container .user.selected {
+  background: var(--background-3);
+}
+
+.message-container .user-img {
+
+}
+
+.message-container .user-img img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.message-container .user-info {
+
+}
+
+.message-container .user-info p {
+
+}
+
+.message-container .messages {
+  background: var(--background-2);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: calc(100vh - 52px);
+}
+
+.message-container .message {
+  flex: 1;
+  padding: 0 10px;
+  width: 100%;
+  background: var(--background-3);
+  overflow-y: auto;
+}
+
+.message-container .message-item {
+
+}
+
+.message-container .message-item > p {
+  width: 100%;
+  word-break: break-all;
+  padding: 10px;
+  margin: 5px 0;
+}
+
+.message-container .message-item.this {
+  background: var(--background-2);
+  margin-left: 20px;
+  border-radius: 10px 10px 0 10px;
+}
+
+.message-container .message-item.reply {
+  background: var(--background-1);
+  margin-right: 20px;
+  border-radius: 0px 10px 10px 10px;
+}
+
+.message-container .send-messages {
+  height: 50px;
+  width: 100%;
+  background: var(--background-2);
+  display: flex;
+  padding: 5px;
+}
+
+.message-container .send-messages button {
+  display: flex;  
+  background: var(--background-1);
+  border: 0;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.message-container .send-messages button i {
+  padding: 0 3px;
+}
+
+@media screen and (max-width: 600px){
+  .message-container .user-info {
+    display: none;
+  }
+}

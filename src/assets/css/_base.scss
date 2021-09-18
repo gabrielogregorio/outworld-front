@@ -1,0 +1,43 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-4);
+  font-family: 'Segoe UI', Verdana, Arial , Tahoma, sans-serif;
+}
+
+/* Solução para remover a cor que o Google chrome coloca nos campos após serem preenchidos com o autocomplete
+> https://stackoverflow.com/questions/2781549/removing-input-background-colour-for-chrome-autocomplete
+*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active
+{
+ -webkit-box-shadow: 0 0 0 30px var(--background-2) inset !important;
+}
+
+input:-webkit-autofill
+{
+ -webkit-text-fill-color: var(--color-4) !important;
+}
+/* Fim da solução */
+
+/* Configurações de layout e itens globais */
+body {
+  min-height: 100vh;
+  background-color: var(--background-1);
+  overflow-y: scroll;
+  height: 100%;
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+}
+section {
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}
