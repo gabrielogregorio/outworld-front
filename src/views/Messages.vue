@@ -74,7 +74,7 @@ export default {
     })
 
     // Realiza uma conexão com o servidor
-    this.connection = new WebSocket('ws://192.168.0.105:3000/')
+    this.connection = new WebSocket(`ws://${hostServer.replace('http://', '')}/`)
 
     // Recebe mensagens do servidor
     this.connection.onmessage = (event) => {
