@@ -15,11 +15,6 @@
 
 <script>
 export default {
-  name: 'Navbar',
-  methods: {
-    updatePosts() {
-      this.$emit("updatePosts", "")
-    }
-  }
+  name: 'Navbar'
 }
 </script>

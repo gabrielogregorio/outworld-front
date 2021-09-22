@@ -13,7 +13,7 @@ export default {
     let theme = localStorage.getItem("theme");
 
     if(theme === undefined) {
-      this.themeSeleted = 'dark'
+      this.themeSeleted = 'purple'
     } else {
       this.themeSeleted = theme
     }

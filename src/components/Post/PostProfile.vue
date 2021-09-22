@@ -39,7 +39,7 @@ export default {
     DropDown
   },
   created() {
-    console.log(this.createdAt, 11)
+    //console.log(this.createdAt, 11)
   },
   props: {
     userId: String,

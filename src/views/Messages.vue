@@ -8,14 +8,17 @@
             <img :src="$filters.processImg(user.img)" alt="">
           </div><!-- user-img -->
           <div class="user-info">
-            <p>{{user.name}}</p>
-            <p>...</p>
+            <p class="user-info-username">{{user.name}}</p>
+            <div>
+              <span class="nova-msg" v-if="messagesRecibes.includes(user._id)">Nova</span>
+              <span class="nova-msg-hidden" v-else></span>
+            </div>
           </div><!-- user-info -->
         </div> <!-- user -->
       </div><!-- users -->
 
       <div class="messages">
-        <div class="message">
+        <div class="message" @scroll="eventScrool">
           <div v-for="(message, index) in messages" :key="message._id + index" :class="message.from._id == myId ? 'message-item this' :'message-item reply'">
             <p>{{message.message}}</p>
           </div><!-- message-item -->
@@ -36,29 +39,111 @@ import axios from 'axios';
 import Navbar from '../components/Navbar.vue';
 import getHeader from '../getToken';
 import { hostServer } from '../connections';
-
+import { inject } from 'vue'
 
 export default {
   name: 'Users',
   components: {
     Navbar
   },
+  setup() {
+    const newMessage = inject('newMessage')
+
+    return {
+      newMessage
+    }
+  },
+
   data() {
     return {
       users: [],
       hostServer: hostServer,
       userSelect: 0,
       messages: [],
+      messagesRecibes: [],
       myId: '',
       message: '',
-      idSendMesssage: ''
+      idSendMesssage: '',
+      connection: null
     }
   },
-  mounted() {
+  created() {
+    axios.get(`${hostServer}/me`, getHeader()).then(res => {
+      this.myId = res.data[0]._id
+      this.updateMessages()
+    })
+
+    // Realiza uma conexão com o servidor
+    this.connection = new WebSocket('ws://192.168.0.105:3000/')
+
+    // Recebe mensagens do servidor
+    this.connection.onmessage = (event) => {
+      // Realiza o parse das mensagens
+      let msg = JSON.parse(event.data); 
+
+      // Indica que uma conexão acabou de ser feita
+      if(msg.type === 'connected') {
+
+        // Realiza uma requisição para que o servidor saiba quem é o usuário 
+        // conectado ao socket com o UUID X
+        axios.post(`${hostServer}/connectSocket`,
+          {
+              socketUuid:msg.socketUuid
+          }, getHeader(), ).then(() => {}).catch((error) => {
+          console.log(error)
+        })
+
+      // Servidor avisou que o usuário recebeu uma mensagem
+      } else if(msg.type === 'RECIVE_MESSAGE') {
+          //console.log('mensagem de ', msg.from)
+          //console.log('Conteudo', msg.message)
+          if(!this.messagesRecibes.includes(msg.from)) {
+            this.messagesRecibes.push(msg.from)
+          }
+
+          // Atualiza as mensagens
+          this.updateMessages()
+          //newMessage = true
+      }
+    }
+    // Conectado ao socket
+    //this.connection.onopen = function() {
+    //  console.log("Successfully connected to the echo websocket server...")
+    //}
   },
   methods: {
+    eventScrool(event) {
+      let idUserSelected = this.idSendMesssage
+
+      // Usuário atual está na lista de mensagens recebidas não visualizadas
+      if (this.messagesRecibes.includes(idUserSelected)) {
+        // Distancia da parte inferior da tela
+        let distanceBottom = event.target.scrollTop + event.target.clientHeight
+        let heigthScrollBar = event.target.scrollHeight
+
+        if (distanceBottom === heigthScrollBar) {
+          // Remove o usuário da lista de mensagens recebidas
+          this.messagesRecibes = this.messagesRecibes.filter(message => message !== idUserSelected)
+        }
+      }
+  
+    },
+
+    //sendMessage: function(message) {
+    //  console.log('azaaa')
+    //  this.connection.send(JSON.stringify({message, type: 'NOVA_MENSAGEM'}));
+    //},
+
+    // Usuário faz uma requisição ao servidor, indicando que enviou uma mensagem
+    // a um usuário
+    sendMessageUser(to, message) {
+      axios.post(`${hostServer}/sendMessageUser`, { to, message, from:this.myId }, getHeader(), ).then(() => {
+      }).catch(() => {})
+    },
+
     sendMessage(){
       if (this.message != '') {
+        this.sendMessageUser(this.idSendMesssage, this.message)
         axios.post(`${hostServer}/message`, {
           to: this.idSendMesssage,
           message: this.message
@@ -87,11 +172,7 @@ export default {
       })
     }
   },
-  async created() { 
-    axios.get(`${hostServer}/me`, getHeader()).then(res => {
-      this.myId = res.data[0]._id
-      this.updateMessages()
-    })
+  watch: {
   }
 }
 </script>
