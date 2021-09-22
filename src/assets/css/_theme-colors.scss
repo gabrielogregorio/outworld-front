@@ -1,30 +1,5 @@
 :root {
-  --background-0: #3A3B3C;
-  --background-1: #18191A;
-  --background-2: #242526;
-  --background-3: #3A3B3C;
-  --background-4: #3A3B3C;
-  --background-5: rgba(100, 100, 100, 1);
-
-  --background-button-1: rgb(0, 113, 206);
-  --background-button-1-hover: rgb(0, 89, 161);
-
-  --color-1:#363636;
-  --color-2: rgb(137, 29, 199);
-  --color-3: rgb(0, 89, 161);
-  --color-4: #ffffff;
-  --color-5: #ffffffee;
-
-  --background-4-transparent: #3a3b3c22;
-  --background-5-transparent: #51525311;
-
-  --color-button-1: var(--color-5);
-
-  --border: 1px solid var(--color-1);
-}
-
-
-[theme="purple"] {
+  
   --background-0: #570faa;
   --background-1: #470c8a;
   --background-2: #008a7e;
@@ -48,6 +23,34 @@
   --background-5-transparent: #51525311;
 
   --border: 1px solid var(--color-1);
+}
+
+
+[theme="dark"] {
+
+  --background-0: #3A3B3C;
+  --background-1: #18191A;
+  --background-2: #242526;
+  --background-3: #3A3B3C;
+  --background-4: #3A3B3C;
+  --background-5: rgba(100, 100, 100, 1);
+
+  --background-button-1: rgb(0, 113, 206);
+  --background-button-1-hover: rgb(0, 89, 161);
+
+  --color-1:#363636;
+  --color-2: rgb(137, 29, 199);
+  --color-3: rgb(0, 89, 161);
+  --color-4: #ffffff;
+  --color-5: #ffffffee;
+
+  --background-4-transparent: #3a3b3c22;
+  --background-5-transparent: #51525311;
+
+  --color-button-1: var(--color-5);
+
+  --border: 1px solid var(--color-1);
+
 }
 
 [theme="light"] {

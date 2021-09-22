@@ -9,8 +9,9 @@
   justify-content: space-between;
 
   .users-message {
-    display: flex;
     flex: 1;
+    display: grid;
+    grid-template-columns: 2fr 3fr;
     background: var(--background-2);
   }
 
@@ -20,6 +21,7 @@
     background:  var(--background-2);
     padding: 5px 20px;
     cursor: pointer;
+    justify-content: flex-start;
 
     &.selected {
       background: var(--background-3);
@@ -79,7 +81,7 @@
     padding: 5px;
     button {
       @extend .ext-flex;
-      background: var(--background-1);
+      background: var(--background-1); 
       border: 0;
       padding: 5px 10px;
       border-radius: 5px;
@@ -91,8 +93,32 @@
   }
 }
 
+.message-container .user-info{
+  display: flex;
+  flex-direction: column;
+}
+
+.message-container .user-info > p{
+  font-size: 1rem;
+}
+.message-container .user-info div {
+  margin-top: 10px;
+}
+
+.message-container .user-info div .nova-msg {
+  background-color: var(--background-button-1);
+  padding: 1px 3px;
+  border-radius: 5px;
+}
+
+.message-container .user-info div .nova-msg-hidden {
+  background-color: transparent;
+  padding: 1px 3px;
+  border-radius: 5px;
+}
+
 @media screen and (max-width: 600px){
-  .message-container .user-info {
+  .message-container .user-info-username {
     display: none;
   }
 }
