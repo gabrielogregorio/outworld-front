@@ -1,3 +1,4 @@
+
 <template> 
   <div class="message-container">
     <Navbar /> 
@@ -38,7 +39,7 @@
 import axios from 'axios';
 import Navbar from '../components/Navbar.vue';
 import getHeader from '../getToken';
-import { hostServer } from '../connections';
+import { hostServer, hostWebsocket } from '../connections';
 import { inject } from 'vue'
 
 export default {
@@ -74,7 +75,7 @@ export default {
     })
 
     // Realiza uma conexão com o servidor
-    this.connection = new WebSocket(`ws://${hostServer.replace('http://', '')}/`)
+    this.connection = new WebSocket(`${hostWebsocket}/`)
 
     // Recebe mensagens do servidor
     this.connection.onmessage = (event) => {
