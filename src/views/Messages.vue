@@ -20,9 +20,15 @@
 
       <div class="messages">
         <div class="message" @scroll="eventScrool">
-          <div v-for="(message, index) in messages" :key="message._id + index" :class="message.from._id == myId ? 'message-item this' :'message-item reply'">
+          <div v-for="(message, index) in messages" :key="message._id + index" :class="message.from._id === myId ? 'message-item this' :'message-item reply'">
             <p>{{message.message}}</p>
           </div><!-- message-item -->
+
+          <p v-if="messagesToSend.length !== 0">Enviando Mensagens</p>
+          <div v-for="(message, index) in messagesToSend" :key="message._id + index" :class="message.from._id === myId ? 'message-item this' :'message-item reply'">
+            <p>{{message.message}}</p>
+          </div><!-- message-item -->
+          
         </div><!-- message -->
  
         <div class="send-messages">
@@ -61,6 +67,7 @@ export default {
       hostServer: hostServer,
       userSelect: 0,
       messages: [],
+      messagesToSend: [],
       messagesRecibes: [],
       myId: '',
       message: '',
@@ -127,7 +134,6 @@ export default {
           this.messagesRecibes = this.messagesRecibes.filter(message => message !== idUserSelected)
         }
       }
-  
     },
 
     //sendMessage: function(message) {
@@ -138,39 +144,57 @@ export default {
     // Usuário faz uma requisição ao servidor, indicando que enviou uma mensagem
     // a um usuário
     sendMessageUser(to, message) {
+      // Passar direto pelo recurso e deixar ele em segundo plano
       axios.post(`${hostServer}/sendMessageUser`, { to, message, from:this.myId }, getHeader(), ).then(() => {
       }).catch(() => {})
     },
 
-    sendMessage(){
-      if (this.message != '') {
-        this.sendMessageUser(this.idSendMesssage, this.message)
-        axios.post(`${hostServer}/message`, {
-          to: this.idSendMesssage,
-          message: this.message
-        }, getHeader()).then(() => {
-          this.updateMessages()
-          this.message = ''
+    async sendMessage(){
+      let to = this.idSendMesssage
+      let message = this.message
+      this.message = ''
+
+      if (message !== '') {
+        // Insere artificialmente a mensagem para a fila de mensagens a enviar
+        this.messagesToSend.push({
+          message,
+          _id: `${new Date().getTime()}`,
+          from: {
+            _id: this.myId
+          }
         })
+        await axios.post(`${hostServer}/message`, { to, message }, getHeader())
+
+        this.sendMessageUser(to, message)
+        await this.updateMessages()
+
+        // Remove a mensagem da fila, considerando o envio por ordem
+        this.messagesToSend.shift()
       }
     },
     selectUser(item) {
       this.userSelect = item;
       this.updateMessages()
     },
-    updateMessages() {
-      axios.get(`${hostServer}/messages/users`, getHeader()).then(res => {
-        this.users = res.data;
-        if (res.data.length != 0) { // Sem nenhuma mensagem
-          this.idSendMesssage = res.data[this.userSelect]._id
-          axios.get(`${hostServer}/message/${this.idSendMesssage}`, getHeader()).then(res2 => {
-            this.messages = res2.data;
-          })
-        } else {
-          this.idSendMesssage = -1;
-          this.userSelect = -1;
-        }
-      })
+    async updateMessages() {
+      // Buscar por usuários que trocaram mensagem com este usuário
+      let res = await axios.get(`${hostServer}/messages/users`, getHeader())
+      this.users = res.data;
+
+      // Sem nenhuma mensagem
+      if (res.data.length != 0) {
+
+        // Pegar o primeiro usuário e seleciona-lo
+        this.idSendMesssage = res.data[this.userSelect]._id
+
+        // Requisição para obter as trocas de mensagens deste usuário com o primeiro da lista
+        let res2 = await axios.get(`${hostServer}/message/${this.idSendMesssage}`, getHeader())
+        this.messages = res2.data;
+      } else {
+        // Sem novos usuários
+        this.idSendMesssage = -1;
+        this.userSelect = -1;
+      }
     }
   },
   watch: {
