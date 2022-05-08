@@ -20,7 +20,7 @@
 
 <p align="center">
   Uma micro rede social<br/>
-  <a href="https://rede-social-frontend-000.herokuapp.com/Home"><strong>Acessar Site</strong></a>
+  <a href=""><strong>DEPLOY EXCLUIDO</strong></a>
   <br>
   <br>
   <a href="https://github.com/gabrielogregorio/Rede-Social/issues/new?template=bug_report.md">Reportar bug</a>
