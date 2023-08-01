@@ -17,6 +17,8 @@
 
 
 <h2 align="center">A Rede Social</h2>
+> Esse projeto foi feito na minha época de estudos, certamente o código está terrivel
+
 
 <p align="center">
   Uma micro rede social<br/>
